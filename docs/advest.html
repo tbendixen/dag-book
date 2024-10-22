@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Advanced Estimation | The Data Analyst’s Guide to Cause and Effect</title>
+  <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Advanced Estimation | The Data Analyst’s Guide to Cause and Effect" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="github-repo" content="tbendixen/DAG-companion" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Advanced Estimation | The Data Analyst’s Guide to Cause and Effect" />
+  
+  <meta name="twitter:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  
+
+<meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
+
+
+<meta name="date" content="2024-10-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="miss2.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The Data Analyst's Guide to Cause and Effect</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="dag.html"><a href="dag.html"><i class="fa fa-check"></i><b>2</b> Causal Graphs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="dag.html"><a href="dag.html#the-fork"><i class="fa fa-check"></i><b>2.1</b> The Fork</a></li>
+<li class="chapter" data-level="2.2" data-path="dag.html"><a href="dag.html#the-pipe"><i class="fa fa-check"></i><b>2.2</b> The Pipe</a></li>
+<li class="chapter" data-level="2.3" data-path="dag.html"><a href="dag.html#the-collider"><i class="fa fa-check"></i><b>2.3</b> The Collider</a></li>
+<li class="chapter" data-level="2.4" data-path="dag.html"><a href="dag.html#post-treatment-bias"><i class="fa fa-check"></i><b>2.4</b> Post-treatment bias</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="gmethods.html"><a href="gmethods.html"><i class="fa fa-check"></i><b>3</b> G-methods and Marginal Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="gmethods.html"><a href="gmethods.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>3.1</b> Inverse probability weighting</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="gmethods.html"><a href="gmethods.html#bootstrapping"><i class="fa fa-check"></i><b>3.1.1</b> Bootstrapping</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="gmethods.html"><a href="gmethods.html#g-computation"><i class="fa fa-check"></i><b>3.2</b> G-computation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="gmethods.html"><a href="gmethods.html#bootstrapping-1"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.2.2" data-path="gmethods.html"><a href="gmethods.html#bayesian-g-computation"><i class="fa fa-check"></i><b>3.2.2</b> Bayesian g-computation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="gmethods2.html"><a href="gmethods2.html"><i class="fa fa-check"></i><b>4</b> Adventures in G-methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="gmethods2.html"><a href="gmethods2.html#doubly-robust-estimation"><i class="fa fa-check"></i><b>4.1</b> Doubly robust estimation</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="gmethods2.html"><a href="gmethods2.html#bootstrapping-2"><i class="fa fa-check"></i><b>4.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="4.1.2" data-path="gmethods2.html"><a href="gmethods2.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="gmethods2.html"><a href="gmethods2.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="miss.html"><a href="miss.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="miss.html"><a href="miss.html#simulating-missingness"><i class="fa fa-check"></i><b>5.1</b> Simulating missingness</a></li>
+<li class="chapter" data-level="5.2" data-path="miss.html"><a href="miss.html#poststratification"><i class="fa fa-check"></i><b>5.2</b> Poststratification</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="miss.html"><a href="miss.html#frequentist-poststratification"><i class="fa fa-check"></i><b>5.2.1</b> Frequentist poststratification</a></li>
+<li class="chapter" data-level="5.2.2" data-path="miss.html"><a href="miss.html#bayesian-poststratification"><i class="fa fa-check"></i><b>5.2.2</b> Bayesian poststratification</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="miss.html"><a href="miss.html#instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.3</b> Instrumental variable analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="miss.html"><a href="miss.html#preparing-cohen-et-al.-2015"><i class="fa fa-check"></i><b>5.3.1</b> Preparing Cohen et al. (2015)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="miss.html"><a href="miss.html#randomized-treatment-assignment-as-instrument"><i class="fa fa-check"></i><b>5.3.2</b> Randomized treatment assignment as instrument</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="miss.html"><a href="miss.html#bayesian-instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.4</b> Bayesian instrumental variable analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="miss2.html"><a href="miss2.html"><i class="fa fa-check"></i><b>6</b> More Missing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="miss2.html"><a href="miss2.html#simple-mean-imputation-vs.-multiple-imputation"><i class="fa fa-check"></i><b>6.1</b> Simple mean imputation vs. multiple imputation</a></li>
+<li class="chapter" data-level="6.2" data-path="miss2.html"><a href="miss2.html#combine-then-predict-or-predict-then-combine"><i class="fa fa-check"></i><b>6.2</b> “Combine then predict” or “predict then combine”?</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="miss2.html"><a href="miss2.html#marginaleffects"><i class="fa fa-check"></i><b>6.2.1</b> <code>marginaleffects</code></a></li>
+<li class="chapter" data-level="6.2.2" data-path="miss2.html"><a href="miss2.html#emmeans"><i class="fa fa-check"></i><b>6.2.2</b> <code>emmeans</code></a></li>
+<li class="chapter" data-level="6.2.3" data-path="miss2.html"><a href="miss2.html#comparison"><i class="fa fa-check"></i><b>6.2.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="miss2.html"><a href="miss2.html#bayesian-imputation"><i class="fa fa-check"></i><b>6.3</b> Bayesian imputation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advest.html"><a href="advest.html"><i class="fa fa-check"></i><b>7</b> Advanced Estimation</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="advest.html"><a href="advest.html#multilevel-malaria-medicine"><i class="fa fa-check"></i><b>7.1</b> Multilevel malaria medicine</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="advest.html"><a href="advest.html#naïve-model-simple-intercept-and-slope"><i class="fa fa-check"></i><b>7.1.1</b> Naïve model: Simple intercept and slope</a></li>
+<li class="chapter" data-level="7.1.2" data-path="advest.html"><a href="advest.html#fixed-effects"><i class="fa fa-check"></i><b>7.1.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.1.3" data-path="advest.html"><a href="advest.html#fixed-effects-interacting-treatment-and-group"><i class="fa fa-check"></i><b>7.1.3</b> Fixed effects interacting treatment and group</a></li>
+<li class="chapter" data-level="7.1.4" data-path="advest.html"><a href="advest.html#random-intercepts"><i class="fa fa-check"></i><b>7.1.4</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.1.5" data-path="advest.html"><a href="advest.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>7.1.5</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="7.1.6" data-path="advest.html"><a href="advest.html#plot-models-in-a-panel"><i class="fa fa-check"></i><b>7.1.6</b> Plot models in a panel</a></li>
+<li class="chapter" data-level="7.1.7" data-path="advest.html"><a href="advest.html#regularized-vs.-empirical-estimates"><i class="fa fa-check"></i><b>7.1.7</b> Regularized vs. empirical estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="advest.html"><a href="advest.html#simulating-mundlak"><i class="fa fa-check"></i><b>7.2</b> Simulating Mundlak</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="advest.html"><a href="advest.html#naïve-model-ignoring-group"><i class="fa fa-check"></i><b>7.2.1</b> Naïve model (ignoring group)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="advest.html"><a href="advest.html#fixed-effects-1"><i class="fa fa-check"></i><b>7.2.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.2.3" data-path="advest.html"><a href="advest.html#random-intercepts-1"><i class="fa fa-check"></i><b>7.2.3</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.2.4" data-path="advest.html"><a href="advest.html#mundlak-model"><i class="fa fa-check"></i><b>7.2.4</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.2.5" data-path="advest.html"><a href="advest.html#plot-effect-estimate-distributions"><i class="fa fa-check"></i><b>7.2.5</b> Plot effect estimate distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="advest.html"><a href="advest.html#education-and-prosociality-mundlak-in-action"><i class="fa fa-check"></i><b>7.3</b> Education and prosociality: Mundlak in action</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="advest.html"><a href="advest.html#raw-data-distributions"><i class="fa fa-check"></i><b>7.3.1</b> Raw data distributions</a></li>
+<li class="chapter" data-level="7.3.2" data-path="advest.html"><a href="advest.html#naïve-model"><i class="fa fa-check"></i><b>7.3.2</b> Naïve model</a></li>
+<li class="chapter" data-level="7.3.3" data-path="advest.html"><a href="advest.html#fixed-effects-2"><i class="fa fa-check"></i><b>7.3.3</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.3.4" data-path="advest.html"><a href="advest.html#random-effects"><i class="fa fa-check"></i><b>7.3.4</b> Random effects</a></li>
+<li class="chapter" data-level="7.3.5" data-path="advest.html"><a href="advest.html#mundlak-model-1"><i class="fa fa-check"></i><b>7.3.5</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.3.6" data-path="advest.html"><a href="advest.html#plotting-effect-of-education-on-religiosity"><i class="fa fa-check"></i><b>7.3.6</b> Plotting effect of education on religiosity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="advest.html"><a href="advest.html#marginal-effects-in-a-multilevel-model"><i class="fa fa-check"></i><b>7.4</b> Marginal effects in a multilevel model</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="advest.html"><a href="advest.html#frequentist-workflow"><i class="fa fa-check"></i><b>7.4.1</b> Frequentist workflow</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><em>The Data Analyst’s Guide to Cause and Effect</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="advest" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Advanced Estimation<a href="advest.html#advest" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="advest.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb1-2"><a href="advest.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="advest.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-4"><a href="advest.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="advest.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span></code></pre></div>
+<div id="multilevel-malaria-medicine" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Multilevel malaria medicine<a href="advest.html#multilevel-malaria-medicine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To reproduce the figure comparing random and fixed effects, we first load the malaria subsidy data and fit the five models. We again use the <code>brms</code> package with default prior settings, but models could just as well be implemented using e.g., <code>lme4</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="advest.html#cb2-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cohen2015.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="advest.html#cb2-2" tabindex="-1"></a>d<span class="sc">$</span>stratum <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>stratum)</span></code></pre></div>
+<div id="naïve-model-simple-intercept-and-slope" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Naïve model: Simple intercept and slope<a href="advest.html#naïve-model-simple-intercept-and-slope" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="advest.html#cb3-1" tabindex="-1"></a>msimp <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy,</span>
+<span id="cb3-2"><a href="advest.html#cb3-2" tabindex="-1"></a>             <span class="at">data =</span> d, </span>
+<span id="cb3-3"><a href="advest.html#cb3-3" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb3-4"><a href="advest.html#cb3-4" tabindex="-1"></a>             <span class="at">file =</span> <span class="st">&quot;fits/msimp&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Fixed effects<a href="advest.html#fixed-effects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="advest.html#cb4-1" tabindex="-1"></a>mfix <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> stratum,</span>
+<span id="cb4-2"><a href="advest.html#cb4-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb4-3"><a href="advest.html#cb4-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb4-4"><a href="advest.html#cb4-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mfix.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-interacting-treatment-and-group" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Fixed effects interacting treatment and group<a href="advest.html#fixed-effects-interacting-treatment-and-group" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="advest.html#cb5-1" tabindex="-1"></a>mfix2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">*</span> stratum,</span>
+<span id="cb5-2"><a href="advest.html#cb5-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb5-3"><a href="advest.html#cb5-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb5-4"><a href="advest.html#cb5-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mfix2.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts" class="section level3 hasAnchor" number="7.1.4">
+<h3><span class="header-section-number">7.1.4</span> Random intercepts<a href="advest.html#random-intercepts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="advest.html#cb6-1" tabindex="-1"></a>mran <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stratum),</span>
+<span id="cb6-2"><a href="advest.html#cb6-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb6-3"><a href="advest.html#cb6-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb6-4"><a href="advest.html#cb6-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mran.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts-and-slopes" class="section level3 hasAnchor" number="7.1.5">
+<h3><span class="header-section-number">7.1.5</span> Random intercepts and slopes<a href="advest.html#random-intercepts-and-slopes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="advest.html#cb7-1" tabindex="-1"></a>mran2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">|</span> stratum),</span>
+<span id="cb7-2"><a href="advest.html#cb7-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb7-3"><a href="advest.html#cb7-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb7-4"><a href="advest.html#cb7-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mran2.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plot-models-in-a-panel" class="section level3 hasAnchor" number="7.1.6">
+<h3><span class="header-section-number">7.1.6</span> Plot models in a panel<a href="advest.html#plot-models-in-a-panel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we extract and collect model coefficients in a data frame.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="advest.html#cb8-1" tabindex="-1"></a>FEREpanel <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">intercept =</span> <span class="fu">c</span>(<span class="fu">fixef</span>(msimp)[<span class="dv">1</span>],</span>
+<span id="cb8-2"><a href="advest.html#cb8-2" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mran)[<span class="dv">1</span>],</span>
+<span id="cb8-3"><a href="advest.html#cb8-3" tabindex="-1"></a>                                      <span class="fu">coef</span>(mran)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb8-4"><a href="advest.html#cb8-4" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mran2)[<span class="dv">1</span>],</span>
+<span id="cb8-5"><a href="advest.html#cb8-5" tabindex="-1"></a>                                      <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb8-6"><a href="advest.html#cb8-6" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix)[<span class="dv">1</span>],</span>
+<span id="cb8-7"><a href="advest.html#cb8-7" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix)[<span class="dv">3</span><span class="sc">:</span><span class="dv">29</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix)[<span class="dv">1</span>],</span>
+<span id="cb8-8"><a href="advest.html#cb8-8" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix2)[<span class="dv">1</span>],</span>
+<span id="cb8-9"><a href="advest.html#cb8-9" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix2)[<span class="dv">3</span><span class="sc">:</span><span class="dv">29</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix2)[<span class="dv">1</span>]),</span>
+<span id="cb8-10"><a href="advest.html#cb8-10" tabindex="-1"></a>                        <span class="at">slope =</span> <span class="fu">c</span>(<span class="fu">fixef</span>(msimp)[<span class="dv">1</span>],</span>
+<span id="cb8-11"><a href="advest.html#cb8-11" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mran)[<span class="dv">2</span>],</span>
+<span id="cb8-12"><a href="advest.html#cb8-12" tabindex="-1"></a>                                  <span class="fu">coef</span>(mran)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">2</span>],</span>
+<span id="cb8-13"><a href="advest.html#cb8-13" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mran2)[<span class="dv">2</span>],</span>
+<span id="cb8-14"><a href="advest.html#cb8-14" tabindex="-1"></a>                                  <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">2</span>],</span>
+<span id="cb8-15"><a href="advest.html#cb8-15" tabindex="-1"></a>                                  <span class="fu">rep</span>(<span class="fu">fixef</span>(mfix)[<span class="dv">2</span>],<span class="dv">28</span>),</span>
+<span id="cb8-16"><a href="advest.html#cb8-16" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mfix2)[<span class="dv">2</span>],</span>
+<span id="cb8-17"><a href="advest.html#cb8-17" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mfix2)[<span class="dv">30</span><span class="sc">:</span><span class="dv">56</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix2)[<span class="dv">2</span>]),</span>
+<span id="cb8-18"><a href="advest.html#cb8-18" tabindex="-1"></a>                        <span class="at">g =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">29</span>, <span class="dv">2</span>), <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>, <span class="dv">2</span>)),</span>
+<span id="cb8-19"><a href="advest.html#cb8-19" tabindex="-1"></a>                        <span class="at">grand =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">28</span>), <span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">28</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">56</span>)),</span>
+<span id="cb8-20"><a href="advest.html#cb8-20" tabindex="-1"></a>                        <span class="at">model =</span> <span class="fu">c</span>(<span class="st">&quot;Y ~ 1 + X&quot;</span>,</span>
+<span id="cb8-21"><a href="advest.html#cb8-21" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>, <span class="dv">29</span>),</span>
+<span id="cb8-22"><a href="advest.html#cb8-22" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>, <span class="dv">29</span>),</span>
+<span id="cb8-23"><a href="advest.html#cb8-23" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + G&quot;</span>, <span class="dv">28</span>),</span>
+<span id="cb8-24"><a href="advest.html#cb8-24" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X * G&quot;</span>, <span class="dv">28</span>)))</span></code></pre></div>
+<p>Next, we generate predictions from each of the models.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="advest.html#cb9-1" tabindex="-1"></a><span class="co"># Define a range of x-values (here, it&#39;s simply control (X = 0) vs. treatment (X = 1)</span></span>
+<span id="cb9-2"><a href="advest.html#cb9-2" tabindex="-1"></a>x_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="advest.html#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="advest.html#cb9-4" tabindex="-1"></a><span class="co"># Expand the dataframe to include x-values for each line...</span></span>
+<span id="cb9-5"><a href="advest.html#cb9-5" tabindex="-1"></a>FEREpanel <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="advest.html#cb9-6" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">x =</span> x_values) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="advest.html#cb9-7" tabindex="-1"></a>  <span class="co"># ... and compute predictions for control vs. treatment</span></span>
+<span id="cb9-8"><a href="advest.html#cb9-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">y =</span> intercept <span class="sc">+</span> slope <span class="sc">*</span> x)</span></code></pre></div>
+<p>Then we plot predictions from each of the models</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="advest.html#cb10-1" tabindex="-1"></a><span class="co"># Set y-axis limit</span></span>
+<span id="cb10-2"><a href="advest.html#cb10-2" tabindex="-1"></a>ylim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="advest.html#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="advest.html#cb10-4" tabindex="-1"></a><span class="co"># Generate individual plots</span></span>
+<span id="cb10-5"><a href="advest.html#cb10-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="advest.html#cb10-6" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="advest.html#cb10-7" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb10-8"><a href="advest.html#cb10-8" tabindex="-1"></a>             <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="advest.html#cb10-9" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-10"><a href="advest.html#cb10-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-11"><a href="advest.html#cb10-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Simple intercept and slope&quot;</span>,</span>
+<span id="cb10-12"><a href="advest.html#cb10-12" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X&quot;</span>,</span>
+<span id="cb10-13"><a href="advest.html#cb10-13" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb10-14"><a href="advest.html#cb10-14" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb10-15"><a href="advest.html#cb10-15" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb10-16"><a href="advest.html#cb10-16" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="advest.html#cb10-17" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb10-18"><a href="advest.html#cb10-18" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="advest.html#cb10-19" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb10-20"><a href="advest.html#cb10-20" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + G&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-21"><a href="advest.html#cb10-21" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb10-22"><a href="advest.html#cb10-22" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb10-23"><a href="advest.html#cb10-23" tabindex="-1"></a>             <span class="at">group =</span> g)) <span class="sc">+</span></span>
+<span id="cb10-24"><a href="advest.html#cb10-24" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span> </span>
+<span id="cb10-25"><a href="advest.html#cb10-25" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-26"><a href="advest.html#cb10-26" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-27"><a href="advest.html#cb10-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Fixed effects&quot;</span>,</span>
+<span id="cb10-28"><a href="advest.html#cb10-28" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + G&quot;</span>,</span>
+<span id="cb10-29"><a href="advest.html#cb10-29" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Prob. of taking ACT&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb10-30"><a href="advest.html#cb10-30" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb10-31"><a href="advest.html#cb10-31" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb10-32"><a href="advest.html#cb10-32" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb10-33"><a href="advest.html#cb10-33" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb10-34"><a href="advest.html#cb10-34" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="advest.html#cb10-35" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb10-36"><a href="advest.html#cb10-36" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X * G&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-37"><a href="advest.html#cb10-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb10-38"><a href="advest.html#cb10-38" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb10-39"><a href="advest.html#cb10-39" tabindex="-1"></a>             <span class="at">group =</span> g)) <span class="sc">+</span></span>
+<span id="cb10-40"><a href="advest.html#cb10-40" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span> </span>
+<span id="cb10-41"><a href="advest.html#cb10-41" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-42"><a href="advest.html#cb10-42" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-43"><a href="advest.html#cb10-43" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-44"><a href="advest.html#cb10-44" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb10-45"><a href="advest.html#cb10-45" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;FE interacting X and group&quot;</span>,</span>
+<span id="cb10-46"><a href="advest.html#cb10-46" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X * G&quot;</span>,</span>
+<span id="cb10-47"><a href="advest.html#cb10-47" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb10-48"><a href="advest.html#cb10-48" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb10-49"><a href="advest.html#cb10-49" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb10-50"><a href="advest.html#cb10-50" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb10-51"><a href="advest.html#cb10-51" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb10-52"><a href="advest.html#cb10-52" tabindex="-1"></a></span>
+<span id="cb10-53"><a href="advest.html#cb10-53" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb10-54"><a href="advest.html#cb10-54" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-55"><a href="advest.html#cb10-55" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb10-56"><a href="advest.html#cb10-56" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb10-57"><a href="advest.html#cb10-57" tabindex="-1"></a>             <span class="at">group =</span> g, </span>
+<span id="cb10-58"><a href="advest.html#cb10-58" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fu">factor</span>(grand))) <span class="sc">+</span></span>
+<span id="cb10-59"><a href="advest.html#cb10-59" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb10-60"><a href="advest.html#cb10-60" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-61"><a href="advest.html#cb10-61" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-62"><a href="advest.html#cb10-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-63"><a href="advest.html#cb10-63" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Random intercepts&quot;</span>,</span>
+<span id="cb10-64"><a href="advest.html#cb10-64" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>,</span>
+<span id="cb10-65"><a href="advest.html#cb10-65" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb10-66"><a href="advest.html#cb10-66" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb10-67"><a href="advest.html#cb10-67" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb10-68"><a href="advest.html#cb10-68" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb10-69"><a href="advest.html#cb10-69" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb10-70"><a href="advest.html#cb10-70" tabindex="-1"></a></span>
+<span id="cb10-71"><a href="advest.html#cb10-71" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb10-72"><a href="advest.html#cb10-72" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-73"><a href="advest.html#cb10-73" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb10-74"><a href="advest.html#cb10-74" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb10-75"><a href="advest.html#cb10-75" tabindex="-1"></a>             <span class="at">group =</span> g, </span>
+<span id="cb10-76"><a href="advest.html#cb10-76" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fu">factor</span>(grand))) <span class="sc">+</span></span>
+<span id="cb10-77"><a href="advest.html#cb10-77" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb10-78"><a href="advest.html#cb10-78" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-79"><a href="advest.html#cb10-79" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-80"><a href="advest.html#cb10-80" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb10-81"><a href="advest.html#cb10-81" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-82"><a href="advest.html#cb10-82" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb10-83"><a href="advest.html#cb10-83" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Random intercepts and slopes&quot;</span>,</span>
+<span id="cb10-84"><a href="advest.html#cb10-84" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>,</span>
+<span id="cb10-85"><a href="advest.html#cb10-85" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb10-86"><a href="advest.html#cb10-86" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb10-87"><a href="advest.html#cb10-87" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb10-88"><a href="advest.html#cb10-88" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb10-89"><a href="advest.html#cb10-89" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span></code></pre></div>
+<p>Finally, we panel the individual plots using the <code>patchwork</code> package</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="advest.html#cb11-1" tabindex="-1"></a>layout <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb11-2"><a href="advest.html#cb11-2" tabindex="-1"></a><span class="st">A#</span></span>
+<span id="cb11-3"><a href="advest.html#cb11-3" tabindex="-1"></a><span class="st">BC</span></span>
+<span id="cb11-4"><a href="advest.html#cb11-4" tabindex="-1"></a><span class="st">DE</span></span>
+<span id="cb11-5"><a href="advest.html#cb11-5" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb11-6"><a href="advest.html#cb11-6" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="advest.html#cb11-7" tabindex="-1"></a>(p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> p4 <span class="sc">+</span> p5 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">design =</span> layout))</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-13-1.png" width="480" /></p>
+</div>
+<div id="regularized-vs.-empirical-estimates" class="section level3 hasAnchor" number="7.1.7">
+<h3><span class="header-section-number">7.1.7</span> Regularized vs. empirical estimates<a href="advest.html#regularized-vs.-empirical-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the text, we show an alternative way to demonstrate partial pooling in a multilevel model. This is where we compare the regularized predictions from a multilevel model against the “empirical” estimates from a fixed effects model. We re-use the model objects from above, <code>mfix2</code> and <code>mran2</code>, where the treatment effect is allowed to vary by strata.</p>
+<p>First, we create two data frames that include the estimated treatment effect for each randomization stratum for each of the two models.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="advest.html#cb12-1" tabindex="-1"></a><span class="co"># Fixed effects treatment effects</span></span>
+<span id="cb12-2"><a href="advest.html#cb12-2" tabindex="-1"></a>coeffix <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-3"><a href="advest.html#cb12-3" tabindex="-1"></a>  <span class="at">strata =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,</span>
+<span id="cb12-4"><a href="advest.html#cb12-4" tabindex="-1"></a>  <span class="at">coef =</span> <span class="fu">fixef</span>(mfix2)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">30</span><span class="sc">:</span><span class="dv">56</span>), <span class="dv">1</span>])</span>
+<span id="cb12-5"><a href="advest.html#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="advest.html#cb12-6" tabindex="-1"></a>coeffix<span class="sc">$</span>coef[<span class="dv">2</span><span class="sc">:</span><span class="dv">28</span>] <span class="ot">&lt;-</span> coeffix<span class="sc">$</span>coef[<span class="dv">2</span><span class="sc">:</span><span class="dv">28</span>] <span class="sc">+</span> coeffix<span class="sc">$</span>coef[<span class="dv">1</span>]</span>
+<span id="cb12-7"><a href="advest.html#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="advest.html#cb12-8" tabindex="-1"></a><span class="co"># Random effects treatment effects</span></span>
+<span id="cb12-9"><a href="advest.html#cb12-9" tabindex="-1"></a>coefran <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-10"><a href="advest.html#cb12-10" tabindex="-1"></a>  <span class="at">strata =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,</span>
+<span id="cb12-11"><a href="advest.html#cb12-11" tabindex="-1"></a>  <span class="at">coef =</span> <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;subsidy&quot;</span>])</span>
+<span id="cb12-12"><a href="advest.html#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="advest.html#cb12-13" tabindex="-1"></a><span class="co"># Compute strata sample sizes</span></span>
+<span id="cb12-14"><a href="advest.html#cb12-14" tabindex="-1"></a>N <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb12-15"><a href="advest.html#cb12-15" tabindex="-1"></a>  <span class="fu">group_by</span>(stratum) <span class="sc">|&gt;</span></span>
+<span id="cb12-16"><a href="advest.html#cb12-16" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N =</span> <span class="fu">n</span>())</span>
+<span id="cb12-17"><a href="advest.html#cb12-17" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="advest.html#cb12-18" tabindex="-1"></a><span class="co"># Input strata sample sizes in data frames</span></span>
+<span id="cb12-19"><a href="advest.html#cb12-19" tabindex="-1"></a>coeffix<span class="sc">$</span>N <span class="ot">&lt;-</span> N<span class="sc">$</span>N</span>
+<span id="cb12-20"><a href="advest.html#cb12-20" tabindex="-1"></a>coefran<span class="sc">$</span>N <span class="ot">&lt;-</span> N<span class="sc">$</span>N</span>
+<span id="cb12-21"><a href="advest.html#cb12-21" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="advest.html#cb12-22" tabindex="-1"></a><span class="co"># Arrange data frames according to strata sample sizes</span></span>
+<span id="cb12-23"><a href="advest.html#cb12-23" tabindex="-1"></a>coeffix <span class="ot">&lt;-</span> coeffix <span class="sc">|&gt;</span> <span class="fu">arrange</span>(N)</span>
+<span id="cb12-24"><a href="advest.html#cb12-24" tabindex="-1"></a>coeffix<span class="sc">$</span>strata <span class="ot">&lt;-</span> <span class="fu">factor</span>(coeffix<span class="sc">$</span>strata, <span class="at">levels =</span> coeffix<span class="sc">$</span>strata)</span>
+<span id="cb12-25"><a href="advest.html#cb12-25" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="advest.html#cb12-26" tabindex="-1"></a>coefran <span class="ot">&lt;-</span> coefran <span class="sc">|&gt;</span> <span class="fu">arrange</span>(N)</span>
+<span id="cb12-27"><a href="advest.html#cb12-27" tabindex="-1"></a>coefran<span class="sc">$</span>strata <span class="ot">&lt;-</span> <span class="fu">factor</span>(coefran<span class="sc">$</span>strata, <span class="at">levels =</span> coefran<span class="sc">$</span>strata)</span></code></pre></div>
+<p>Then, we plot the stratum-specific treatment effects.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="advest.html#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb13-2"><a href="advest.html#cb13-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">rbind</span>(coeffix, coefran), </span>
+<span id="cb13-3"><a href="advest.html#cb13-3" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef, <span class="at">group =</span> strata),</span>
+<span id="cb13-4"><a href="advest.html#cb13-4" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">0.25</span>,</span>
+<span id="cb13-5"><a href="advest.html#cb13-5" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="advest.html#cb13-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> coeffix, <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef),</span>
+<span id="cb13-7"><a href="advest.html#cb13-7" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb13-8"><a href="advest.html#cb13-8" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb13-9"><a href="advest.html#cb13-9" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
+<span id="cb13-10"><a href="advest.html#cb13-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> coefran, <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef),</span>
+<span id="cb13-11"><a href="advest.html#cb13-11" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb13-12"><a href="advest.html#cb13-12" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="advest.html#cb13-13" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.19</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="advest.html#cb13-14" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax =</span> <span class="cn">Inf</span>, <span class="at">ymin =</span> <span class="fl">0.07</span>, <span class="at">ymax =</span> <span class="fl">0.3</span>), <span class="at">fill =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="advest.html#cb13-15" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Treatment Effect&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="advest.html#cb13-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Randomization Strata</span><span class="sc">\n</span><span class="st">(smallest to largest)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="advest.html#cb13-17" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb13-18"><a href="advest.html#cb13-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-19"><a href="advest.html#cb13-19" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-15-1.png" width="480" /></p>
+<p>Instead of using a fixed effects model, an alternative way to compute the “empirical” estimates would be to, within each stratum, take the mean of the outcome variable <code>act</code> for the control (<code>subsidy = 0</code>) and treatment (<code>subsidy = 1</code>) groups separately and then subtract those values.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="advest.html#cb14-1" tabindex="-1"></a>d <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="advest.html#cb14-2" tabindex="-1"></a>  <span class="co"># within each stratum and for each subsidy condition (control vs. treatment)...</span></span>
+<span id="cb14-3"><a href="advest.html#cb14-3" tabindex="-1"></a>  <span class="fu">group_by</span>(stratum, subsidy) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="advest.html#cb14-4" tabindex="-1"></a>  <span class="co"># ... take the mean of the outcome variable</span></span>
+<span id="cb14-5"><a href="advest.html#cb14-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">&quot;T&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(act, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="advest.html#cb14-6" tabindex="-1"></a>  <span class="co"># wrangle and name columns</span></span>
+<span id="cb14-7"><a href="advest.html#cb14-7" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;subsidy&quot;</span>, </span>
+<span id="cb14-8"><a href="advest.html#cb14-8" tabindex="-1"></a>                     <span class="at">values_from =</span> <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb14-9"><a href="advest.html#cb14-9" tabindex="-1"></a>                     <span class="at">names_prefix =</span> <span class="st">&quot;T&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-10"><a href="advest.html#cb14-10" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="advest.html#cb14-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coef =</span> T1 <span class="sc">-</span> T0)</span></code></pre></div>
+</div>
+</div>
+<div id="simulating-mundlak" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Simulating Mundlak<a href="advest.html#simulating-mundlak" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here we show the simulation and plotting code for the synthetic Mundlak demonstration.</p>
+<p>First, we simulate the confounded data and store it in <code>d_sim</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="advest.html#cb15-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb15-2"><a href="advest.html#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="advest.html#cb15-3" tabindex="-1"></a><span class="co"># define sample size and effects</span></span>
+<span id="cb15-4"><a href="advest.html#cb15-4" tabindex="-1"></a>N_groups <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb15-5"><a href="advest.html#cb15-5" tabindex="-1"></a>N_id <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb15-6"><a href="advest.html#cb15-6" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb15-7"><a href="advest.html#cb15-7" tabindex="-1"></a>bZY <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-8"><a href="advest.html#cb15-8" tabindex="-1"></a>bXY <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb15-9"><a href="advest.html#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="advest.html#cb15-10" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>N_groups, <span class="at">size =</span> N_id, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># sample into groups</span></span>
+<span id="cb15-11"><a href="advest.html#cb15-11" tabindex="-1"></a>Ug <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_groups, <span class="fl">1.5</span>, <span class="dv">1</span>) <span class="co"># group confounds</span></span>
+<span id="cb15-12"><a href="advest.html#cb15-12" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_id, Ug[g], <span class="dv">1</span>) <span class="co"># individual varying trait</span></span>
+<span id="cb15-13"><a href="advest.html#cb15-13" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_groups, <span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># group varying trait (observed)</span></span>
+<span id="cb15-14"><a href="advest.html#cb15-14" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_id, a <span class="sc">+</span> bXY<span class="sc">*</span>X <span class="sc">+</span> Ug[g] <span class="sc">+</span> bZY<span class="sc">*</span>Z[g] )</span>
+<span id="cb15-15"><a href="advest.html#cb15-15" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="advest.html#cb15-16" tabindex="-1"></a><span class="co"># collect in data frame</span></span>
+<span id="cb15-17"><a href="advest.html#cb15-17" tabindex="-1"></a>d_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-18"><a href="advest.html#cb15-18" tabindex="-1"></a>  <span class="at">Y =</span> Y,</span>
+<span id="cb15-19"><a href="advest.html#cb15-19" tabindex="-1"></a>  <span class="at">X =</span> X,</span>
+<span id="cb15-20"><a href="advest.html#cb15-20" tabindex="-1"></a>  <span class="at">Z =</span> Z[g],</span>
+<span id="cb15-21"><a href="advest.html#cb15-21" tabindex="-1"></a>  <span class="at">G =</span> <span class="fu">as.factor</span>(g)</span>
+<span id="cb15-22"><a href="advest.html#cb15-22" tabindex="-1"></a>)</span></code></pre></div>
+<p>To properly quantify uncertainty and obtain neat posterior distributions of the effects from each model, we again analyze the data in a Bayesian framework using <code>brms</code> with default priors. We fit our four models.</p>
+<div id="naïve-model-ignoring-group" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Naïve model (ignoring group)<a href="advest.html#naïve-model-ignoring-group" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="advest.html#cb16-1" tabindex="-1"></a>mNA <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, </span>
+<span id="cb16-2"><a href="advest.html#cb16-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb16-3"><a href="advest.html#cb16-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb16-4"><a href="advest.html#cb16-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mNA.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-1" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Fixed effects<a href="advest.html#fixed-effects-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="advest.html#cb17-1" tabindex="-1"></a>mFE <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> G, </span>
+<span id="cb17-2"><a href="advest.html#cb17-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb17-3"><a href="advest.html#cb17-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb17-4"><a href="advest.html#cb17-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mFE.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts-1" class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Random intercepts<a href="advest.html#random-intercepts-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="advest.html#cb18-1" tabindex="-1"></a>mRE <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> G), </span>
+<span id="cb18-2"><a href="advest.html#cb18-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb18-3"><a href="advest.html#cb18-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb18-4"><a href="advest.html#cb18-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mRE.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="mundlak-model" class="section level3 hasAnchor" number="7.2.4">
+<h3><span class="header-section-number">7.2.4</span> Mundlak model<a href="advest.html#mundlak-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="advest.html#cb19-1" tabindex="-1"></a>d_sim<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">with</span>(d_sim, <span class="fu">ave</span>(X, G, <span class="at">FUN =</span> mean))</span>
+<span id="cb19-2"><a href="advest.html#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="advest.html#cb19-3" tabindex="-1"></a>mMU <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Xbar <span class="sc">+</span> Z <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> G), </span>
+<span id="cb19-4"><a href="advest.html#cb19-4" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb19-5"><a href="advest.html#cb19-5" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb19-6"><a href="advest.html#cb19-6" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mMU.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plot-effect-estimate-distributions" class="section level3 hasAnchor" number="7.2.5">
+<h3><span class="header-section-number">7.2.5</span> Plot effect estimate distributions<a href="advest.html#plot-effect-estimate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we extract posterior distributions of the coefficient of interest (<code>X</code>) from each model and collect in a data frame.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="advest.html#cb20-1" tabindex="-1"></a>ndraws <span class="ot">&lt;-</span> <span class="fu">nrow</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNA, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>))</span>
+<span id="cb20-2"><a href="advest.html#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="advest.html#cb20-3" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bX =</span> <span class="fu">c</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNA, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb20-4"><a href="advest.html#cb20-4" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mFE, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb20-5"><a href="advest.html#cb20-5" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mRE, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb20-6"><a href="advest.html#cb20-6" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mMU, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X),</span>
+<span id="cb20-7"><a href="advest.html#cb20-7" tabindex="-1"></a>           <span class="at">model =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Naïve model</span><span class="sc">\n</span><span class="st">Y ~ X + Z&quot;</span>, ndraws),</span>
+<span id="cb20-8"><a href="advest.html#cb20-8" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Fixed effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + G&quot;</span>, ndraws),</span>
+<span id="cb20-9"><a href="advest.html#cb20-9" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Random effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + (1 | G)&quot;</span>, ndraws),</span>
+<span id="cb20-10"><a href="advest.html#cb20-10" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Mundlak model</span><span class="sc">\n</span><span class="st">Y ~ X + Xbar + Z + (1 | G)&quot;</span>, ndraws)))</span></code></pre></div>
+<p>Next, the models are arranged…</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="advest.html#cb21-1" tabindex="-1"></a>forest<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">factor</span>(forest<span class="sc">$</span>model,</span>
+<span id="cb21-2"><a href="advest.html#cb21-2" tabindex="-1"></a>                       <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Naïve model</span><span class="sc">\n</span><span class="st">Y ~ X + Z&quot;</span>,</span>
+<span id="cb21-3"><a href="advest.html#cb21-3" tabindex="-1"></a>                                <span class="st">&quot;Fixed effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + G&quot;</span>,</span>
+<span id="cb21-4"><a href="advest.html#cb21-4" tabindex="-1"></a>                                <span class="st">&quot;Random effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + (1 | G)&quot;</span>,</span>
+<span id="cb21-5"><a href="advest.html#cb21-5" tabindex="-1"></a>                                <span class="st">&quot;Mundlak model</span><span class="sc">\n</span><span class="st">Y ~ X + Xbar + Z + (1 | G)&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-6"><a href="advest.html#cb21-6" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span></code></pre></div>
+<p>… and then plotted.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="advest.html#cb22-1" tabindex="-1"></a>forest <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="advest.html#cb22-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> model, <span class="at">x =</span> bX)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="advest.html#cb22-3" tabindex="-1"></a>    <span class="fu">stat_halfeye</span>(<span class="at">slab_fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb22-4"><a href="advest.html#cb22-4" tabindex="-1"></a>                 <span class="at">slab_color =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb22-5"><a href="advest.html#cb22-5" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-6"><a href="advest.html#cb22-6" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, </span>
+<span id="cb22-7"><a href="advest.html#cb22-7" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb22-8"><a href="advest.html#cb22-8" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb22-9"><a href="advest.html#cb22-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb22-10"><a href="advest.html#cb22-10" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Regression coefficient&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="advest.html#cb22-11" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="advest.html#cb22-12" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-24-1.png" width="480" /></p>
+</div>
+</div>
+<div id="education-and-prosociality-mundlak-in-action" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Education and prosociality: Mundlak in action<a href="advest.html#education-and-prosociality-mundlak-in-action" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We finally show the Mundlak model in action in real-world data. We load the <code>cerc</code> data and plot the raw data distribution for the key predictor and outcome variable, respectively, before fitting and plotting our four models.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="advest.html#cb23-1" tabindex="-1"></a>cerc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cerc.csv&quot;</span>)</span></code></pre></div>
+<div id="raw-data-distributions" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Raw data distributions<a href="advest.html#raw-data-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="advest.html#cb24-1" tabindex="-1"></a>cerc <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="advest.html#cb24-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="advest.html#cb24-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(scaled))) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="advest.html#cb24-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb24-5"><a href="advest.html#cb24-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="advest.html#cb24-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="advest.html#cb24-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="advest.html#cb24-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb24-9"><a href="advest.html#cb24-9" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="advest.html#cb24-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb24-11"><a href="advest.html#cb24-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Years of formal education&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-26-1.png" width="480" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="advest.html#cb25-1" tabindex="-1"></a>cerc <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="advest.html#cb25-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Y)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="advest.html#cb25-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(scaled))) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="advest.html#cb25-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb25-5"><a href="advest.html#cb25-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="advest.html#cb25-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="advest.html#cb25-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="advest.html#cb25-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb25-9"><a href="advest.html#cb25-9" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="advest.html#cb25-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb25-11"><a href="advest.html#cb25-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-27-1.png" width="480" /></p>
+</div>
+<div id="naïve-model" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Naïve model<a href="advest.html#naïve-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="advest.html#cb26-1" tabindex="-1"></a>mNAcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED,</span>
+<span id="cb26-2"><a href="advest.html#cb26-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb26-3"><a href="advest.html#cb26-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb26-4"><a href="advest.html#cb26-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mNAcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-2" class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Fixed effects<a href="advest.html#fixed-effects-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="advest.html#cb27-1" tabindex="-1"></a>mFEcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED<span class="sc">+</span> SITE,</span>
+<span id="cb27-2"><a href="advest.html#cb27-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb27-3"><a href="advest.html#cb27-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb27-4"><a href="advest.html#cb27-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mFEcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-effects" class="section level3 hasAnchor" number="7.3.4">
+<h3><span class="header-section-number">7.3.4</span> Random effects<a href="advest.html#random-effects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="advest.html#cb28-1" tabindex="-1"></a>mREcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SITE),</span>
+<span id="cb28-2"><a href="advest.html#cb28-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb28-3"><a href="advest.html#cb28-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb28-4"><a href="advest.html#cb28-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mREcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="mundlak-model-1" class="section level3 hasAnchor" number="7.3.5">
+<h3><span class="header-section-number">7.3.5</span> Mundlak model<a href="advest.html#mundlak-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="advest.html#cb29-1" tabindex="-1"></a>cerc<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">with</span>(cerc, <span class="fu">ave</span>(FORMALED, SITE, <span class="at">FUN =</span> mean))</span>
+<span id="cb29-2"><a href="advest.html#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="advest.html#cb29-3" tabindex="-1"></a>mMUcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SITE),</span>
+<span id="cb29-4"><a href="advest.html#cb29-4" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb29-5"><a href="advest.html#cb29-5" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb29-6"><a href="advest.html#cb29-6" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mMUcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plotting-effect-of-education-on-religiosity" class="section level3 hasAnchor" number="7.3.6">
+<h3><span class="header-section-number">7.3.6</span> Plotting effect of education on religiosity<a href="advest.html#plotting-effect-of-education-on-religiosity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The code for this plot is much the same as for the simulated Mundlak example above.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="advest.html#cb30-1" tabindex="-1"></a>ndraws <span class="ot">&lt;-</span> <span class="fu">nrow</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNAcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>))</span>
+<span id="cb30-2"><a href="advest.html#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="advest.html#cb30-3" tabindex="-1"></a>forestcerc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bX =</span> <span class="fu">c</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNAcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb30-4"><a href="advest.html#cb30-4" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mFEcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb30-5"><a href="advest.html#cb30-5" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mREcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb30-6"><a href="advest.html#cb30-6" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mMUcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED),</span>
+<span id="cb30-7"><a href="advest.html#cb30-7" tabindex="-1"></a>           <span class="at">model =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Naïve model&quot;</span>, ndraws),</span>
+<span id="cb30-8"><a href="advest.html#cb30-8" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Fixed effects&quot;</span>, ndraws),</span>
+<span id="cb30-9"><a href="advest.html#cb30-9" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Random effects&quot;</span>, ndraws),</span>
+<span id="cb30-10"><a href="advest.html#cb30-10" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Mundlak model&quot;</span>, ndraws)))</span>
+<span id="cb30-11"><a href="advest.html#cb30-11" tabindex="-1"></a>  </span>
+<span id="cb30-12"><a href="advest.html#cb30-12" tabindex="-1"></a>forestcerc<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">factor</span>(forestcerc<span class="sc">$</span>model,</span>
+<span id="cb30-13"><a href="advest.html#cb30-13" tabindex="-1"></a>                           <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Naïve model&quot;</span>,</span>
+<span id="cb30-14"><a href="advest.html#cb30-14" tabindex="-1"></a>                                    <span class="st">&quot;Fixed effects&quot;</span>,</span>
+<span id="cb30-15"><a href="advest.html#cb30-15" tabindex="-1"></a>                                    <span class="st">&quot;Random effects&quot;</span>,</span>
+<span id="cb30-16"><a href="advest.html#cb30-16" tabindex="-1"></a>                                    <span class="st">&quot;Mundlak model&quot;</span>)) <span class="sc">|&gt;</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="advest.html#cb31-1" tabindex="-1"></a>forestcerc <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="advest.html#cb31-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> model, </span>
+<span id="cb31-3"><a href="advest.html#cb31-3" tabindex="-1"></a>             <span class="at">x =</span> bX)) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="advest.html#cb31-4" tabindex="-1"></a>    <span class="fu">stat_halfeye</span>(<span class="at">point_interval =</span> <span class="st">&quot;mean_hdci&quot;</span>, </span>
+<span id="cb31-5"><a href="advest.html#cb31-5" tabindex="-1"></a>                 <span class="at">.width =</span> <span class="fl">0.95</span>, </span>
+<span id="cb31-6"><a href="advest.html#cb31-6" tabindex="-1"></a>                 <span class="at">slab_fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb31-7"><a href="advest.html#cb31-7" tabindex="-1"></a>                 <span class="at">slab_color =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb31-8"><a href="advest.html#cb31-8" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb31-9"><a href="advest.html#cb31-9" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, </span>
+<span id="cb31-10"><a href="advest.html#cb31-10" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb31-11"><a href="advest.html#cb31-11" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb31-12"><a href="advest.html#cb31-12" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cross-cultural Dictator Game&quot;</span>,</span>
+<span id="cb31-13"><a href="advest.html#cb31-13" tabindex="-1"></a>         <span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb31-14"><a href="advest.html#cb31-14" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Effect of Education on Prosociality&quot;</span>) <span class="sc">+</span></span>
+<span id="cb31-15"><a href="advest.html#cb31-15" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-33-1.png" width="480" /></p>
+</div>
+</div>
+<div id="marginal-effects-in-a-multilevel-model" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Marginal effects in a multilevel model<a href="advest.html#marginal-effects-in-a-multilevel-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As we discuss in the text, there are several ways of obtaining predictions from a multilevel model. First, we fit an extended Mundlak model, that allows the effect of education on religiosity to vary by site.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="advest.html#cb32-1" tabindex="-1"></a>mMUcerc2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">|</span> SITE),</span>
+<span id="cb32-2"><a href="advest.html#cb32-2" tabindex="-1"></a>                <span class="at">data =</span> cerc,</span>
+<span id="cb32-3"><a href="advest.html#cb32-3" tabindex="-1"></a>                <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb32-4"><a href="advest.html#cb32-4" tabindex="-1"></a>                <span class="at">file =</span> <span class="st">&quot;fits/mMUcerc2.rds&quot;</span>)</span></code></pre></div>
+<p>We can then visualize effect estimates for each group (field site, in this case) across the full range of observed education years and at site-specific average years of education.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="advest.html#cb33-1" tabindex="-1"></a><span class="co"># prepare prediction grid across full range of education years...</span></span>
+<span id="cb33-2"><a href="advest.html#cb33-2" tabindex="-1"></a>nd <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">FORMALED =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>),</span>
+<span id="cb33-3"><a href="advest.html#cb33-3" tabindex="-1"></a>                         <span class="at">SITE =</span> <span class="fu">unique</span>(cerc<span class="sc">$</span>SITE))</span>
+<span id="cb33-4"><a href="advest.html#cb33-4" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="advest.html#cb33-5" tabindex="-1"></a><span class="co"># ... and at site-specific average years of education</span></span>
+<span id="cb33-6"><a href="advest.html#cb33-6" tabindex="-1"></a>nd<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(cerc<span class="sc">$</span>Xbar), <span class="fu">length</span>(<span class="fu">unique</span>(nd<span class="sc">$</span>FORMALED)))</span></code></pre></div>
+<p>Plot predictions for each site in separate panels. For this, we need to include the random effects in the predictions.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="advest.html#cb34-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb34-2"><a href="advest.html#cb34-2" tabindex="-1"></a><span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb34-3"><a href="advest.html#cb34-3" tabindex="-1"></a>                <span class="co"># for prediction grid and...</span></span>
+<span id="cb34-4"><a href="advest.html#cb34-4" tabindex="-1"></a>                <span class="at">newdata =</span> nd,</span>
+<span id="cb34-5"><a href="advest.html#cb34-5" tabindex="-1"></a>                <span class="co"># ... *include* all random effect components.</span></span>
+<span id="cb34-6"><a href="advest.html#cb34-6" tabindex="-1"></a>                <span class="at">re_formula =</span> <span class="cn">NULL</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-7"><a href="advest.html#cb34-7" tabindex="-1"></a>  </span>
+<span id="cb34-8"><a href="advest.html#cb34-8" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb34-9"><a href="advest.html#cb34-9" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, SITE, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb34-10"><a href="advest.html#cb34-10" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb34-11"><a href="advest.html#cb34-11" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="advest.html#cb34-12" tabindex="-1"></a>  <span class="co"># Summarise average effect *across* each MCMC draw</span></span>
+<span id="cb34-13"><a href="advest.html#cb34-13" tabindex="-1"></a>  <span class="co"># for each site and educational level.</span></span>
+<span id="cb34-14"><a href="advest.html#cb34-14" tabindex="-1"></a>  <span class="fu">group_by</span>(SITE, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb34-15"><a href="advest.html#cb34-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb34-16"><a href="advest.html#cb34-16" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="advest.html#cb34-17" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb34-18"><a href="advest.html#cb34-18" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb34-19"><a href="advest.html#cb34-19" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb34-20"><a href="advest.html#cb34-20" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb34-21"><a href="advest.html#cb34-21" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb34-22"><a href="advest.html#cb34-22" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb34-23"><a href="advest.html#cb34-23" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb34-24"><a href="advest.html#cb34-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb34-25"><a href="advest.html#cb34-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb34-26"><a href="advest.html#cb34-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the observed sites&quot;</span>, </span>
+<span id="cb34-27"><a href="advest.html#cb34-27" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Including random effects&quot;</span>,</span>
+<span id="cb34-28"><a href="advest.html#cb34-28" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-36-1.png" width="480" /></p>
+<p>But we can also ignore site-specific effects altogether and instead aim at predicting a perfectly average site. This amounts to ignoring the random effects of the model. We first need to set up a new prediction grid for the new hypothetical site – let’s call it “Newland” – with an average of 7 years of education, the average of the site averages (this can be checked by running <code>mean(unique(cerc$Xbar))</code>).</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="advest.html#cb35-1" tabindex="-1"></a>nd2 <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">FORMALED =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>),</span>
+<span id="cb35-2"><a href="advest.html#cb35-2" tabindex="-1"></a>                          <span class="at">SITE =</span> <span class="st">&quot;Newland&quot;</span>, <span class="co"># could also just set to NA</span></span>
+<span id="cb35-3"><a href="advest.html#cb35-3" tabindex="-1"></a>                          <span class="at">Xbar =</span> <span class="dv">7</span>) <span class="co"># could also make a distribution of Xbars to average over</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="advest.html#cb36-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb36-2"><a href="advest.html#cb36-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb36-3"><a href="advest.html#cb36-3" tabindex="-1"></a>                <span class="co"># for new prediction grid and...</span></span>
+<span id="cb36-4"><a href="advest.html#cb36-4" tabindex="-1"></a>                <span class="at">newdata =</span> nd2,</span>
+<span id="cb36-5"><a href="advest.html#cb36-5" tabindex="-1"></a>                <span class="co"># ... *ignore* all random effect components.</span></span>
+<span id="cb36-6"><a href="advest.html#cb36-6" tabindex="-1"></a>                <span class="at">re_formula =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-7"><a href="advest.html#cb36-7" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="advest.html#cb36-8" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb36-9"><a href="advest.html#cb36-9" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb36-10"><a href="advest.html#cb36-10" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb36-11"><a href="advest.html#cb36-11" tabindex="-1"></a>  </span>
+<span id="cb36-12"><a href="advest.html#cb36-12" tabindex="-1"></a>  <span class="co"># Summarise average effect *across* MCMC draws</span></span>
+<span id="cb36-13"><a href="advest.html#cb36-13" tabindex="-1"></a>  <span class="co"># for each educational level.</span></span>
+<span id="cb36-14"><a href="advest.html#cb36-14" tabindex="-1"></a>  <span class="fu">group_by</span>(FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb36-15"><a href="advest.html#cb36-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb36-16"><a href="advest.html#cb36-16" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="advest.html#cb36-17" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb36-18"><a href="advest.html#cb36-18" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb36-19"><a href="advest.html#cb36-19" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb36-20"><a href="advest.html#cb36-20" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb36-21"><a href="advest.html#cb36-21" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb36-22"><a href="advest.html#cb36-22" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb36-23"><a href="advest.html#cb36-23" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>() <span class="sc">+</span> </span>
+<span id="cb36-24"><a href="advest.html#cb36-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb36-25"><a href="advest.html#cb36-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-26"><a href="advest.html#cb36-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the average site&quot;</span>, </span>
+<span id="cb36-27"><a href="advest.html#cb36-27" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Ignoring random effects&quot;</span>,</span>
+<span id="cb36-28"><a href="advest.html#cb36-28" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p>And finally, we could be interested in predicting a new site drawing from all that we know about the observed sites. This amounts to <em>averaging over</em> – instead of <em>ignoring</em>, as above – the uncertainty that we have around the observed sites and generating predictions from that.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="advest.html#cb37-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb37-2"><a href="advest.html#cb37-2" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb37-3"><a href="advest.html#cb37-3" tabindex="-1"></a>                      <span class="co"># for prediction grid and...</span></span>
+<span id="cb37-4"><a href="advest.html#cb37-4" tabindex="-1"></a>                      <span class="at">newdata =</span> nd2,</span>
+<span id="cb37-5"><a href="advest.html#cb37-5" tabindex="-1"></a>                      <span class="co"># ... *include* all random effect components.</span></span>
+<span id="cb37-6"><a href="advest.html#cb37-6" tabindex="-1"></a>                      <span class="at">re_formula =</span> <span class="cn">NULL</span>,</span>
+<span id="cb37-7"><a href="advest.html#cb37-7" tabindex="-1"></a>                      <span class="co"># Allow predictions for an unobserved group and...</span></span>
+<span id="cb37-8"><a href="advest.html#cb37-8" tabindex="-1"></a>                      <span class="at">allow_new_levels =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb37-9"><a href="advest.html#cb37-9" tabindex="-1"></a>                      <span class="co"># ... sample from the implied multivariate gaussian.</span></span>
+<span id="cb37-10"><a href="advest.html#cb37-10" tabindex="-1"></a>                      <span class="at">sample_new_levels =</span> <span class="st">&quot;gaussian&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb37-11"><a href="advest.html#cb37-11" tabindex="-1"></a>  </span>
+<span id="cb37-12"><a href="advest.html#cb37-12" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb37-13"><a href="advest.html#cb37-13" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb37-14"><a href="advest.html#cb37-14" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb37-15"><a href="advest.html#cb37-15" tabindex="-1"></a>  </span>
+<span id="cb37-16"><a href="advest.html#cb37-16" tabindex="-1"></a>  <span class="co"># Summarise average causal effect across MCMC draws</span></span>
+<span id="cb37-17"><a href="advest.html#cb37-17" tabindex="-1"></a>  <span class="co"># for each educational level.</span></span>
+<span id="cb37-18"><a href="advest.html#cb37-18" tabindex="-1"></a>  <span class="fu">group_by</span>(FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb37-19"><a href="advest.html#cb37-19" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb37-20"><a href="advest.html#cb37-20" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="advest.html#cb37-21" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb37-22"><a href="advest.html#cb37-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb37-23"><a href="advest.html#cb37-23" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb37-24"><a href="advest.html#cb37-24" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb37-25"><a href="advest.html#cb37-25" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb37-26"><a href="advest.html#cb37-26" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb37-27"><a href="advest.html#cb37-27" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>() <span class="sc">+</span> </span>
+<span id="cb37-28"><a href="advest.html#cb37-28" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb37-29"><a href="advest.html#cb37-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-30"><a href="advest.html#cb37-30" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting a new site&quot;</span>, </span>
+<span id="cb37-31"><a href="advest.html#cb37-31" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Averaging over random effects&quot;</span>,</span>
+<span id="cb37-32"><a href="advest.html#cb37-32" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb37-33"><a href="advest.html#cb37-33" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="advest.html#cb38-1" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">axis_titles =</span> <span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-40-1.png" width="480" /></p>
+<div id="frequentist-workflow" class="section level3 hasAnchor" number="7.4.1">
+<h3><span class="header-section-number">7.4.1</span> Frequentist workflow<a href="advest.html#frequentist-workflow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For completeness, we can also plot predictions for each site with a frequentist approach.</p>
+<p>First, we fit a corresponding frequentist model.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="advest.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb39-2"><a href="advest.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="advest.html#cb39-3" tabindex="-1"></a>mMUcerc2_freq <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">|</span> SITE),</span>
+<span id="cb39-4"><a href="advest.html#cb39-4" tabindex="-1"></a>                      <span class="at">data =</span> cerc)</span></code></pre></div>
+<p>Next, we obtain predictions using the <code>marginaleffects</code> package to obtain confidence intervals. Now, the frequentist approach excludes uncertainty in the random effects, so it’s not entirely comparable to the predictions obtained in the text.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="advest.html#cb40-1" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb40-2"><a href="advest.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="advest.html#cb40-3" tabindex="-1"></a><span class="co"># Predicting the observed sites (only with uncertainty in the global/fixed effects parameters)</span></span>
+<span id="cb40-4"><a href="advest.html#cb40-4" tabindex="-1"></a><span class="fu">predictions</span>(mMUcerc2_freq,</span>
+<span id="cb40-5"><a href="advest.html#cb40-5" tabindex="-1"></a>            <span class="at">newdata =</span> nd) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href="advest.html#cb40-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="advest.html#cb40-7" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb40-8"><a href="advest.html#cb40-8" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb40-9"><a href="advest.html#cb40-9" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="advest.html#cb40-10" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb40-11"><a href="advest.html#cb40-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="advest.html#cb40-12" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb40-13"><a href="advest.html#cb40-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="advest.html#cb40-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the observed sites&quot;</span>, </span>
+<span id="cb40-15"><a href="advest.html#cb40-15" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Frequentist version&quot;</span>,</span>
+<span id="cb40-16"><a href="advest.html#cb40-16" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-42-1.png" width="480" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="miss2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toc_depth": 4
+});
+});
+</script>
+
+</body>
+
+</html>
