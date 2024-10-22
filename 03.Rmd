@@ -1,0 +1,308 @@
+# G-methods and Marginal Effects {#gmethods}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      results='hide', 
+                      cache=FALSE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      error = TRUE,
+                      cache.comments = FALSE,
+                      cache.lazy = FALSE,
+                      fig.path = "bookdown-dag_files/figure-html/ch3-fig-",
+                      cache.path = "bookdown-dag_cache/html/ch3-")
+
+```
+
+## Inverse probability weighting
+
+For our illustration of IPW and g-computation, we simulate some simple confounded data.
+
+```{r}
+set.seed(1747)
+
+n <- 1e4
+bZ <- 2
+bX <- 2
+Z <- rnorm(n, 0, 0.5)
+X <- rbinom(n, 1, plogis(0.5 + Z*bZ))
+Y <- rnorm(n, 10 + X*bX + Z*bZ)
+
+d <- data.frame(Y=Y, X=X, Z=Z)
+```
+
+For IPW, we first fit a logistic regression model of the probability of receiving treatment.
+
+```{r}
+treatment_model <- glm(X ~ Z, 
+                       data = d, 
+                       family = "binomial")
+```
+
+We then predict for each individual their probability of receiving treatment.
+
+```{r}
+d$pX <- predict(treatment_model, type = "response")
+```
+
+Lastly, we inverse those probabilities and use them as weights in a model -- a so-called 'marginal structural model' -- that regresses *Y* on *X*.
+
+```{r}
+d$w <- with(d, ifelse(X==1, 1/pX, 1/(1-pX)))
+
+lm(Y ~ X, data = d, weights = w)
+```
+
+We then compare the treatment (solid lines) and control (dashed lines) groups before (i.e., in the observed sample) and after weighting (i.e., the IPW 'pseudo-population').
+
+```{r, fig.height=3, fig.width=5}
+# IPW with unstabilized weights
+library(ggplot2)
+library(patchwork)
+
+p1 <- ggplot() + 
+  # X = 1 (sample)
+  geom_density(data = subset(d, X == 1), 
+                 aes(x = pX), size = 1) +  
+  # X = 0 (sample)
+  geom_density(data = subset(d, X == 0), 
+                 aes(x = pX), linetype = "dashed", size = 1) +
+  theme_classic() + 
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.line.y = element_blank()) + 
+  xlim(c(0,1)) + xlab("Probability of treatment") +
+  ggtitle("Before IP weighting")
+
+p2 <- ggplot() + 
+  # X = 1 (pseudo-population)
+  geom_density(data = subset(d, X == 1), 
+                 aes(x = pX, weight = w), size = 1) + 
+  # X = 0 (pseudo-population)
+  geom_density(data = subset(d, X == 0), 
+                 aes(x = pX, weight = w), linetype = "dashed", size = 1) +
+  theme_classic() + 
+  theme(
+  axis.text.y = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.title.y = element_blank(),
+  axis.line.y = element_blank()) + 
+  xlim(c(0,1)) + xlab("Probability of treatment") +
+  ggtitle("After IP weighting") 
+
+(p1 + p2)
+
+```
+
+The above approach showcases IPW with so-called 'unstabilized' weights. But stabilizing the IP weights are often recommended. Stabilized weights uses an unconditional model for the treatment probability instead of 1 as the numerator in the IPW formula. Let's visualize this wit the stabilized weights plotted with a dashed curve. We see that the stabilized weights are much less extreme.
+
+```{r, fig.height=3, fig.width=5}
+# IPW with stabilized weights
+pn <- glm(X ~ 1, data = d)
+
+d$pnX <- predict(pn, type = "response")
+  
+d$sw <- with(d, ifelse(X==1, pnX/pX, (1-pnX)/(1-pX)))
+
+p3 <- ggplot() + 
+  geom_density(data = d, 
+                 aes(x = w), size = 1) + 
+  geom_density(data = d, 
+                 aes(x = sw), linetype = "dashed", size = 1) +
+  theme_classic() + 
+    theme_classic() +
+    theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.line.y = element_blank()) + 
+  xlab("IP weight") +
+  coord_cartesian(xlim = c(0,10)) +
+  labs(title = "Unstabilized and stabilized weights")
+
+p3
+
+```
+
+### Bootstrapping 
+
+Here's a basic bootstrapping approach for IPW. We use only 100 bootstrap samples, but in practice we'd often want (many) more.
+
+```{r, results='markup', cache=TRUE}
+# Load necessary libraries
+library(boot)
+
+# Number of bootstrap samples
+n_bootstrap <- 100
+
+# Function to perform the analysis on a bootstrapped sample
+bootstrap_analysis <- function(data, indices) {
+  
+  # Resample the data
+  d <- data[indices, ]
+  
+  # Fit the treatment model using logistic regression
+  treatment_model <- glm(X ~ Z, data = d, family = "binomial")
+  
+  # Calculate predicted probabilities
+  d$pX <- predict(treatment_model, type = "response")
+  
+  # Calculate weights
+  d$w <- with(d, ifelse(X == 1, 1 / pX, 1 / (1 - pX)))
+  
+  # Fit the weighted linear regression model
+  weighted_model <- lm(Y ~ X, data = d, weights = w)
+  
+  # Return the coefficient of X
+  return(coef(weighted_model)["X"])
+}
+
+# Perform bootstrapping
+bootstrap_results <- boot(data = d, 
+                          statistic = bootstrap_analysis, 
+                          R = n_bootstrap)
+
+# Summarize the bootstrap results
+bootstrap_summary <- boot.ci(bootstrap_results, type = "norm")
+
+# Print the results
+print(bootstrap_summary)
+
+```
+
+#### 'Robust' standard errors for IPW
+
+```{r, results='markup'}
+library(sandwich)
+
+# robust standard errors for coefficients
+fit <- lm(Y ~ X, data = d, weights = w)
+
+vcovHC(fit, type = 'HC0')
+
+```
+
+## G-computation
+
+Here, we show the basic g-computation workflow...
+
+```{r}
+model <- lm(Y ~ X + Z, data = d)
+
+d$EX1 <- predict(model, 
+               newdata = transform(d, X = 1))
+
+d$EX0 <- predict(model, 
+               newdata = transform(d, X = 0))
+
+with(d, mean(EX1)-mean(EX0))
+```
+
+... And code to produce the table showing both observed and predicted values, some of which are counter-factual.
+
+```{r, results = "markup"}
+vars <- c("Y", "X", "Z", "EX1", "EX0")
+
+xtable::xtable(head(d[vars]), digits = c(0,1,0,1,1,1))
+```
+
+### Bootstrapping
+
+Next, we show a basic bootstrapped g-computation implementation, again using only 100 bootstrap samples to ease the computational burden of the example.
+
+```{r, results='markup', cache=TRUE}
+# Number of bootstrap samples
+n_bootstrap <- 100
+
+# Define the function to perform the analysis on a bootstrapped sample
+bootstrap_analysis <- function(data, indices) {
+  
+  # Resample the data
+  d <- data[indices, ]
+  
+  # Fit the linear regression model
+  model <- lm(Y ~ X + Z, data = d)
+  
+  # Calculate predicted values for X = 1 and X = 0
+  d$EX1 <- predict(model, newdata = transform(d, X = 1))
+  d$EX0 <- predict(model, newdata = transform(d, X = 0))
+  
+  # Compute the difference in means
+  ate <- with(d, mean(EX1) - mean(EX0))
+  
+  return(ate)
+}
+
+# Perform bootstrapping
+bootstrap_results <- boot(data = d, 
+                          statistic = bootstrap_analysis, 
+                          R = n_bootstrap)
+
+# Summarize the bootstrap results
+bootstrap_summary <- boot.ci(bootstrap_results, type = c("norm"))
+
+# Print the results
+print(bootstrap_summary)
+
+```
+
+### Bayesian g-computation
+
+Lastly, we show a Bayesian g-computation workflow using the R packages **brms** (which requires **RStan** or **Cmdstan**) [REF] for model fitting and **tidybayes** for post-processing. 
+
+```{r, cache=TRUE}
+library(brms)
+library(tidybayes)
+library(dplyr)
+```
+
+```{r, eval=FALSE}
+# Fit Bayesian regression
+bmodel <- brm(Y ~ X + Z,
+              data = d,
+              cores = 4, seed = 1,
+              file = "fits/bmodel.rds")
+```
+
+```{r bmodel, cache=TRUE, echo=FALSE}
+bmodel <- readRDS("fits/bmodel.rds")
+```
+
+```{r, cache=TRUE}
+# Calculate predicted values for X = 1 and X = 0
+bEX1 <- add_epred_draws(object = bmodel,
+                        newdata = transform(d, X = 1))
+
+bEX0 <- add_epred_draws(object = bmodel,
+                        newdata = transform(d, X = 0))
+```
+
+The key thing to note when working with Bayesian model fits is that we need to calculate our quantity of interest (here, the ATE) within each posterior draw.
+
+```{r, cache=TRUE}
+# Compute the difference in means
+ate <- data.frame(EX1 = bEX1$.epred,
+                  EX0 = bEX0$.epred,
+                  draw = bEX0$.draw) |>
+  # For each posterior draw...
+  group_by(draw) |>
+  # ... Calculate ATE
+  summarise(ate = mean(EX1 - EX0))
+```
+
+We can summarize the posterior ATE by its mean and highest posterior density interval.
+
+```{r, cache=TRUE, results='markup'}
+mean_hdi(ate$ate)
+```
+
+An alternative approach -- when we have a fitted model, Bayesian or otherwise -- is via the versatile and very well documented **marginaleffects** package.
+
+```{r, cache=TRUE, results='markup'}
+library(marginaleffects)
+
+avg_comparisons(bmodel, variables = list(X = 0:1))
+```
+

@@ -1,0 +1,17 @@
+# Introduction {#intro}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      results='hide', 
+                      cache=FALSE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      error = TRUE,
+                      cache.comments = FALSE,
+                      cache.lazy = FALSE,
+                      fig.path = "bookdown-dag_files/figure-html/ch1-fig-",
+                      cache.path = "bookdown-dag_cache/html/ch1-")
+
+```
+
+Placeholder.

@@ -1,2 +1,3 @@
-# dag-book
-Companion website for "The Data Analyst's Guide for Cause and Effect"
+# Companion website for: *The Data Analyst's Guide to Cause and Effect*
+
+This is the companion website for *The Data Analyst's Guide to Cause and Effect*

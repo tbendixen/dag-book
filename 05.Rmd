@@ -1,0 +1,633 @@
+# Most of Your Data is Almost Always Missing {#miss}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      results='hide', 
+                      cache=FALSE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      error = TRUE,
+                      cache.comments = FALSE,
+                      cache.lazy = FALSE,
+                      fig.path = "bookdown-dag_files/figure-html/ch5-fig-",
+                      cache.path = "bookdown-dag_cache/html/ch5-")
+
+```
+
+## Simulating missingness
+
+We first simulate informative missingness where the outcome is associated with sampling...
+
+```{r}
+set.seed(2025)
+
+n <- 1e3
+bX <- 2
+X <- rnorm(n, 0, 1)
+Y <- bX*X + rnorm(n, 10, 5)
+
+prob_missing <- plogis(Y - mean(Y))
+miss <- runif(n) < prob_missing
+Y_miss <- Y
+Y_miss[miss] <- NA
+
+d_miss <- data.frame(X = X, Y = Y, Y_miss = Y_miss)
+```
+
+... And then fit two different models: First, a model fitted only on the non-missing observations and then a model on all the data, as if we had access to the full population.
+
+```{r}
+lm(Y_miss ~ X, data = d_miss)
+
+lm(Y ~ X, data = d_miss)
+```
+
+```{r, fig.height=3, fig.width=5}
+library(ggplot2)
+
+ggplot(d_miss, aes(x = X, y = Y)) +
+  geom_point(aes(color = is.na(Y_miss)), alpha = 0.5) +
+  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "black", data = d_miss[!is.na(X_miss), ]) +
+  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "grey60", data = d_miss) +
+  scale_color_manual(values = c("black", "grey"), labels = c("Observed", "Missing")) +
+  labs(title = "Simulating missingness",
+       subtitle = "Models with (black) and without (grey) missingness",
+       x = "X", y = "Y") +
+  theme_classic() + 
+  theme(legend.position = "none")
+```
+
+## Poststratification
+
+To illustrate poststratification, we return to the `nhefs` dataset. We also load the US 2021 census, which will help us re-weight out model predictions to the greater US population.
+
+```{r}
+library(causaldata)
+d <- nhefs
+d$sex <- as.factor(d$sex)
+
+census2021 <- read.csv("data/CensusUS2021.csv")
+```
+
+We then re-score the census and the `nhefs` data, such that the variable levels are consistent. We also calculate census proportions from the percentages in the original census data set.
+
+```{r}
+census <- census2021
+
+census$age_group[census$AGE_GROUP == "Under 15 years"] <- 1
+census$age_group[census$AGE_GROUP == "15 to 17 years"] <- 2
+census$age_group[census$AGE_GROUP == "18 to 20 years"] <- 3
+census$age_group[census$AGE_GROUP == "21 to 44 years"] <- 4
+census$age_group[census$AGE_GROUP == "45 to 64 years"] <- 5
+census$age_group[census$AGE_GROUP == "65 years and over"] <- 6
+
+census$sex <- ifelse(census$SEX == "FEMALE", 1, 0) |> as.factor()
+census$proportion <- census$PERCENTAGE/100
+
+write.csv(census, "data/census_ageGroups.csv", row.names = FALSE)
+
+d2 <- d
+d2$age_group[d2$age < 15] <- 1 # "Under 15 years"
+d2$age_group[d2$age >= 15 & d2$age <= 17] <- 2 # "15 to 17 years"
+d2$age_group[d2$age >= 18 & d2$age <= 20] <- 3 # "18 to 20 years"
+d2$age_group[d2$age >= 21 & d2$age <= 44] <- 4 # "21 to 44 years"
+d2$age_group[d2$age >= 45 & d2$age <= 64] <- 5 # "45 to 64 years"
+d2$age_group[d2$age > 64] <- 6 # "65 years and over"
+
+write.csv(d2, "data/nhefs_ageGroups.csv", row.names = FALSE)
+
+```
+
+We can then check how the two datasets compare in their distributions of the covariates age and sex.
+
+```{r, fig.height=3, fig.width=5}
+library(patchwork)
+library(dplyr)
+library(ggplot2)
+
+### Calculate demographic proportions in the nhefs data...
+d3 <- d2 |> 
+  group_by(age_group, sex) |>
+  summarise(n = n()) |>
+  mutate(proportion = n/sum(n)) |>
+  ungroup()
+
+### ... And fill in missing demographic combinations
+d3 <- rbind(data.frame(age_group = c(1,1,2,2,3,3), 
+                       sex = rep(c(0,1), 3),
+                       n = 0,
+                       proportion = 0),
+            d3)
+
+### Make age_group a factor variable
+d3$age_group <- factor(d3$age_group, levels = 1:6)
+census$age_group <- factor(census$age_group, levels = 1:6)
+
+### Plotting distributions of age groups for each sex in nhefs and census
+
+## Males
+p1 <- ggplot() + 
+  geom_line(data = subset(d3, sex == 0), 
+                 aes(x = age_group, y = proportion, group = 1), linetype = "dashed", linewidth = 1) +  
+  geom_line(data = subset(census, SEX == "MALE"),
+                 aes(x = age_group, y = PERCENTAGE/100, group = 1), linewidth = 1) +
+  theme_classic() + 
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "6" = "+65 years")) +
+  labs(title = "Age distributions",
+       subtitle = "Males")
+
+## Females
+p2 <- ggplot() + 
+  geom_line(data = subset(d3, sex == 1), 
+                 aes(x = age_group, y = proportion, group = 1), linetype = "dashed", linewidth = 1) +  
+  geom_line(data = subset(census, SEX == "FEMALE"),
+                 aes(x = age_group, y = PERCENTAGE/100, group = 1), linewidth = 1) +
+  theme_classic() + 
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "6" = "+65 years")) +
+  labs(subtitle = "Females")
+
+(p1 + p2)
+```
+
+### Frequentist poststratification
+
+We show two different poststratification implementations. First, a basic frequentist approach -- see e.g. also <https://github.com/RohanAlexander/mrp_workshop/blob/master/getting-started-with-mrp.Rmd>
+
+First, we fit a model on the re-scored `nhefs` data (stored in `d2`) and include interactions between the exposure `qsmk` and each of the two covariates (`sex` and `age>_group`) to make the model reasonably flexible.
+
+```{r}
+mod <- lm(wt82_71 ~ qsmk*sex + qsmk*age_group, 
+          data = d2)
+```
+
+We then apply g-computation with a twist. The twist is that we use the model fitted on `nhefs` data to get potential outcomes predictions ($Y^{X=1}$ and $Y^{X=0}$) for the `census` data frame and then weight our predictions with the demographic proportions of each combination of sex and age group in the greater US population according to the census. We finally calculate the difference in means between the weighted predictions to get a marginal effect estimate, which we find to be around 7 kg. Before we can do any of it, however, we need to make sure that `age_group` is treated as numeric and `sex` as a factor, since this was the variable types used for model fitting.
+
+```{r, results = "markup"}
+census$age_group <- as.numeric(census$age_group)
+census$sex <- as.factor(census$sex)
+```
+
+```{r, results = "markup"}
+census$EX1 <- predict(mod,
+                      newdata = transform(census, 
+                                          qsmk = 1))
+
+census$EX0 <- predict(mod, 
+                      newdata = transform(census, 
+                                          qsmk = 0))
+
+census$wEX1 <- census$EX1*census$proportion
+
+census$wEX0 <- census$EX0*census$proportion
+
+with(census, sum(wEX1)-sum(wEX0))
+```
+
+Here's the code to reproduce the accompanying table in the text.
+
+```{r, results = "markup"}
+xtable::xtable(census[c("AGE_GROUP", "SEX", "EX1", "EX0","wEX1", "wEX0")], 
+               digits = c(0,0,0,1,1,1,1), include.rownames=FALSE)
+```
+
+### Bayesian poststratification
+
+We finally show a fully Bayesian poststratification routine. To showcase the difference between a single-level (i.e., fixed effects) and a multilevel (i.e., random effects) model for poststratification, we fit a Bayesian multilevel model and contrast that with the frequentist model predictions stored in `census`. For fitting, we again use the `brms` package with default priors and a seed for reproducibility. We allow the effect of the exposure `qsmk` vary within both `sex` and `age_group` using common `R` formula syntax.
+
+```{r, eval=FALSE}
+library(brms)
+
+bayes_mod <- brm(wt82_71 ~ 1 + (1 + qsmk | sex) + (1 + qsmk | age_group), 
+                 data = d2, cores = 4, seed = 42, 
+                 file = "fits/bayes_poststrat")
+```
+
+```{r, cache=TRUE, echo=FALSE}
+bayes_mod <- readRDS("fits/bayes_poststrat.rds")
+```
+
+Next, we do two things with this model. First, we compute the posterior mean predictions for each covariate combination without applying poststratification.
+
+```{r, cache=TRUE}
+library(tidybayes)
+
+### Predict outcome when exposure X = 1 for all
+psEX1 <- add_epred_draws(object = bayes_mod, 
+                         newdata = transform(census, qsmk=1),
+                         # Predict for covariates combinations 
+                         # not observed in the training data (nhefs)
+                         allow_new_levels = TRUE) |> 
+  # Posterior means for each covariate combination
+  group_by(age_group, sex) |> 
+  summarise(psEX1 = mean(.epred))
+
+### Predict outcome when exposure X = 0 for all
+psEX0 <- add_epred_draws(object = bayes_mod, 
+                         newdata = transform(census, qsmk=0),
+                         allow_new_levels = TRUE) |> 
+  group_by(age_group, sex) |> 
+  summarise(psEX0 = mean(.epred))
+```
+
+Then, we again compute the marginal mean predictions for each covariate combination but this time applying poststratification weights. Everything else is the same.
+
+```{r, cache=TRUE}
+### Predict outcome when exposure X = 1 for all
+wpsEX1 <- add_epred_draws(object = bayes_mod,
+                         newdata = transform(census, qsmk=1),
+                         allow_new_levels = TRUE) |>
+  # New bit: Re-weight model predictions using census proportions
+  mutate(estimate_prop = .epred*proportion) |>
+  group_by(age_group, sex, .draw) |>
+  summarise(wpsEX1 = sum(estimate_prop)) |>
+  # Posterior means for each covariate combination
+  group_by(age_group, sex) |>
+  summarise(wpsEX1 = mean(wpsEX1))
+
+### Predict outcome when exposure X = 0 for all
+wpsEX0 <- add_epred_draws(object = bayes_mod,
+                         newdata = transform(census, qsmk=0),
+                         allow_new_levels = TRUE) |>
+  mutate(estimate_prop = .epred*proportion) |>
+  group_by(age_group, sex, .draw) |>
+  summarise(wpsEX0 = sum(estimate_prop)) |>
+  group_by(age_group, sex) |>
+  summarise(wpsEX0 = mean(wpsEX0))
+```
+
+We then collect the posterior mean predictions and the frequentist predictions in two data frames, without and with poststratification...
+
+```{r}
+### No poststratification
+ps <- data.frame(age_group = census$AGE_GROUP,
+                 sex = census$SEX,
+                 EX1 = census$EX1,
+                 EX0 = census$EX0,
+                 psEX1 = psEX1$psEX1,
+                 psEX0 = psEX0$psEX0,
+                 E = census$EX1 - census$EX0,
+                 psE = psEX1$psEX1 - psEX0$psEX0)
+
+ps$age_group <- factor(ps$age_group, levels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "6" = "65 years and over"))
+
+### With poststratification
+psw <- data.frame(age_group = census$AGE_GROUP,
+                 sex = census$SEX,
+                 wEX1 = census$wEX1,
+                 wEX0 = census$wEX0,
+                 wpsEX1 = wpsEX1$wpsEX1,
+                 wpsEX0 = wpsEX0$wpsEX0)
+
+psw$age_group <- factor(psw$age_group, levels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "6" = "65 years and over"))
+```
+
+... And plot the comparisons.
+
+```{r, fig.height=3, fig.width=5}
+p1 <- ggplot() + 
+  geom_line(data = subset(ps, sex == "FEMALE"), 
+                 aes(x = age_group, y = EX1, group = 1), linetype = "dashed", size = 1, colour = "grey60") +  
+  geom_line(data = subset(ps, sex == "FEMALE"),
+                 aes(x = age_group, y = psEX1, group = 1), size = 1, colour = "grey60") +
+  geom_line(data = subset(ps, sex == "FEMALE"), 
+                 aes(x = age_group, y = EX0, group = 1), linetype = "dashed", size = 1) +  
+  geom_line(data = subset(ps, sex == "FEMALE"),
+                 aes(x = age_group, y = psEX0, group = 1), size = 1) +
+  theme_classic() + 
+  ylab("Weight change (kg)") +
+  theme(
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "65 years and over" = "+65 years")) +
+  labs(title = "Predicted weight change",
+       subtitle = "No poststratification")
+
+p2 <- ggplot() + 
+  geom_line(data = subset(psw, sex == "FEMALE"), 
+                 aes(x = age_group, y = wEX1, group = 1), linetype = "dashed", size = 1, colour = "grey60") +  
+  geom_line(data = subset(psw, sex == "FEMALE"),
+                 aes(x = age_group, y = wpsEX1, group = 1), size = 1, colour = "grey60") +
+  geom_line(data = subset(psw, sex == "FEMALE"), 
+                 aes(x = age_group, y = wEX0, group = 1), linetype = "dashed", size = 1) +  
+  geom_line(data = subset(psw, sex == "FEMALE"),
+                 aes(x = age_group, y = wpsEX0, group = 1), size = 1) +
+  theme_classic() + 
+    ylab(NULL) +
+  theme(
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "65 years and over" = "+65 years")) +
+  labs(subtitle = "With poststratification")
+
+(p1 + p2)
+```
+
+In the text, we showed predictions for females only, but the results are similar for males.
+
+```{r, fig.height=3, fig.width=5}
+p3 <- ggplot() + 
+  geom_line(data = subset(ps, sex == "MALE"), 
+                 aes(x = age_group, y = EX1, group = 1), linetype = "dashed", size = 1, colour = "grey60") +  
+  geom_line(data = subset(ps, sex == "MALE"),
+                 aes(x = age_group, y = psEX1, group = 1), size = 1, colour = "grey60") +
+  geom_line(data = subset(ps, sex == "MALE"), 
+                 aes(x = age_group, y = EX0, group = 1), linetype = "dashed", size = 1) +  
+  geom_line(data = subset(ps, sex == "MALE"),
+                 aes(x = age_group, y = psEX0, group = 1), size = 1) +
+  theme_classic() + 
+  ylab("Weight change (kg)") +
+  theme(
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "65 years and over" = "+65 years")) +
+  labs(title = "Predicted weight change",
+       subtitle = "No poststratification (males)")
+
+p4 <- ggplot() + 
+  geom_line(data = subset(psw, sex == "MALE"), 
+                 aes(x = age_group, y = wEX1, group = 1), linetype = "dashed", size = 1, colour = "grey60") +  
+  geom_line(data = subset(psw, sex == "MALE"),
+                 aes(x = age_group, y = wpsEX1, group = 1), size = 1, colour = "grey60") +
+  geom_line(data = subset(psw, sex == "MALE"), 
+                 aes(x = age_group, y = wEX0, group = 1), linetype = "dashed", size = 1) +  
+  geom_line(data = subset(psw, sex == "MALE"),
+                 aes(x = age_group, y = wpsEX0, group = 1), size = 1) +
+  theme_classic() + 
+    ylab(NULL) +
+  theme(
+    axis.text.x = element_text(angle = -60, vjust = -1)) + 
+  scale_x_discrete(NULL, 
+                 labels = c(
+                   "1" = "Under 15 years",
+                   "2" = "15 to 17 years",
+                   "3" = "18 to 20 years",
+                   "4" = "21 to 44 years",
+                   "5" = "45 to 64 years",
+                   "65 years and over" = "+65 years")) +
+  labs(subtitle = "With poststratification (males)")
+
+(p3 + p4)
+```
+
+#### Poststratified marginal causal effect
+
+The above workflow computed and plotted posterior means, but with a Bayesian model we have a full posterior distribution to work with. So let's do that. This time, we're interested in the poststratified estimate for the population *as a whole*. This means that we have to marginalize over the covariates, which we do by grouping on posterior draws instead of on the covariates. The rest should look familiar.
+
+```{r, cache=TRUE, fig.height=3, fig.width=5}
+### Predict outcome when exposure X = 1 for all
+ateEX1 <- add_epred_draws(object = bayes_mod,
+                         newdata = transform(census, qsmk=1),
+                         allow_new_levels = TRUE) |>
+  mutate(estimate_prop = .epred*proportion) |>
+  # New bit: Marginalize over covariate combinations by grouping on .draw
+  group_by(.draw) |>
+  summarise(.epred = sum(estimate_prop))
+
+### Predict outcome when exposure X = 1 for all
+ateEX0 <- add_epred_draws(object = bayes_mod,
+                         newdata = transform(census, qsmk=0),
+                         allow_new_levels = TRUE) |>
+  mutate(estimate_prop = .epred*proportion) |>
+  group_by(.draw) |>
+  summarise(.epred = sum(estimate_prop))
+
+### Compute poststratified ATE
+poststratified_ate <- data.frame(EX1 = ateEX1$.epred,
+                                 EX0 = ateEX0$.epred,
+                                 draw = ateEX0$.draw) |>
+  # For each posterior draw...
+  group_by(draw) |>
+  # ... Calculate ATE
+  summarise(ate = mean(EX1 - EX0))
+```
+
+The poststratified marginal causal effect is around 4.7 kg but with a fairly wide 95% interval ranging from around 0 to 9 kg.
+
+```{r, cache=TRUE, results='markup'}
+mean_hdi(poststratified_ate$ate)
+```
+
+Behold the full posterior poststratified marginal causal effect!
+
+```{r, cache=TRUE, fig.height=3, fig.width=5}
+ggplot(poststratified_ate, aes(x = ate)) +
+  geom_density() + 
+  theme_classic()
+```
+
+## Instrumental variable analysis
+
+### Preparing Cohen et al. (2015)
+
+We'll use the data `ACT_IllLvlMainWithMalProbs_FINAL_pub.dta` from Cohen et al. (2015), which can be downloaded from the book's [Github page](https://github.com/tbendixen/DAG-companion/tree/main/docs) or [www.openicpsr.org](https://www.openicpsr.org/openicpsr/project/112911/version/V1/view?path=/openicpsr/112911/fcr:versions/V1/AER2013-0267_data-code&type=folder).
+
+The data need to be wrangled a little before use. Each row is an illness period, where most households only have a single illness period. A few households, however, do have more. The models we use here assume -- as did the original study -- illness periods to be independent.
+
+```{r, cache=TRUE}
+library(haven) # for loading .dta file
+library(dplyr)
+
+### Load original data
+dta <- read_dta("data/ACT_IllLvlMainWithMalProbs_FINAL_pub.dta") |> as.data.frame()
+
+### Filter data set, as the original study did -- re-use name from original analysis script
+all_ill_prob <- subset(dta, first_ep==1 & ex_post==0 & rdt_any==0)
+
+### Collaps all ACT subsidy types
+all_ill_prob$act_any <- ifelse(all_ill_prob$act40==1 | 
+                                 all_ill_prob$act60==1 | 
+                                 all_ill_prob$act100==1, 
+                               1, 0) |> as.integer()
+
+### Replace sample-mean imputed values with NAs to allow Bayesian imputation, and then standardize 
+all_ill_prob$B_head_age_bimps <- with(all_ill_prob, 
+                                      ifelse(B_head_age_missing==1, NA, B_head_age_imputed))
+
+### Prepare data for IV and multilevel analysis
+cohen2015 <- all_ill_prob |>
+  select(householdid, took_act, act_any, B_head_age_bimps, head_lit, used_act_v, totstrata)
+
+### Change col names
+colnames(cohen2015) <- c("hid", "act", "subsidy", "age", "literate", "voucher", "stratum")
+
+### Declare variable types
+cohen2015$hid <- as.factor(cohen2015$hid)
+cohen2015$act <- as.integer(cohen2015$act)
+cohen2015$subsidy <- as.integer(cohen2015$subsidy)
+cohen2015$age <- as.numeric(cohen2015$age)
+cohen2015$literate <- as.integer(cohen2015$literate)
+cohen2015$voucher <- as.integer(cohen2015$voucher)
+cohen2015$stratum <- as.factor(cohen2015$stratum)
+
+### Subset data for missing data analysis
+cohen2015miss <- cohen2015 |>
+  select(act, subsidy, age, literate)
+
+### Export
+write.csv(cohen2015, "data/cohen2015.csv", row.names = FALSE)
+write.csv(cohen2015miss, "data/cohen2015miss.csv", row.names = FALSE)
+```
+
+### Randomized treatment assignment as instrument
+
+```{r, results='markup'}
+d <- read.csv("data/cohen2015.csv")
+
+### Fit outcome and treatment models
+y_mod <- glm(act ~ subsidy, 
+	     data = d, 
+	     family = "binomial")
+
+x_mod <- glm(voucher ~ subsidy, 
+	     data = d, 
+	     family = "binomial")
+
+### Intention-to-treat analysis
+YV1 <- predict(y_mod, 
+	       newdata = transform(d, subsidy = 1), 
+	       type = "response")
+
+YV0 <- predict(y_mod, 
+	       newdata = transform(d, subsidy = 0), 
+	       type = "response")
+
+itt <- mean(YV1) - mean(YV0)
+
+### "Compliance analysis"
+XV1 <- predict(x_mod, 
+	       newdata = transform(d, subsidy = 1),
+	       type = "response")		
+		
+XV0 <- predict(x_mod, 
+	       newdata = transform(d, subsidy = 0), 
+	       type = "response")
+
+compliance <- mean(XV1) - mean(XV0)
+
+### Wald IV ratio estimator / Treatment-on-the-treated estimate
+(iv <- itt/compliance)
+```
+
+## Bayesian instrumental variable analysis
+
+As mentioned in the text, we also want to demonstrate another approach to instrumental variable analysis, namely a Bayesian implementation.
+
+Kurz (REF)[<https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs>] gives a rundown of instrumental variable analysis using the `brms` package, building on McElreath (2020, REF), and we follow that general approach here. We refer to those sources for further details.
+
+We first define two model formulas, one for the instrument (`subsidy`) predicting treatment (`voucher`) $\textrm{E}[X \mid V]$ and another for the treatment predicting ACT uptake (`act`) model $\textrm{E}[Y \mid X]$. This is superficially similar to how we fitted `y_mod` and `x_mod` in the frequentist setting in the text and above but note a few differences:
+
+First, while the model predicting voucher use from subsidy assignment corresponds to the "compliance analysis" (`x_mod`), the model predicting ACT uptake from voucher use is not used for the Wald estimator.
+
+Second, in the Bayesian setup we fit the two models in the same go. In `brms` this is facilitated by wrapping the model formulas in `bf()` and then combining these in the model fitting call using `+`. Finally, we allow the model to estimate the residual correlation between these two models by setting `set_rescor(TRUE)`.
+
+Why does this work as an alternative IV estimator? Recall that we use an instrumental variable approach to deal with situations where the treatment variable (here, `subsidy`) is correlated with the error term of the outcome model -- in essence, there's an open backdoor path between treatment and the outcome. This residual correlation could be due to unobserved confounding variables of some sort, which in turn will lead to biased estimates in a simple regression model. We account for the possibility that such confounding exists by explicitly modeling this correlation.
+
+```{r, eval=FALSE}
+library(brms)
+
+# Treatment-instrument model formula
+xv_formula <- bf(voucher ~ subsidy)
+
+# Outcome-treatment model formula
+yx_formula <- bf(act ~ voucher) 
+
+# Fit models and set residual correlation = TRUE
+bayes_iv_mod <- brm(xv_formula + yx_formula + set_rescor(TRUE),
+                    data = d, cores = 4, seed = 42,
+                    file = "fits/bayes_iv")
+```
+
+```{r, cache=TRUE, echo=FALSE}
+bayes_iv_mod <- readRDS("fits/bayes_iv.rds")
+```
+
+By inspecting the summary, we see that we get essentially the same results as above -- `act_voucher` corresponds to the Wald esimate -- except we now have a posterior distribution to work with.
+
+```{r, results='markup'}
+summary(bayes_iv_mod)
+```
+
+Now, since we don't include covariates in these models, it's safe to just work with the coefficients here; the marginal and conditional estimates are the same in this particular case. However, in cases where the conditional and marginal effects differ, what we've done here is to calculate a conditional estimate, since we're simply working with the coefficients. To get a marginal estimate in such a case, we'd have to implement something like g-computation. An explicitly marginal workflow could look like the following, following a familiar g-computation approach:
+
+```{r, cache=TRUE}
+# Calculate predicted values for voucher = 1 and voucher = 0
+bayes_YX1 <- add_epred_draws(object = bayes_iv_mod,
+                             newdata = transform(d, voucher = 1),
+                             resp = "act")
+
+bayes_YX0 <- add_epred_draws(object = bayes_iv_mod,
+                             newdata = transform(d, voucher = 0),
+                             resp = "act")
+
+# Bayesian marginal IV
+bayes_marginal_iv <- data.frame(EX1 = bayes_YX1$.epred,
+                                EX0 = bayes_YX0$.epred,
+                                draw = bayes_YX0$.draw) |>
+  # For each posterior draw...
+  group_by(draw) |>
+  # ... Calculate ATE
+  summarise(late = mean(EX1 - EX0))
+
+```
+
+Again, in this simple example, the conditional and marginal IV results are identical.
+
+```{r, cache=TRUE, results='markup'}
+mean_qi(bayes_marginal_iv$late)
+```
