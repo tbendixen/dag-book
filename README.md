@@ -2,4 +2,4 @@
 
 This is the companion website for *The Data Analyst's Guide to Cause and Effect*.
 
-Rendered version is hosted at \url{www.theissbendixen.com/dag-book}
+Rendered version is hosted at www.theissbendixen.com/dag-book
