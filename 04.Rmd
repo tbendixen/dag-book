@@ -1,4 +1,4 @@
-# Adventures in G-methods {#gmethods2}
+# Adventures in G-methods {#chapter-4}
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ## Doubly robust estimation
 
-For demonstrating a 'doubly robust' estimator that combines IPW and g-computation, we use the `nhefs` data from the `causaldata` package. This data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study. 
+For demonstrating a 'doubly robust' estimator that combines IPW and g-computation, we use the `nhefs` data from the `causaldata` package [@causaldata]. This data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study. 
 
 ```{r}
 library(causaldata)
@@ -83,7 +83,7 @@ p2 <- ggplot() +
 (p1 + p2)
 ```
 
-We can also make a 'love plot' using the **cobalt** package to inspect whether the IP weights ensures acceptable balance on the level of individual covariates. By setting `continuous = "std"`, we indicate that the function should return the *standardized* absolute mean difference for any continuous variables (here, `age`). If we wanted the raw absolute mean difference, we'd set `continuous = "raw"`.
+We can also make a 'love plot' using the `cobalt` package [@cobalt] to inspect whether the IP weights ensures acceptable balance on the level of individual covariates. By setting `continuous = "std"`, we indicate that the function should return the *standardized* absolute mean difference for any continuous variables (here, `age`). If we wanted the raw absolute mean difference, we'd set `continuous = "raw"`.
 
 ```{r, fig.height=3, fig.width=5}
 library(cobalt)
@@ -270,5 +270,57 @@ bootstrap_results <- boot(data = d, statistic = bootstrap_analysis, R = n_bootst
 boot.ci(bootstrap_results, type = "norm", index = 1) # For females
 boot.ci(bootstrap_results, type = "norm", index = 2) # For males
 
+```
+
+## Complex longitudinal exposure-outcome feedback
+
+In the book, we show a complicated DAG adapted from @vanderweele2016causal of a complex longitudinal exposure-outcome feedback setting. Here, we verify that the adjustment strategy suggested in the book holds true in a simulated setting. To keep things simple, we set all effects to be recovered to 1.
+
+First, we simulate some data consistent with the complex DAG.
+
+```{r}
+# Seed for reproducibility
+set.seed(42)
+
+# Define sample size
+n <- 1000
+
+# Define variables
+C <- rnorm(n)
+Z1 <- rnorm(n, C) + rnorm(n)
+Z2 <- rnorm(n, Z1) + rnorm(n)
+Z3 <- rnorm(n, Z2) + rnorm(n)
+X1 <- rnorm(n, C) + rnorm(n)
+X2 <- rnorm(n, X1 + Z1) + rnorm(n)
+X3 <- rnorm(n, X2 + Z2) + rnorm(n)
+Y <- rnorm(n, X1 + X2 + X3 + Z3) + rnorm(n)
+```
+
+Next, we fit a model for each measurement time point, and we see that all three models pick up the simulated effect of (roughly) 1.
+
+```{r, results='asis'}
+# Model for E[Y | X1, X2, Z1] to estimate effect of X1 on Y
+model_X1 <- lm(Y ~ X1 + X2 + Z1)
+coef(model_X1)[["X1"]]
+```
+
+
+```{r, results='asis'}
+# Model for E[Y | X1, X2, X3, Z1] to estimate effect of X2 on Y
+model_X2 <- lm(Y ~ X1 + X2 + X3 + Z1 + Z2)
+coef(model_X2)[["X2"]]
+```
+
+
+```{r, results='asis'}
+# Model for E[Y | X2, X3, Z2] to estimate effect of X3 on Y
+model_X3 <- lm(Y ~ X2 + X3 + Z2)
+coef(model_X3)[["X3"]]
+```
+
+## Session info
+
+```{r, results='markup'}
+sessionInfo()
 ```
 

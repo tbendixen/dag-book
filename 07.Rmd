@@ -1,4 +1,4 @@
-# Advanced Estimation {#advest}
+# Multilevel Modelling and Mundlak's Legacy {#chapter-7}
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -448,7 +448,7 @@ forest |>
 
 ## Education and prosociality: Mundlak in action
 
-We finally show the Mundlak model in action in real-world data. We load the `cerc` data and plot the raw data distribution for the key predictor and outcome variable, respectively, before fitting and plotting our four models.
+We finally show the Mundlak model in action in real-world data. We load the `cerc` data [@lang2019moralizing] and plot the raw data distribution for the key predictor and outcome variable, respectively, before fitting and plotting our four models.
 
 ```{r}
 cerc <- read.csv("data/cerc.csv")
@@ -757,4 +757,10 @@ predictions(mMUcerc2_freq,
        subtitle = "Frequentist version",
        x = "Years of education", y = "Coins to co-player")
 
+```
+
+## Session info
+
+```{r, results='markup'}
+sessionInfo()
 ```

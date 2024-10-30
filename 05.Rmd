@@ -1,4 +1,4 @@
-# Most of Your Data is Almost Always Missing {#miss}
+# Most of Your Data is Almost Always Missing {#chapter-5}
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -47,7 +47,7 @@ library(ggplot2)
 
 ggplot(d_miss, aes(x = X, y = Y)) +
   geom_point(aes(color = is.na(Y_miss)), alpha = 0.5) +
-  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "black", data = d_miss[!is.na(X_miss), ]) +
+  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "black", data = d_miss[!is.na(Y_miss), ]) +
   geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "grey60", data = d_miss) +
   scale_color_manual(values = c("black", "grey"), labels = c("Observed", "Missing")) +
   labs(title = "Simulating missingness",
@@ -475,7 +475,7 @@ ggplot(poststratified_ate, aes(x = ate)) +
 
 ### Preparing Cohen et al. (2015)
 
-We'll use the data `ACT_IllLvlMainWithMalProbs_FINAL_pub.dta` from Cohen et al. (2015), which can be downloaded from the book's [Github page](https://github.com/tbendixen/DAG-companion/tree/main/docs) or [www.openicpsr.org](https://www.openicpsr.org/openicpsr/project/112911/version/V1/view?path=/openicpsr/112911/fcr:versions/V1/AER2013-0267_data-code&type=folder).
+We'll use the data `ACT_IllLvlMainWithMalProbs_FINAL_pub.dta` from @cohen2015price, which can be downloaded from the book's [Github page](https://github.com/tbendixen/DAG-companion/tree/main/data) or [www.openicpsr.org](https://www.openicpsr.org/openicpsr/project/112911/version/V1/view?path=/openicpsr/112911/fcr:versions/V1/AER2013-0267_data-code&type=folder).
 
 The data need to be wrangled a little before use. Each row is an illness period, where most households only have a single illness period. A few households, however, do have more. The models we use here assume -- as did the original study -- illness periods to be independent.
 
@@ -568,7 +568,7 @@ compliance <- mean(XV1) - mean(XV0)
 
 As mentioned in the text, we also want to demonstrate another approach to instrumental variable analysis, namely a Bayesian implementation.
 
-Kurz (REF)[<https://bookdown.org/content/4857/adventures-in-covariance.html#instruments-and-causal-designs>] gives a rundown of instrumental variable analysis using the `brms` package, building on McElreath (2020, REF), and we follow that general approach here. We refer to those sources for further details.
+Kurz [-@kurzStatisticalRethinkingSecondEd2023, ch. 14] gives a rundown of instrumental variable analysis using the `brms` package, building on @mcelreath_statistical_2020, and we follow that general approach here. We refer to those sources for further details.
 
 We first define two model formulas, one for the instrument (`subsidy`) predicting treatment (`voucher`) $\textrm{E}[X \mid V]$ and another for the treatment predicting ACT uptake (`act`) model $\textrm{E}[Y \mid X]$. This is superficially similar to how we fitted `y_mod` and `x_mod` in the frequentist setting in the text and above but note a few differences:
 
@@ -630,4 +630,10 @@ Again, in this simple example, the conditional and marginal IV results are ident
 
 ```{r, cache=TRUE, results='markup'}
 mean_qi(bayes_marginal_iv$late)
+```
+
+## Session info
+
+```{r, results='markup'}
+sessionInfo()
 ```

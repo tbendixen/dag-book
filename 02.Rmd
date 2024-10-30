@@ -1,4 +1,4 @@
-# Causal Graphs {#dag}
+# Causal Graphs {#chapter-2}
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -27,7 +27,7 @@ X <- Z*bZ + rnorm(n, 0, 1)
 Y <- Z*bZ + rnorm(n, 0, 1)
 ```
 
-We then write a function for fitting and plotting our models that we can re-use for the 'Pipe' and 'Collider' scenarios. This function depends on the `{ggplot2}` and `{patchwork}` packages.
+We then write a function for fitting and plotting our models that we can re-use for the 'Pipe' and 'Collider' scenarios. This function depends on the `ggplot2` [@tidyverse] and `patchwork` [@patchwork] packages.
 
 ```{r}
 library(ggplot2)
@@ -38,7 +38,7 @@ plot_scat <- function(data, title){
 # Y ~ X
 p1 <- ggplot(data, aes(x=X, y=Y)) + 
   geom_point(alpha = 0.05, size = .1) + 
-  geom_smooth(method='lm', color = "blue", size = 0.5) + 
+  geom_smooth(method='lm', color = "blue", linewidth = 0.5) + 
   theme_classic() + 
   labs(title = title, subtitle = "Y ~ X")
 
@@ -130,3 +130,10 @@ glm(Y ~ X + Z, data = data.frame(Y=Y, X=X, Z=Z))
 ```
 
 We see that only the latter model picks up the correct estimate for *X*, which was 0.5 in this case.
+
+## Session info
+
+```{r, results='markup'}
+sessionInfo()
+```
+

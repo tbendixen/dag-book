@@ -6,9 +6,9 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
-#bibliography: [book.bib, packages.bib]
-#biblio-style: apalike
-#link-citations: yes
+bibliography: [apa-refs.bib, grateful-refs.bib]
+biblio-style: apalike
+link-citations: yes
 github-repo: tbendixen/DAG-companion
 description: "The is the companion website for *The Data Analyst's Guide to Cause and Effect*"
 ---
@@ -16,3 +16,11 @@ description: "The is the companion website for *The Data Analyst's Guide to Caus
 # Welcome! {-}
 
 The is the companion website for *The Data Analyst's Guide to Cause and Effect* (Bendixen & Purzycki, *in prep.*).
+
+## Version  {-}
+
+This is version 0.1
+
+## Errata  {-}
+
+While we have made every effort to ensure the accuracy and currency of both the book and this website, some errors may have inevitably slipped through. In this section, we will document any errors or updates as they are brought to our attention.

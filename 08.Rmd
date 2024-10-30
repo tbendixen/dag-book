@@ -1,0 +1,21 @@
+# Package Citations {#pkgs}
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      results = 'hide', 
+                      cache = FALSE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      error = TRUE,
+                      cache.comments = FALSE,
+                      cache.lazy = FALSE,
+                      fig.path = "bookdown-dag_files/figure-html/ch8-fig-",
+                      cache.path = "bookdown-dag_cache/html/ch8-")
+
+```
+
+```{r, results='markup'}
+library(grateful)
+pkgs <- cite_packages(output = "table", out.dir = ".", cite.tidyverse = TRUE, dependencies = TRUE)
+knitr::kable(pkgs)
+```

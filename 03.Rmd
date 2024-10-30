@@ -1,4 +1,4 @@
-# G-methods and Marginal Effects {#gmethods}
+# G-methods and Marginal Effects {#chapter-3}
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -172,7 +172,7 @@ print(bootstrap_summary)
 
 ```
 
-#### 'Robust' standard errors for IPW
+### 'Robust' standard errors for IPW
 
 ```{r, results='markup'}
 library(sandwich)
@@ -186,7 +186,7 @@ vcovHC(fit, type = 'HC0')
 
 ## G-computation
 
-Here, we show the basic g-computation workflow...
+Here, we show a basic g-computation workflow...
 
 ```{r}
 model <- lm(Y ~ X + Z, data = d)
@@ -250,7 +250,7 @@ print(bootstrap_summary)
 
 ### Bayesian g-computation
 
-Lastly, we show a Bayesian g-computation workflow using the R packages **brms** (which requires **RStan** or **Cmdstan**) [REF] for model fitting and **tidybayes** for post-processing. 
+Lastly, we show a Bayesian g-computation workflow using the R package `brms` [@brms2017; @brms2018; @brms2021], which requires `RStan` [@rstan], for model fitting and `tidybayes` for post-processing [@tidybayes]. 
 
 ```{r, cache=TRUE}
 library(brms)
@@ -298,7 +298,7 @@ We can summarize the posterior ATE by its mean and highest posterior density int
 mean_hdi(ate$ate)
 ```
 
-An alternative approach -- when we have a fitted model, Bayesian or otherwise -- is via the versatile and very well documented **marginaleffects** package.
+An alternative approach -- when we have a fitted model, Bayesian or otherwise -- is via the versatile and very well documented `marginaleffects` package [@marginaleffects].
 
 ```{r, cache=TRUE, results='markup'}
 library(marginaleffects)
@@ -306,3 +306,8 @@ library(marginaleffects)
 avg_comparisons(bmodel, variables = list(X = 0:1))
 ```
 
+## Session info
+
+```{r, results='markup'}
+sessionInfo()
+```
