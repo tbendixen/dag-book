@@ -1,0 +1,13 @@
+"AGE_GROUP","SEX","FREQUENCY","PERCENTAGE","age_group","sex","proportion"
+"Under 15 years","MALE",30608,19.1,1,"0",0.191
+"15 to 17 years","MALE",6498,4.1,2,"0",0.041
+"18 to 20 years","MALE",6128,3.8,3,"0",0.038
+"21 to 44 years","MALE",52066,32.5,4,"0",0.325
+"45 to 64 years","MALE",39457,24.7,5,"0",0.247
+"65 years and over","MALE",25219,15.8,6,"0",0.158
+"Under 15 years","FEMALE",29330,17.6,1,"1",0.176
+"15 to 17 years","FEMALE",6341,3.8,2,"1",0.038
+"18 to 20 years","FEMALE",5943,3.6,3,"1",0.036
+"21 to 44 years","FEMALE",51988,31.3,4,"1",0.313
+"45 to 64 years","FEMALE",41999,25.3,5,"1",0.253
+"65 years and over","FEMALE",30617,18.4,6,"1",0.184
