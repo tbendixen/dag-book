@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Package Citations | The Data Analyst’s Guide to Cause and Effect</title>
+  <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Package Citations | The Data Analyst’s Guide to Cause and Effect" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="github-repo" content="tbendixen/DAG-companion" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Package Citations | The Data Analyst’s Guide to Cause and Effect" />
+  
+  <meta name="twitter:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  
+
+<meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
+
+
+<meta name="date" content="2024-10-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-7.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The Data Analyst's Guide to Cause and Effect</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#version"><i class="fa fa-check"></i>Version</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#errata"><i class="fa fa-check"></i>Errata</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chapter-1.html"><a href="chapter-1.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="chapter-2.html"><a href="chapter-2.html"><i class="fa fa-check"></i><b>2</b> Causal Graphs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-2.html"><a href="chapter-2.html#the-fork"><i class="fa fa-check"></i><b>2.1</b> The Fork</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-2.html"><a href="chapter-2.html#the-pipe"><i class="fa fa-check"></i><b>2.2</b> The Pipe</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-2.html"><a href="chapter-2.html#the-collider"><i class="fa fa-check"></i><b>2.3</b> The Collider</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-2.html"><a href="chapter-2.html#post-treatment-bias"><i class="fa fa-check"></i><b>2.4</b> Post-treatment bias</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-2.html"><a href="chapter-2.html#session-info"><i class="fa fa-check"></i><b>2.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-3.html"><a href="chapter-3.html"><i class="fa fa-check"></i><b>3</b> G-methods and Marginal Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-3.html"><a href="chapter-3.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>3.1</b> Inverse probability weighting</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping"><i class="fa fa-check"></i><b>3.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.1.2" data-path="chapter-3.html"><a href="chapter-3.html#robust-standard-errors-for-ipw"><i class="fa fa-check"></i><b>3.1.2</b> ‘Robust’ standard errors for IPW</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="chapter-3.html"><a href="chapter-3.html#g-computation"><i class="fa fa-check"></i><b>3.2</b> G-computation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping-1"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapter-3.html"><a href="chapter-3.html#bayesian-g-computation"><i class="fa fa-check"></i><b>3.2.2</b> Bayesian g-computation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chapter-3.html"><a href="chapter-3.html#session-info-1"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-4.html"><a href="chapter-4.html"><i class="fa fa-check"></i><b>4</b> Adventures in G-methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="chapter-4.html"><a href="chapter-4.html#doubly-robust-estimation"><i class="fa fa-check"></i><b>4.1</b> Doubly robust estimation</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapping-2"><i class="fa fa-check"></i><b>4.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-5.html"><a href="chapter-5.html#simulating-missingness"><i class="fa fa-check"></i><b>5.1</b> Simulating missingness</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-5.html"><a href="chapter-5.html#poststratification"><i class="fa fa-check"></i><b>5.2</b> Poststratification</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chapter-5.html"><a href="chapter-5.html#frequentist-poststratification"><i class="fa fa-check"></i><b>5.2.1</b> Frequentist poststratification</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-poststratification"><i class="fa fa-check"></i><b>5.2.2</b> Bayesian poststratification</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chapter-5.html"><a href="chapter-5.html#instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.3</b> Instrumental variable analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter-5.html"><a href="chapter-5.html#preparing-cohen-et-al.-2015"><i class="fa fa-check"></i><b>5.3.1</b> Preparing Cohen et al. (2015)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="chapter-5.html"><a href="chapter-5.html#randomized-treatment-assignment-as-instrument"><i class="fa fa-check"></i><b>5.3.2</b> Randomized treatment assignment as instrument</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.4</b> Bayesian instrumental variable analysis</a></li>
+<li class="chapter" data-level="5.5" data-path="chapter-5.html"><a href="chapter-5.html#session-info-3"><i class="fa fa-check"></i><b>5.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-6.html"><a href="chapter-6.html"><i class="fa fa-check"></i><b>6</b> More Missing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-6.html"><a href="chapter-6.html#simple-mean-imputation-vs.-multiple-imputation"><i class="fa fa-check"></i><b>6.1</b> Simple mean imputation vs. multiple imputation</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-6.html"><a href="chapter-6.html#combine-then-predict-or-predict-then-combine"><i class="fa fa-check"></i><b>6.2</b> “Combine then predict” or “predict then combine”?</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-6.html"><a href="chapter-6.html#marginaleffects"><i class="fa fa-check"></i><b>6.2.1</b> <code>marginaleffects</code></a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-6.html"><a href="chapter-6.html#emmeans"><i class="fa fa-check"></i><b>6.2.2</b> <code>emmeans</code></a></li>
+<li class="chapter" data-level="6.2.3" data-path="chapter-6.html"><a href="chapter-6.html#comparison"><i class="fa fa-check"></i><b>6.2.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-6.html"><a href="chapter-6.html#bayesian-imputation"><i class="fa fa-check"></i><b>6.3</b> Bayesian imputation</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-6.html"><a href="chapter-6.html#session-info-4"><i class="fa fa-check"></i><b>6.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-7.html"><a href="chapter-7.html"><i class="fa fa-check"></i><b>7</b> Multilevel Modelling and Mundlak’s Legacy</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-7.html"><a href="chapter-7.html#multilevel-malaria-medicine"><i class="fa fa-check"></i><b>7.1</b> Multilevel malaria medicine</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-simple-intercept-and-slope"><i class="fa fa-check"></i><b>7.1.1</b> Naïve model: Simple intercept and slope</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects"><i class="fa fa-check"></i><b>7.1.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.1.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-interacting-treatment-and-group"><i class="fa fa-check"></i><b>7.1.3</b> Fixed effects interacting treatment and group</a></li>
+<li class="chapter" data-level="7.1.4" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts"><i class="fa fa-check"></i><b>7.1.4</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.1.5" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>7.1.5</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="7.1.6" data-path="chapter-7.html"><a href="chapter-7.html#plot-models-in-a-panel"><i class="fa fa-check"></i><b>7.1.6</b> Plot models in a panel</a></li>
+<li class="chapter" data-level="7.1.7" data-path="chapter-7.html"><a href="chapter-7.html#regularized-vs.-empirical-estimates"><i class="fa fa-check"></i><b>7.1.7</b> Regularized vs. empirical estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="chapter-7.html"><a href="chapter-7.html#simulating-mundlak"><i class="fa fa-check"></i><b>7.2</b> Simulating Mundlak</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-ignoring-group"><i class="fa fa-check"></i><b>7.2.1</b> Naïve model (ignoring group)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-1"><i class="fa fa-check"></i><b>7.2.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-1"><i class="fa fa-check"></i><b>7.2.3</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.2.4" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model"><i class="fa fa-check"></i><b>7.2.4</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.2.5" data-path="chapter-7.html"><a href="chapter-7.html#plot-effect-estimate-distributions"><i class="fa fa-check"></i><b>7.2.5</b> Plot effect estimate distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-7.html"><a href="chapter-7.html#education-and-prosociality-mundlak-in-action"><i class="fa fa-check"></i><b>7.3</b> Education and prosociality: Mundlak in action</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter-7.html"><a href="chapter-7.html#raw-data-distributions"><i class="fa fa-check"></i><b>7.3.1</b> Raw data distributions</a></li>
+<li class="chapter" data-level="7.3.2" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model"><i class="fa fa-check"></i><b>7.3.2</b> Naïve model</a></li>
+<li class="chapter" data-level="7.3.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-2"><i class="fa fa-check"></i><b>7.3.3</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.3.4" data-path="chapter-7.html"><a href="chapter-7.html#random-effects"><i class="fa fa-check"></i><b>7.3.4</b> Random effects</a></li>
+<li class="chapter" data-level="7.3.5" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model-1"><i class="fa fa-check"></i><b>7.3.5</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.3.6" data-path="chapter-7.html"><a href="chapter-7.html#plotting-effect-of-education-on-religiosity"><i class="fa fa-check"></i><b>7.3.6</b> Plotting effect of education on religiosity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter-7.html"><a href="chapter-7.html#marginal-effects-in-a-multilevel-model"><i class="fa fa-check"></i><b>7.4</b> Marginal effects in a multilevel model</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter-7.html"><a href="chapter-7.html#predicting-the-observed-sites"><i class="fa fa-check"></i><b>7.4.1</b> Predicting the observed sites</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter-7.html"><a href="chapter-7.html#frequentist-workflow"><i class="fa fa-check"></i><b>7.4.2</b> Frequentist workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chapter-7.html"><a href="chapter-7.html#session-info-5"><i class="fa fa-check"></i><b>7.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="pkgs.html"><a href="pkgs.html"><i class="fa fa-check"></i><b>8</b> Package Citations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><em>The Data Analyst’s Guide to Cause and Effect</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="pkgs" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Package Citations<a href="pkgs.html#pkgs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="pkgs.html#cb161-1" tabindex="-1"></a><span class="fu">library</span>(grateful)</span>
+<span id="cb161-2"><a href="pkgs.html#cb161-2" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">cite_packages</span>(<span class="at">output =</span> <span class="st">&quot;table&quot;</span>, <span class="at">out.dir =</span> <span class="st">&quot;.&quot;</span>, <span class="at">cite.tidyverse =</span> <span class="cn">TRUE</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb161-3"><a href="pkgs.html#cb161-3" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pkgs)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="14%" />
+<col width="65%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Package</th>
+<th align="left">Version</th>
+<th align="left">Citation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">abind</td>
+<td align="left">1.4.5</td>
+<td align="left"><span class="citation">Plate and Heiberger (<a href="#ref-abind">2016</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">arrayhelpers</td>
+<td align="left">1.1.0</td>
+<td align="left"><span class="citation">Beleites (<a href="#ref-arrayhelpers">2020</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">backports</td>
+<td align="left">1.5.0</td>
+<td align="left"><span class="citation">Michel Lang, Murdoch, and R Core Team (<a href="#ref-backports">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">base</td>
+<td align="left">4.4.1</td>
+<td align="left"><span class="citation">R Core Team (<a href="#ref-base">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">base64enc</td>
+<td align="left">0.1.3</td>
+<td align="left"><span class="citation">Urbanek (<a href="#ref-base64enc">2015</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">bayesplot</td>
+<td align="left">1.11.1</td>
+<td align="left"><span class="citation">Gabry et al. (<a href="#ref-bayesplot2019">2019</a>)</span>; <span class="citation">Gabry and Mahr (<a href="#ref-bayesplot2024">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">BH</td>
+<td align="left">1.84.0.0</td>
+<td align="left"><span class="citation">Eddelbuettel, Emerson, and Kane (<a href="#ref-BH">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">bit</td>
+<td align="left">4.5.0</td>
+<td align="left"><span class="citation">Oehlschlägel (<a href="#ref-bit">2024a</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">bit64</td>
+<td align="left">4.5.2</td>
+<td align="left"><span class="citation">Oehlschlägel (<a href="#ref-bit64">2024b</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">bookdown</td>
+<td align="left">0.41</td>
+<td align="left"><span class="citation">Xie (<a href="#ref-bookdown2016">2016</a>)</span>; <span class="citation">Xie (<a href="#ref-bookdown2024">2024a</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">bridgesampling</td>
+<td align="left">1.1.2</td>
+<td align="left"><span class="citation">Gronau, Singmann, and Wagenmakers (<a href="#ref-bridgesampling">2020</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">brms</td>
+<td align="left">2.21.0</td>
+<td align="left"><span class="citation">Bürkner (<a href="#ref-brms2017">2017</a>)</span>; <span class="citation">Bürkner (<a href="#ref-brms2018">2018</a>)</span>; <span class="citation">Bürkner (<a href="#ref-brms2021">2021</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Brobdingnag</td>
+<td align="left">1.2.9</td>
+<td align="left"><span class="citation">Hankin (<a href="#ref-Brobdingnag">2007</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">bslib</td>
+<td align="left">0.7.0</td>
+<td align="left"><span class="citation">Sievert, Cheng, and Aden-Buie (<a href="#ref-bslib">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">cachem</td>
+<td align="left">1.1.0</td>
+<td align="left"><span class="citation">Chang (<a href="#ref-cachem">2024a</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">callr</td>
+<td align="left">3.7.6</td>
+<td align="left"><span class="citation">Csárdi and Chang (<a href="#ref-callr">2024a</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">causaldata</td>
+<td align="left">0.1.4</td>
+<td align="left"><span class="citation">Huntington-Klein and Barrett (<a href="#ref-causaldata">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">checkmate</td>
+<td align="left">2.3.1</td>
+<td align="left"><span class="citation">Michel Lang (<a href="#ref-checkmate">2017</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">chk</td>
+<td align="left">0.9.2</td>
+<td align="left"><span class="citation">Thorley, Müller, and Pearson (<a href="#ref-chk">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">clipr</td>
+<td align="left">0.8.0</td>
+<td align="left"><span class="citation">Lincoln (<a href="#ref-clipr">2022</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">cobalt</td>
+<td align="left">4.5.5</td>
+<td align="left"><span class="citation">Greifer (<a href="#ref-cobalt">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">coda</td>
+<td align="left">0.19.4.1</td>
+<td align="left"><span class="citation">Plummer et al. (<a href="#ref-coda">2006</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">colorspace</td>
+<td align="left">2.1.0</td>
+<td align="left"><span class="citation">Zeileis, Hornik, and Murrell (<a href="#ref-colorspace2009b">2009</a>)</span>; <span class="citation">Stauffer et al. (<a href="#ref-colorspace2009c">2009</a>)</span>; <span class="citation">Zeileis et al. (<a href="#ref-colorspace2020a">2020</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">cpp11</td>
+<td align="left">0.4.7</td>
+<td align="left"><span class="citation">Vaughan, Hester, and François (<a href="#ref-cpp11">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">crayon</td>
+<td align="left">1.5.3</td>
+<td align="left"><span class="citation">Csárdi (<a href="#ref-crayon">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">data.table</td>
+<td align="left">1.15.4</td>
+<td align="left"><span class="citation">Barrett et al. (<a href="#ref-datatable">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">desc</td>
+<td align="left">1.4.3</td>
+<td align="left"><span class="citation">Csárdi, Müller, and Hester (<a href="#ref-desc">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">digest</td>
+<td align="left">0.6.35</td>
+<td align="left"><span class="citation">Antoine Lucas et al. (<a href="#ref-digest">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">distributional</td>
+<td align="left">0.4.0</td>
+<td align="left"><span class="citation">O’Hara-Wild, Kay, and Hayes (<a href="#ref-distributional">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">emmeans</td>
+<td align="left">1.10.5</td>
+<td align="left"><span class="citation">R. V. Lenth (<a href="#ref-emmeans">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">estimability</td>
+<td align="left">1.5.1</td>
+<td align="left"><span class="citation">R. Lenth (<a href="#ref-estimability">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">evaluate</td>
+<td align="left">0.24.0</td>
+<td align="left"><span class="citation">H. Wickham and Xie (<a href="#ref-evaluate">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">fansi</td>
+<td align="left">1.0.6</td>
+<td align="left"><span class="citation">Gaslam (<a href="#ref-fansi">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">farver</td>
+<td align="left">2.1.2</td>
+<td align="left"><span class="citation">Pedersen, Nicolae, and François (<a href="#ref-farver">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">fastmap</td>
+<td align="left">1.2.0</td>
+<td align="left"><span class="citation">Chang (<a href="#ref-fastmap">2024b</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">fontawesome</td>
+<td align="left">0.5.2</td>
+<td align="left"><span class="citation">Iannone (<a href="#ref-fontawesome">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">foreach</td>
+<td align="left">1.5.2</td>
+<td align="left"><span class="citation">Microsoft and Weston (<a href="#ref-foreach">2022</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">fs</td>
+<td align="left">1.6.4</td>
+<td align="left"><span class="citation">Hester, Wickham, and Csárdi (<a href="#ref-fs">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">future</td>
+<td align="left">1.33.2</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-RJ-2021-048">2021</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">future.apply</td>
+<td align="left">1.11.2</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-RJ-2021-048">2021</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">generics</td>
+<td align="left">0.1.3</td>
+<td align="left"><span class="citation">H. Wickham, Kuhn, and Vaughan (<a href="#ref-generics">2022</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">ggdist</td>
+<td align="left">3.3.2</td>
+<td align="left"><span class="citation">Kay (<a href="#ref-ggdist2024a">2024b</a>)</span>; <span class="citation">Kay (<a href="#ref-ggdist2024b">2024a</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">ggridges</td>
+<td align="left">0.5.6</td>
+<td align="left"><span class="citation">Wilke (<a href="#ref-ggridges">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">glmnet</td>
+<td align="left">4.1.8</td>
+<td align="left"><span class="citation">Friedman, Tibshirani, and Hastie (<a href="#ref-glmnet2010">2010</a>)</span>; <span class="citation">Simon et al. (<a href="#ref-glmnet2011">2011</a>)</span>; <span class="citation">Tay, Narasimhan, and Hastie (<a href="#ref-glmnet2023">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">globals</td>
+<td align="left">0.16.3</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-globals">2024a</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">glue</td>
+<td align="left">1.7.0</td>
+<td align="left"><span class="citation">Hester and Bryan (<a href="#ref-glue">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">gridExtra</td>
+<td align="left">2.3</td>
+<td align="left"><span class="citation">Auguie (<a href="#ref-gridExtra">2017</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">gtable</td>
+<td align="left">0.3.5</td>
+<td align="left"><span class="citation">H. Wickham and Pedersen (<a href="#ref-gtable">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">highr</td>
+<td align="left">0.11</td>
+<td align="left"><span class="citation">Xie and Qiu (<a href="#ref-highr">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">htmltools</td>
+<td align="left">0.5.8.1</td>
+<td align="left"><span class="citation">Cheng, Sievert, et al. (<a href="#ref-htmltools">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">inline</td>
+<td align="left">0.3.19</td>
+<td align="left"><span class="citation">Sklyar et al. (<a href="#ref-inline">2021</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">insight</td>
+<td align="left">0.20.5</td>
+<td align="left"><span class="citation">Lüdecke, Waggoner, and Makowski (<a href="#ref-insight">2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">isoband</td>
+<td align="left">0.2.7</td>
+<td align="left"><span class="citation">H. Wickham, Wilke, and Pedersen (<a href="#ref-isoband">2022</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">iterators</td>
+<td align="left">1.0.14</td>
+<td align="left"><span class="citation">Analytics and Weston (<a href="#ref-iterators">2022</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">jomo</td>
+<td align="left">2.7.6</td>
+<td align="left"><span class="citation">Quartagno and Carpenter (<a href="#ref-jomo">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">jquerylib</td>
+<td align="left">0.1.4</td>
+<td align="left"><span class="citation">Sievert and Cheng (<a href="#ref-jquerylib">2021</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">knitr</td>
+<td align="left">1.47</td>
+<td align="left"><span class="citation">Xie (<a href="#ref-knitr2014">2014</a>)</span>; <span class="citation">Xie (<a href="#ref-knitr2015">2015</a>)</span>; <span class="citation">Xie (<a href="#ref-knitr2024">2024b</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">labeling</td>
+<td align="left">0.4.3</td>
+<td align="left"><span class="citation">Justin Talbot (<a href="#ref-labeling">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">lifecycle</td>
+<td align="left">1.0.4</td>
+<td align="left"><span class="citation">Henry and Wickham (<a href="#ref-lifecycle">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">listenv</td>
+<td align="left">0.9.1</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-listenv">2024b</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">lme4</td>
+<td align="left">1.1.35.4</td>
+<td align="left"><span class="citation">Bates et al. (<a href="#ref-lme4">2015</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">loo</td>
+<td align="left">2.7.0.9000</td>
+<td align="left"><span class="citation">Vehtari, Gelman, and Gabry (<a href="#ref-loo2017b">2017</a>)</span>; <span class="citation">Yao et al. (<a href="#ref-loo2017c">2017</a>)</span>; <span class="citation">Vehtari et al. (<a href="#ref-loo2024a">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">marginaleffects</td>
+<td align="left">0.23.0</td>
+<td align="left"><span class="citation">Arel-Bundock, Greifer, and Heiss (<a href="#ref-R-marginaleffects">Forthcoming</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">matrixStats</td>
+<td align="left">1.3.0</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-matrixStats">2024c</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">memoise</td>
+<td align="left">2.0.1</td>
+<td align="left"><span class="citation">H. Wickham et al. (<a href="#ref-memoise">2021</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">mice</td>
+<td align="left">3.16.0</td>
+<td align="left"><span class="citation">van Buuren and Groothuis-Oudshoorn (<a href="#ref-mice">2011</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">mime</td>
+<td align="left">0.12</td>
+<td align="left"><span class="citation">Xie (<a href="#ref-mime">2021</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">minqa</td>
+<td align="left">1.2.7</td>
+<td align="left"><span class="citation">Bates et al. (<a href="#ref-minqa">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">mitml</td>
+<td align="left">0.4.5</td>
+<td align="left"><span class="citation">Grund, Robitzsch, and Luedtke (<a href="#ref-mitml">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">munsell</td>
+<td align="left">0.5.1</td>
+<td align="left"><span class="citation">C. Wickham (<a href="#ref-munsell">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">mvtnorm</td>
+<td align="left">1.2.5</td>
+<td align="left"><span class="citation">Genz and Bretz (<a href="#ref-mvtnorm">2009</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">nleqslv</td>
+<td align="left">3.3.5</td>
+<td align="left"><span class="citation">Hasselman (<a href="#ref-nleqslv">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">nloptr</td>
+<td align="left">2.1.1</td>
+<td align="left"><span class="citation">S. G. Johnson (<a href="#ref-nloptr">2008</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">numDeriv</td>
+<td align="left">2016.8.1.1</td>
+<td align="left"><span class="citation">Gilbert and Varadhan (<a href="#ref-numDeriv">2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">ordinal</td>
+<td align="left">2023.12.4.1</td>
+<td align="left"><span class="citation">Christensen (<a href="#ref-ordinal">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">pan</td>
+<td align="left">1.9</td>
+<td align="left"><span class="citation">Zhao and Schafer (<a href="#ref-pan">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">parallelly</td>
+<td align="left">1.37.1</td>
+<td align="left"><span class="citation">Bengtsson (<a href="#ref-parallelly">2024d</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">patchwork</td>
+<td align="left">1.3.0</td>
+<td align="left"><span class="citation">Pedersen (<a href="#ref-patchwork">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">pkgbuild</td>
+<td align="left">1.4.4</td>
+<td align="left"><span class="citation">H. Wickham, Hester, and Csárdi (<a href="#ref-pkgbuild">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">pkgconfig</td>
+<td align="left">2.0.3</td>
+<td align="left"><span class="citation">Csárdi (<a href="#ref-pkgconfig">2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">plyr</td>
+<td align="left">1.8.9</td>
+<td align="left"><span class="citation">H. Wickham (<a href="#ref-plyr">2011</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">posterior</td>
+<td align="left">1.5.0.9000</td>
+<td align="left"><span class="citation">Vehtari et al. (<a href="#ref-posterior2021">2021</a>)</span>; <span class="citation">Bürkner et al. (<a href="#ref-posterior2023">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">prettyunits</td>
+<td align="left">1.2.0</td>
+<td align="left"><span class="citation">Csardi (<a href="#ref-prettyunits">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">processx</td>
+<td align="left">3.8.4</td>
+<td align="left"><span class="citation">Csárdi and Chang (<a href="#ref-processx">2024b</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">progress</td>
+<td align="left">1.2.3</td>
+<td align="left"><span class="citation">Csárdi and FitzJohn (<a href="#ref-progress">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">ps</td>
+<td align="left">1.7.6</td>
+<td align="left"><span class="citation">Loden et al. (<a href="#ref-ps">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">quadprog</td>
+<td align="left">1.5.8</td>
+<td align="left"><span class="citation">Berwin A. Turlach R port by Andreas Weingessel &lt;Andreas.Weingessel@ci.tuwien.ac.at&gt; Fortran contributions from Cleve Moler dpodi/LINPACK) (<a href="#ref-quadprog">2019</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">QuickJSR</td>
+<td align="left">1.2.2</td>
+<td align="left"><span class="citation">A. R. Johnson (<a href="#ref-QuickJSR">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">R6</td>
+<td align="left">2.5.1</td>
+<td align="left"><span class="citation">Chang (<a href="#ref-R6">2021</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">rappdirs</td>
+<td align="left">0.3.3</td>
+<td align="left"><span class="citation">Ratnakumar, Mick, and Davis (<a href="#ref-rappdirs">2021</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">RColorBrewer</td>
+<td align="left">1.1.3</td>
+<td align="left"><span class="citation">Neuwirth (<a href="#ref-RColorBrewer">2022</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Rcpp</td>
+<td align="left">1.0.12</td>
+<td align="left"><span class="citation">Eddelbuettel and François (<a href="#ref-Rcpp2011">2011</a>)</span>; <span class="citation">Eddelbuettel (<a href="#ref-Rcpp2013">2013</a>)</span>; <span class="citation">Eddelbuettel and Balamuta (<a href="#ref-Rcpp2018">2018</a>)</span>; <span class="citation">Eddelbuettel et al. (<a href="#ref-Rcpp2024">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">RcppEigen</td>
+<td align="left">0.3.4.0.0</td>
+<td align="left"><span class="citation">Bates and Eddelbuettel (<a href="#ref-RcppEigen">2013</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">RcppParallel</td>
+<td align="left">5.1.7</td>
+<td align="left"><span class="citation">Allaire et al. (<a href="#ref-RcppParallel">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">remotes</td>
+<td align="left">2.5.0</td>
+<td align="left"><span class="citation">Csárdi et al. (<a href="#ref-remotes">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">renv</td>
+<td align="left">1.0.11</td>
+<td align="left"><span class="citation">Ushey and Wickham (<a href="#ref-renv">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">reshape2</td>
+<td align="left">1.4.4</td>
+<td align="left"><span class="citation">H. Wickham (<a href="#ref-reshape2">2007</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">rmarkdown</td>
+<td align="left">2.27</td>
+<td align="left"><span class="citation">Xie, Allaire, and Grolemund (<a href="#ref-rmarkdown2018">2018</a>)</span>; <span class="citation">Xie, Dervieux, and Riederer (<a href="#ref-rmarkdown2020">2020</a>)</span>; <span class="citation">Allaire et al. (<a href="#ref-rmarkdown2024">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">rstan</td>
+<td align="left">2.35.0.9000</td>
+<td align="left"><span class="citation">Stan Development Team (<a href="#ref-rstan">n.d.</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">rstantools</td>
+<td align="left">2.4.0</td>
+<td align="left"><span class="citation">Gabry et al. (<a href="#ref-rstantools">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">sandwich</td>
+<td align="left">3.1.1</td>
+<td align="left"><span class="citation">Zeileis (<a href="#ref-sandwich2004">2004</a>)</span>; <span class="citation">Zeileis (<a href="#ref-sandwich2006">2006</a>)</span>; <span class="citation">Zeileis, Köll, and Graham (<a href="#ref-sandwich2020">2020</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">sass</td>
+<td align="left">0.4.9</td>
+<td align="left"><span class="citation">Cheng, Mastny, et al. (<a href="#ref-sass">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">scales</td>
+<td align="left">1.3.0</td>
+<td align="left"><span class="citation">H. Wickham, Pedersen, and Seidel (<a href="#ref-scales">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">shape</td>
+<td align="left">1.4.6.1</td>
+<td align="left"><span class="citation">Soetaert (<a href="#ref-shape">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">StanHeaders</td>
+<td align="left">2.35.0.9000</td>
+<td align="left"><span class="citation">Stan Development Team (<a href="#ref-StanHeaders">2020</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">stringi</td>
+<td align="left">1.8.4</td>
+<td align="left"><span class="citation">Gagolewski (<a href="#ref-stringi">2022</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">svUnit</td>
+<td align="left">1.0.6</td>
+<td align="left"><span class="citation">Grosjean (<a href="#ref-svUnit">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">tensorA</td>
+<td align="left">0.36.2.1</td>
+<td align="left"><span class="citation">van den Boogaart (<a href="#ref-tensorA">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">tidybayes</td>
+<td align="left">3.0.6</td>
+<td align="left"><span class="citation">Kay (<a href="#ref-tidybayes">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">tidyselect</td>
+<td align="left">1.2.1</td>
+<td align="left"><span class="citation">Henry and Wickham (<a href="#ref-tidyselect">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">tidyverse</td>
+<td align="left">2.0.0</td>
+<td align="left"><span class="citation">H. Wickham et al. (<a href="#ref-tidyverse">2019</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">tinytex</td>
+<td align="left">0.51</td>
+<td align="left"><span class="citation">Xie (<a href="#ref-tinytex2019">2019</a>)</span>; <span class="citation">Xie (<a href="#ref-tinytex2024">2024c</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">tzdb</td>
+<td align="left">0.4.0</td>
+<td align="left"><span class="citation">Vaughan (<a href="#ref-tzdb">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">ucminf</td>
+<td align="left">1.2.2</td>
+<td align="left"><span class="citation">Nielsen and Mortensen (<a href="#ref-ucminf">2024</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">utf8</td>
+<td align="left">1.2.4</td>
+<td align="left"><span class="citation">Perry (<a href="#ref-utf8">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">vctrs</td>
+<td align="left">0.6.5</td>
+<td align="left"><span class="citation">H. Wickham, Henry, and Vaughan (<a href="#ref-vctrs">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">viridisLite</td>
+<td align="left">0.4.2</td>
+<td align="left"><span class="citation">Garnier et al. (<a href="#ref-viridisLite">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">vroom</td>
+<td align="left">1.6.5</td>
+<td align="left"><span class="citation">Hester, Wickham, and Bryan (<a href="#ref-vroom">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">withr</td>
+<td align="left">3.0.0</td>
+<td align="left"><span class="citation">Hester et al. (<a href="#ref-withr">2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">xfun</td>
+<td align="left">0.48</td>
+<td align="left"><span class="citation">Xie (<a href="#ref-xfun">2024d</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">xtable</td>
+<td align="left">1.8.4</td>
+<td align="left"><span class="citation">Dahl et al. (<a href="#ref-xtable">2019</a>)</span></td>
+</tr>
+<tr class="even">
+<td align="left">yaml</td>
+<td align="left">2.3.8</td>
+<td align="left"><span class="citation">Garbett et al. (<a href="#ref-yaml">2023</a>)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">zoo</td>
+<td align="left">1.8.12</td>
+<td align="left"><span class="citation">Zeileis and Grothendieck (<a href="#ref-zoo">2005</a>)</span></td>
+</tr>
+</tbody>
+</table>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Allaire, JJ, Romain Francois, Kevin Ushey, Gregory Vandenbrouck, Marcus Geelnard, and Intel. 2023. <em><span>RcppParallel</span>: Parallel Programming Tools for <span>“<span>Rcpp</span>”</span></em>. <a href="https://CRAN.R-project.org/package=RcppParallel">https://CRAN.R-project.org/package=RcppParallel</a>.
+</div>
+<div class="csl-entry">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier Luraschi, Kevin Ushey, Aron Atkins, et al. 2024. <em><span class="nocase">rmarkdown</span>: Dynamic Documents for r</em>. <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div class="csl-entry">
+Analytics, Revolution, and Steve Weston. 2022. <em><span class="nocase">iterators</span>: Provides Iterator Construct</em>. <a href="https://CRAN.R-project.org/package=iterators">https://CRAN.R-project.org/package=iterators</a>.
+</div>
+<div class="csl-entry">
+Antoine Lucas, Dirk Eddelbuettel with contributions by, Jarek Tuszynski, Henrik Bengtsson, Simon Urbanek, Mario Frasca, Bryan Lewis, Murray Stokely, et al. 2024. <em><span class="nocase">digest</span>: Create Compact Hash Digests of r Objects</em>. <a href="https://CRAN.R-project.org/package=digest">https://CRAN.R-project.org/package=digest</a>.
+</div>
+<div class="csl-entry">
+Arel-Bundock, Vincent, Noah Greifer, and Andrew Heiss. Forthcoming. <span>“How to Interpret Statistical Models Using <code>marginaleffects</code> in <code>R</code> and <code>Python</code>.”</span> <em>Journal of Statistical Software</em>, Forthcoming. <a href="https://marginaleffects.com">https://marginaleffects.com</a>.
+</div>
+<div class="csl-entry">
+Auguie, Baptiste. 2017. <em><span class="nocase">gridExtra</span>: Miscellaneous Functions for <span>“<span>Grid</span>”</span> Graphics</em>. <a href="https://CRAN.R-project.org/package=gridExtra">https://CRAN.R-project.org/package=gridExtra</a>.
+</div>
+<div class="csl-entry">
+Barrett, Tyson, Matt Dowle, Arun Srinivasan, Jan Gorecki, Michael Chirico, and Toby Hocking. 2024. <em><span class="nocase">data.table</span>: Extension of <span>“<span class="nocase">data.frame</span>”</span></em>. <a href="https://CRAN.R-project.org/package=data.table">https://CRAN.R-project.org/package=data.table</a>.
+</div>
+<div class="csl-entry">
+Bates, Douglas, and Dirk Eddelbuettel. 2013. <span>“Fast and Elegant Numerical Linear Algebra Using the <span>RcppEigen</span> Package.”</span> <em>Journal of Statistical Software</em> 52 (5): 1–24. <a href="https://doi.org/10.18637/jss.v052.i05">https://doi.org/10.18637/jss.v052.i05</a>.
+</div>
+<div class="csl-entry">
+Bates, Douglas, Martin Mächler, Ben Bolker, and Steve Walker. 2015. <span>“Fitting Linear Mixed-Effects Models Using <span class="nocase">lme4</span>.”</span> <em>Journal of Statistical Software</em> 67 (1): 1–48. <a href="https://doi.org/10.18637/jss.v067.i01">https://doi.org/10.18637/jss.v067.i01</a>.
+</div>
+<div class="csl-entry">
+Bates, Douglas, Katharine M. Mullen, John C. Nash, and Ravi Varadhan. 2024. <em><span class="nocase">minqa</span>: Derivative-Free Optimization Algorithms by Quadratic Approximation</em>. <a href="https://CRAN.R-project.org/package=minqa">https://CRAN.R-project.org/package=minqa</a>.
+</div>
+<div class="csl-entry">
+Beleites, C. 2020. <em><span class="nocase">arrayhelpers</span>: Convenience Functions for Arrays</em>. <a href="https://CRAN.R-project.org/package=arrayhelpers">https://CRAN.R-project.org/package=arrayhelpers</a>.
+</div>
+<div class="csl-entry">
+Bengtsson, Henrik. 2021. <span>“A Unifying Framework for Parallel and Distributed Processing in r Using Futures.”</span> <em>The R Journal</em> 13 (2): 208–27. <a href="https://doi.org/10.32614/RJ-2021-048">https://doi.org/10.32614/RJ-2021-048</a>.
+</div>
+<div class="csl-entry">
+———. 2024a. <em><span class="nocase">globals</span>: Identify Global Objects in r Expressions</em>. <a href="https://CRAN.R-project.org/package=globals">https://CRAN.R-project.org/package=globals</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <em><span class="nocase">listenv</span>: Environments Behaving (Almost) as Lists</em>. <a href="https://CRAN.R-project.org/package=listenv">https://CRAN.R-project.org/package=listenv</a>.
+</div>
+<div class="csl-entry">
+———. 2024c. <em><span class="nocase">matrixStats</span>: Functions That Apply to Rows and Columns of Matrices (and to Vectors)</em>. <a href="https://CRAN.R-project.org/package=matrixStats">https://CRAN.R-project.org/package=matrixStats</a>.
+</div>
+<div class="csl-entry">
+———. 2024d. <em><span class="nocase">parallelly</span>: Enhancing the <span>“<span class="nocase">parallel</span>”</span> Package</em>. <a href="https://CRAN.R-project.org/package=parallelly">https://CRAN.R-project.org/package=parallelly</a>.
+</div>
+<div class="csl-entry">
+Berwin A. Turlach R port by Andreas Weingessel &lt;Andreas.Weingessel@ci.tuwien.ac.at&gt; Fortran contributions from Cleve Moler dpodi/LINPACK), S original by. 2019. <em><span class="nocase">quadprog</span>: Functions to Solve Quadratic Programming Problems</em>. <a href="https://CRAN.R-project.org/package=quadprog">https://CRAN.R-project.org/package=quadprog</a>.
+</div>
+<div class="csl-entry">
+Bürkner, Paul-Christian. 2017. <span>“<span class="nocase">brms</span>: An <span>R</span> Package for <span>Bayesian</span> Multilevel Models Using <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 80 (1): 1–28. <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a>.
+</div>
+<div class="csl-entry">
+———. 2018. <span>“Advanced <span>Bayesian</span> Multilevel Modeling with the <span>R</span> Package <span class="nocase">brms</span>.”</span> <em>The R Journal</em> 10 (1): 395–411. <a href="https://doi.org/10.32614/RJ-2018-017">https://doi.org/10.32614/RJ-2018-017</a>.
+</div>
+<div class="csl-entry">
+———. 2021. <span>“Bayesian Item Response Modeling in <span>R</span> with <span class="nocase">brms</span> and <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 100 (5): 1–54. <a href="https://doi.org/10.18637/jss.v100.i05">https://doi.org/10.18637/jss.v100.i05</a>.
+</div>
+<div class="csl-entry">
+Bürkner, Paul-Christian, Jonah Gabry, Matthew Kay, and Aki Vehtari. 2023. <span>“<span class="nocase">posterior</span>: Tools for Working with Posterior Distributions.”</span> <a href="https://mc-stan.org/posterior/">https://mc-stan.org/posterior/</a>.
+</div>
+<div class="csl-entry">
+Chang, Winston. 2021. <em>R6: Encapsulated Classes with Reference Semantics</em>. <a href="https://CRAN.R-project.org/package=R6">https://CRAN.R-project.org/package=R6</a>.
+</div>
+<div class="csl-entry">
+———. 2024a. <em><span class="nocase">cachem</span>: Cache r Objects with Automatic Pruning</em>. <a href="https://CRAN.R-project.org/package=cachem">https://CRAN.R-project.org/package=cachem</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <em><span class="nocase">fastmap</span>: Fast Data Structures</em>. <a href="https://CRAN.R-project.org/package=fastmap">https://CRAN.R-project.org/package=fastmap</a>.
+</div>
+<div class="csl-entry">
+Cheng, Joe, Timothy Mastny, Richard Iannone, Barret Schloerke, and Carson Sievert. 2024. <em><span class="nocase">sass</span>: Syntactically Awesome Style Sheets (<span>“<span>Sass</span>”</span>)</em>. <a href="https://CRAN.R-project.org/package=sass">https://CRAN.R-project.org/package=sass</a>.
+</div>
+<div class="csl-entry">
+Cheng, Joe, Carson Sievert, Barret Schloerke, Winston Chang, Yihui Xie, and Jeff Allen. 2024. <em><span class="nocase">htmltools</span>: Tools for HTML</em>. <a href="https://CRAN.R-project.org/package=htmltools">https://CRAN.R-project.org/package=htmltools</a>.
+</div>
+<div class="csl-entry">
+Christensen, Rune H. B. 2023. <em>Ordinal—Regression Models for Ordinal Data</em>. <a href="https://CRAN.R-project.org/package=ordinal">https://CRAN.R-project.org/package=ordinal</a>.
+</div>
+<div class="csl-entry">
+Cohen, Jessica, Pascaline Dupas, and Simone Schaner. 2015. <span>“Price Subsidies, Diagnostic Tests, and Targeting of Malaria Treatment: Evidence from a Randomized Controlled Trial.”</span> <em>American Economic Review</em> 105 (2): 609–45.
+</div>
+<div class="csl-entry">
+Csardi, Gabor. 2023. <em><span class="nocase">prettyunits</span>: Pretty, Human Readable Formatting of Quantities</em>. <a href="https://CRAN.R-project.org/package=prettyunits">https://CRAN.R-project.org/package=prettyunits</a>.
+</div>
+<div class="csl-entry">
+Csárdi, Gábor. 2019. <em><span class="nocase">pkgconfig</span>: Private Configuration for <span>“<span>R</span>”</span> Packages</em>. <a href="https://CRAN.R-project.org/package=pkgconfig">https://CRAN.R-project.org/package=pkgconfig</a>.
+</div>
+<div class="csl-entry">
+———. 2024. <em><span class="nocase">crayon</span>: Colored Terminal Output</em>. <a href="https://CRAN.R-project.org/package=crayon">https://CRAN.R-project.org/package=crayon</a>.
+</div>
+<div class="csl-entry">
+Csárdi, Gábor, and Winston Chang. 2024a. <em><span class="nocase">callr</span>: Call r from r</em>. <a href="https://CRAN.R-project.org/package=callr">https://CRAN.R-project.org/package=callr</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <em><span class="nocase">processx</span>: Execute and Control System Processes</em>. <a href="https://CRAN.R-project.org/package=processx">https://CRAN.R-project.org/package=processx</a>.
+</div>
+<div class="csl-entry">
+Csárdi, Gábor, and Rich FitzJohn. 2023. <em><span class="nocase">progress</span>: Terminal Progress Bars</em>. <a href="https://CRAN.R-project.org/package=progress">https://CRAN.R-project.org/package=progress</a>.
+</div>
+<div class="csl-entry">
+Csárdi, Gábor, Jim Hester, Hadley Wickham, Winston Chang, Martin Morgan, and Dan Tenenbaum. 2024. <em><span class="nocase">remotes</span>: R Package Installation from Remote Repositories, Including <span>“<span>GitHub</span>”</span></em>. <a href="https://CRAN.R-project.org/package=remotes">https://CRAN.R-project.org/package=remotes</a>.
+</div>
+<div class="csl-entry">
+Csárdi, Gábor, Kirill Müller, and Jim Hester. 2023. <em><span class="nocase">desc</span>: Manipulate DESCRIPTION Files</em>. <a href="https://CRAN.R-project.org/package=desc">https://CRAN.R-project.org/package=desc</a>.
+</div>
+<div class="csl-entry">
+Dahl, David B., David Scott, Charles Roosen, Arni Magnusson, and Jonathan Swinton. 2019. <em><span class="nocase">xtable</span>: Export Tables to LaTeX or HTML</em>. <a href="https://CRAN.R-project.org/package=xtable">https://CRAN.R-project.org/package=xtable</a>.
+</div>
+<div class="csl-entry">
+Eddelbuettel, Dirk. 2013. <em>Seamless <span>R</span> and <span>C++</span> Integration with <span>Rcpp</span></em>. New York: Springer. <a href="https://doi.org/10.1007/978-1-4614-6868-4">https://doi.org/10.1007/978-1-4614-6868-4</a>.
+</div>
+<div class="csl-entry">
+Eddelbuettel, Dirk, and James Joseph Balamuta. 2018. <span>“<span class="nocase">Extending <span>R</span> with <span>C++</span>: A Brief Introduction to <span>Rcpp</span></span>.”</span> <em>The American Statistician</em> 72 (1): 28–36. <a href="https://doi.org/10.1080/00031305.2017.1375990">https://doi.org/10.1080/00031305.2017.1375990</a>.
+</div>
+<div class="csl-entry">
+Eddelbuettel, Dirk, John W. Emerson, and Michael J. Kane. 2024. <em><span>BH</span>: Boost c++ Header Files</em>. <a href="https://CRAN.R-project.org/package=BH">https://CRAN.R-project.org/package=BH</a>.
+</div>
+<div class="csl-entry">
+Eddelbuettel, Dirk, Romain Francois, JJ Allaire, Kevin Ushey, Qiang Kou, Nathan Russell, Inaki Ucar, Douglas Bates, and John Chambers. 2024. <em><span>Rcpp</span>: Seamless r and c++ Integration</em>. <a href="https://CRAN.R-project.org/package=Rcpp">https://CRAN.R-project.org/package=Rcpp</a>.
+</div>
+<div class="csl-entry">
+Eddelbuettel, Dirk, and Romain François. 2011. <span>“<span>Rcpp</span>: Seamless <span>R</span> and <span>C++</span> Integration.”</span> <em>Journal of Statistical Software</em> 40 (8): 1–18. <a href="https://doi.org/10.18637/jss.v040.i08">https://doi.org/10.18637/jss.v040.i08</a>.
+</div>
+<div class="csl-entry">
+Friedman, Jerome, Robert Tibshirani, and Trevor Hastie. 2010. <span>“Regularization Paths for Generalized Linear Models via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
+</div>
+<div class="csl-entry">
+Gabry, Jonah, Ben Goodrich, Martin Lysy, and Andrew Johnson. 2024. <em><span class="nocase">rstantools</span>: Tools for Developing r Packages Interfacing with <span>“<span>Stan</span>”</span></em>. <a href="https://CRAN.R-project.org/package=rstantools">https://CRAN.R-project.org/package=rstantools</a>.
+</div>
+<div class="csl-entry">
+Gabry, Jonah, and Tristan Mahr. 2024. <span>“<span class="nocase">bayesplot</span>: Plotting for Bayesian Models.”</span> <a href="https://mc-stan.org/bayesplot/">https://mc-stan.org/bayesplot/</a>.
+</div>
+<div class="csl-entry">
+Gabry, Jonah, Daniel Simpson, Aki Vehtari, Michael Betancourt, and Andrew Gelman. 2019. <span>“Visualization in Bayesian Workflow.”</span> <em>J. R. Stat. Soc. A</em> 182: 389–402. <a href="https://doi.org/10.1111/rssa.12378">https://doi.org/10.1111/rssa.12378</a>.
+</div>
+<div class="csl-entry">
+Gagolewski, Marek. 2022. <span>“<span class="nocase">stringi</span>: <span>F</span>ast and Portable Character String Processing in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 103 (2): 1–59. <a href="https://doi.org/10.18637/jss.v103.i02">https://doi.org/10.18637/jss.v103.i02</a>.
+</div>
+<div class="csl-entry">
+Garbett, Shawn P, Jeremy Stephens, Kirill Simonov, Yihui Xie, Zhuoer Dong, Hadley Wickham, Jeffrey Horner, et al. 2023. <em><span class="nocase">yaml</span>: Methods to Convert r Data to YAML and Back</em>. <a href="https://CRAN.R-project.org/package=yaml">https://CRAN.R-project.org/package=yaml</a>.
+</div>
+<div class="csl-entry">
+Garnier, Simon, Ross, Noam, Rudis, Robert, Camargo, et al. 2023. <em><span class="nocase">viridis(Lite)</span> - Colorblind-Friendly Color Maps for r</em>. <a href="https://doi.org/10.5281/zenodo.4678327">https://doi.org/10.5281/zenodo.4678327</a>.
+</div>
+<div class="csl-entry">
+Gaslam, Brodie. 2023. <em><span class="nocase">fansi</span>: ANSI Control Sequence Aware String Functions</em>. <a href="https://CRAN.R-project.org/package=fansi">https://CRAN.R-project.org/package=fansi</a>.
+</div>
+<div class="csl-entry">
+Genz, Alan, and Frank Bretz. 2009. <em>Computation of Multivariate Normal and t Probabilities</em>. Lecture Notes in Statistics. Heidelberg: Springer-Verlag.
+</div>
+<div class="csl-entry">
+Gilbert, Paul, and Ravi Varadhan. 2019. <em><span class="nocase">numDeriv</span>: Accurate Numerical Derivatives</em>. <a href="https://CRAN.R-project.org/package=numDeriv">https://CRAN.R-project.org/package=numDeriv</a>.
+</div>
+<div class="csl-entry">
+Greifer, Noah. 2024. <em><span class="nocase">cobalt</span>: Covariate Balance Tables and Plots</em>. <a href="https://CRAN.R-project.org/package=cobalt">https://CRAN.R-project.org/package=cobalt</a>.
+</div>
+<div class="csl-entry">
+Gronau, Quentin F., Henrik Singmann, and Eric-Jan Wagenmakers. 2020. <span>“<span class="nocase">bridgesampling</span>: An <span>R</span> Package for Estimating Normalizing Constants.”</span> <em>Journal of Statistical Software</em> 92 (10): 1–29. <a href="https://doi.org/10.18637/jss.v092.i10">https://doi.org/10.18637/jss.v092.i10</a>.
+</div>
+<div class="csl-entry">
+Grosjean, Philippe. 2024. <em>SciViews-r</em>. MONS, Belgium: UMONS. <a href="https://www.sciviews.org/SciViews-R/">https://www.sciviews.org/SciViews-R/</a>.
+</div>
+<div class="csl-entry">
+Grund, Simon, Alexander Robitzsch, and Oliver Luedtke. 2023. <em><span class="nocase">mitml</span>: Tools for Multiple Imputation in Multilevel Modeling</em>. <a href="https://CRAN.R-project.org/package=mitml">https://CRAN.R-project.org/package=mitml</a>.
+</div>
+<div class="csl-entry">
+Hankin, R. K. S. 2007. <span>“Very Large Numbers in r: Introducing Package Brobdingnag.”</span> <em>R News</em> 7.
+</div>
+<div class="csl-entry">
+Hasselman, Berend. 2023. <em><span class="nocase">nleqslv</span>: Solve Systems of Nonlinear Equations</em>. <a href="https://CRAN.R-project.org/package=nleqslv">https://CRAN.R-project.org/package=nleqslv</a>.
+</div>
+<div class="csl-entry">
+Henry, Lionel, and Hadley Wickham. 2023. <em><span class="nocase">lifecycle</span>: Manage the Life Cycle of Your Package Functions</em>. <a href="https://CRAN.R-project.org/package=lifecycle">https://CRAN.R-project.org/package=lifecycle</a>.
+</div>
+<div class="csl-entry">
+———. 2024. <em><span class="nocase">tidyselect</span>: Select from a Set of Strings</em>. <a href="https://CRAN.R-project.org/package=tidyselect">https://CRAN.R-project.org/package=tidyselect</a>.
+</div>
+<div class="csl-entry">
+Hester, Jim, and Jennifer Bryan. 2024. <em><span class="nocase">glue</span>: Interpreted String Literals</em>. <a href="https://CRAN.R-project.org/package=glue">https://CRAN.R-project.org/package=glue</a>.
+</div>
+<div class="csl-entry">
+Hester, Jim, Lionel Henry, Kirill Müller, Kevin Ushey, Hadley Wickham, and Winston Chang. 2024. <em><span class="nocase">withr</span>: Run Code <span>“<span>With</span>”</span> Temporarily Modified Global State</em>. <a href="https://CRAN.R-project.org/package=withr">https://CRAN.R-project.org/package=withr</a>.
+</div>
+<div class="csl-entry">
+Hester, Jim, Hadley Wickham, and Jennifer Bryan. 2023. <em><span class="nocase">vroom</span>: Read and Write Rectangular Text Data Quickly</em>. <a href="https://CRAN.R-project.org/package=vroom">https://CRAN.R-project.org/package=vroom</a>.
+</div>
+<div class="csl-entry">
+Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2024. <em><span class="nocase">fs</span>: Cross-Platform File System Operations Based on <span>“<span class="nocase">libuv</span>”</span></em>. <a href="https://CRAN.R-project.org/package=fs">https://CRAN.R-project.org/package=fs</a>.
+</div>
+<div class="csl-entry">
+Huntington-Klein, Nick, and Malcolm Barrett. 2024. <em><span class="nocase">causaldata</span>: Example Data Sets for Causal Inference Textbooks</em>. <a href="https://CRAN.R-project.org/package=causaldata">https://CRAN.R-project.org/package=causaldata</a>.
+</div>
+<div class="csl-entry">
+Iannone, Richard. 2023. <em><span class="nocase">fontawesome</span>: Easily Work with <span>“<span>Font Awesome</span>”</span> Icons</em>. <a href="https://CRAN.R-project.org/package=fontawesome">https://CRAN.R-project.org/package=fontawesome</a>.
+</div>
+<div class="csl-entry">
+Johnson, Andrew R. 2024. <em><span>QuickJSR</span>: Interface for the <span>“<span>QuickJS</span>”</span> Lightweight <span>“<span>JavaScript</span>”</span> Engine</em>. <a href="https://CRAN.R-project.org/package=QuickJSR">https://CRAN.R-project.org/package=QuickJSR</a>.
+</div>
+<div class="csl-entry">
+Johnson, Steven G. 2008. <em>The NLopt Nonlinear-Optimization Package</em>. <a href="https://github.com/stevengj/nlopt">https://github.com/stevengj/nlopt</a>.
+</div>
+<div class="csl-entry">
+Justin Talbot. 2023. <em><span class="nocase">labeling</span>: Axis Labeling</em>. <a href="https://CRAN.R-project.org/package=labeling">https://CRAN.R-project.org/package=labeling</a>.
+</div>
+<div class="csl-entry">
+Kay, Matthew. 2023. <em><span class="nocase">tidybayes</span>: Tidy Data and Geoms for <span>Bayesian</span> Models</em>. <a href="https://doi.org/10.5281/zenodo.1308151">https://doi.org/10.5281/zenodo.1308151</a>.
+</div>
+<div class="csl-entry">
+———. 2024a. <em><span class="nocase">ggdist</span>: Visualizations of Distributions and Uncertainty</em>. <a href="https://doi.org/10.5281/zenodo.3879620">https://doi.org/10.5281/zenodo.3879620</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <span>“<span class="nocase">ggdist</span>: Visualizations of Distributions and Uncertainty in the Grammar of Graphics.”</span> <em>IEEE Transactions on Visualization and Computer Graphics</em> 30 (1): 414–24. <a href="https://doi.org/10.1109/TVCG.2023.3327195">https://doi.org/10.1109/TVCG.2023.3327195</a>.
+</div>
+<div class="csl-entry">
+Kurz, A. Solomon. 2023. <em>Statistical Rethinking with Brms, Ggplot2, and the Tidyverse: <span>Second</span> Edition</em>. Version 0.4.0. <a href="https://bookdown.org/content/4857/">https://bookdown.org/content/4857/</a>.
+</div>
+<div class="csl-entry">
+Lang, Martin, Benjamin G Purzycki, Coren L Apicella, Quentin D Atkinson, Alexander Bolyanatz, Emma Cohen, Carla Handley, et al. 2019. <span>“Moralizing Gods, Impartiality and Religious Parochialism Across 15 Societies.”</span> <em>Proceedings of the Royal Society B</em> 286 (1898): 20190202.
+</div>
+<div class="csl-entry">
+Lang, Michel. 2017. <span>“<span class="nocase">checkmate</span>: Fast Argument Checks for Defensive <span>R</span> Programming.”</span> <em>The R Journal</em> 9 (1): 437–45. <a href="https://doi.org/10.32614/RJ-2017-028">https://doi.org/10.32614/RJ-2017-028</a>.
+</div>
+<div class="csl-entry">
+Lang, Michel, Duncan Murdoch, and R Core Team. 2024. <em><span class="nocase">backports</span>: Reimplementations of Functions Introduced Since r-3.0.0</em>. <a href="https://CRAN.R-project.org/package=backports">https://CRAN.R-project.org/package=backports</a>.
+</div>
+<div class="csl-entry">
+Lenth, Russell. 2024. <em><span class="nocase">estimability</span>: Tools for Assessing Estimability of Linear Predictions</em>. <a href="https://CRAN.R-project.org/package=estimability">https://CRAN.R-project.org/package=estimability</a>.
+</div>
+<div class="csl-entry">
+Lenth, Russell V. 2024. <em><span class="nocase">emmeans</span>: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://CRAN.R-project.org/package=emmeans">https://CRAN.R-project.org/package=emmeans</a>.
+</div>
+<div class="csl-entry">
+Lincoln, Matthew. 2022. <em><span class="nocase">clipr</span>: Read and Write from the System Clipboard</em>. <a href="https://CRAN.R-project.org/package=clipr">https://CRAN.R-project.org/package=clipr</a>.
+</div>
+<div class="csl-entry">
+Loden, Jay, Dave Daeschler, Giampaolo Rodola’, and Gábor Csárdi. 2024. <em><span class="nocase">ps</span>: List, Query, Manipulate System Processes</em>. <a href="https://CRAN.R-project.org/package=ps">https://CRAN.R-project.org/package=ps</a>.
+</div>
+<div class="csl-entry">
+Lüdecke, Daniel, Philip Waggoner, and Dominique Makowski. 2019. <span>“<span class="nocase">insight</span>: A Unified Interface to Access Information from Model Objects in <span>R</span>.”</span> <em>Journal of Open Source Software</em> 4 (38): 1412. <a href="https://doi.org/10.21105/joss.01412">https://doi.org/10.21105/joss.01412</a>.
+</div>
+<div class="csl-entry">
+McElreath, Richard. 2020. <em>Statistical <span>Rethinking</span>: <span>A</span> <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. Second. CRC Press.
+</div>
+<div class="csl-entry">
+Microsoft, and Steve Weston. 2022. <em><span class="nocase">foreach</span>: Provides Foreach Looping Construct</em>. <a href="https://CRAN.R-project.org/package=foreach">https://CRAN.R-project.org/package=foreach</a>.
+</div>
+<div class="csl-entry">
+Miles, Andrew. 2016. <span>“Obtaining Predictions from Models Fit to Multiply Imputed Data.”</span> <em>Sociological Methods &amp; Research</em> 45 (1): 175–85. <a href="https://doi.org/10.1177/0049124115610345">https://doi.org/10.1177/0049124115610345</a>.
+</div>
+<div class="csl-entry">
+Neuwirth, Erich. 2022. <em><span>RColorBrewer</span>: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.
+</div>
+<div class="csl-entry">
+Nielsen, Hans Bruun, and Stig Bousgaard Mortensen. 2024. <em><span class="nocase">ucminf</span>: General-Purpose Unconstrained Non-Linear Optimization</em>. <a href="https://CRAN.R-project.org/package=ucminf">https://CRAN.R-project.org/package=ucminf</a>.
+</div>
+<div class="csl-entry">
+O’Hara-Wild, Mitchell, Matthew Kay, and Alex Hayes. 2024. <em><span class="nocase">distributional</span>: Vectorised Probability Distributions</em>. <a href="https://CRAN.R-project.org/package=distributional">https://CRAN.R-project.org/package=distributional</a>.
+</div>
+<div class="csl-entry">
+Oehlschlägel, Jens. 2024a. <em><span class="nocase">bit</span>: Classes and Methods for Fast Memory-Efficient Boolean Selections</em>. <a href="https://CRAN.R-project.org/package=bit">https://CRAN.R-project.org/package=bit</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <em>Bit64: A S3 Class for Vectors of 64bit Integers</em>. <a href="https://CRAN.R-project.org/package=bit64">https://CRAN.R-project.org/package=bit64</a>.
+</div>
+<div class="csl-entry">
+Pedersen, Thomas Lin. 2024. <em><span class="nocase">patchwork</span>: The Composer of Plots</em>. <a href="https://CRAN.R-project.org/package=patchwork">https://CRAN.R-project.org/package=patchwork</a>.
+</div>
+<div class="csl-entry">
+Pedersen, Thomas Lin, Berendea Nicolae, and Romain François. 2024. <em><span class="nocase">farver</span>: High Performance Colour Space Manipulation</em>. <a href="https://CRAN.R-project.org/package=farver">https://CRAN.R-project.org/package=farver</a>.
+</div>
+<div class="csl-entry">
+Perry, Patrick O. 2023. <em>Utf8: Unicode Text Processing</em>. <a href="https://CRAN.R-project.org/package=utf8">https://CRAN.R-project.org/package=utf8</a>.
+</div>
+<div class="csl-entry">
+Plate, Tony, and Richard Heiberger. 2016. <em><span class="nocase">abind</span>: Combine Multidimensional Arrays</em>. <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
+</div>
+<div class="csl-entry">
+Plummer, Martyn, Nicky Best, Kate Cowles, and Karen Vines. 2006. <span>“<span>CODA</span>: Convergence Diagnosis and Output Analysis for MCMC.”</span> <em>R News</em> 6 (1): 7–11. <a href="https://journal.r-project.org/archive/">https://journal.r-project.org/archive/</a>.
+</div>
+<div class="csl-entry">
+Quartagno, Matteo, and James Carpenter. 2023. <em><span class="nocase">jomo</span>: A Package for Multilevel Joint Modelling Multiple Imputation</em>. <a href="https://CRAN.R-project.org/package=jomo">https://CRAN.R-project.org/package=jomo</a>.
+</div>
+<div class="csl-entry">
+R Core Team. 2024. <em><span>R</span>: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div class="csl-entry">
+Ratnakumar, Sridhar, Trent Mick, and Trevor Davis. 2021. <em><span class="nocase">rappdirs</span>: Application Directories: Determine Where to Save Data, Caches, and Logs</em>. <a href="https://CRAN.R-project.org/package=rappdirs">https://CRAN.R-project.org/package=rappdirs</a>.
+</div>
+<div class="csl-entry">
+Sievert, Carson, and Joe Cheng. 2021. <em><span class="nocase">jquerylib</span>: Obtain <span>“<span class="nocase">jQuery</span>”</span> as an HTML Dependency Object</em>. <a href="https://CRAN.R-project.org/package=jquerylib">https://CRAN.R-project.org/package=jquerylib</a>.
+</div>
+<div class="csl-entry">
+Sievert, Carson, Joe Cheng, and Garrick Aden-Buie. 2024. <em><span class="nocase">bslib</span>: Custom <span>“<span>Bootstrap</span>”</span> <span>“<span>Sass</span>”</span> Themes for <span>“<span class="nocase">shiny</span>”</span> and <span>“<span class="nocase">rmarkdown</span>”</span></em>. <a href="https://CRAN.R-project.org/package=bslib">https://CRAN.R-project.org/package=bslib</a>.
+</div>
+<div class="csl-entry">
+Simon, Noah, Jerome Friedman, Robert Tibshirani, and Trevor Hastie. 2011. <span>“Regularization Paths for Cox’s Proportional Hazards Model via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 39 (5): 1–13. <a href="https://doi.org/10.18637/jss.v039.i05">https://doi.org/10.18637/jss.v039.i05</a>.
+</div>
+<div class="csl-entry">
+Sklyar, Oleg, Duncan Murdoch, Mike Smith, Dirk Eddelbuettel, Romain Francois, Karline Soetaert, and Johannes Ranke. 2021. <em><span class="nocase">inline</span>: Functions to Inline c, c++, Fortran Function Calls from r</em>. <a href="https://CRAN.R-project.org/package=inline">https://CRAN.R-project.org/package=inline</a>.
+</div>
+<div class="csl-entry">
+Soetaert, Karline. 2024. <em><span class="nocase">shape</span>: Functions for Plotting Graphical Shapes, Colors</em>. <a href="https://CRAN.R-project.org/package=shape">https://CRAN.R-project.org/package=shape</a>.
+</div>
+<div class="csl-entry">
+Stan Development Team. 2020. <span>“<span>StanHeaders</span>: Headers for the <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
+</div>
+<div class="csl-entry">
+———. n.d. <span>“<span>RStan</span>: The <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
+</div>
+<div class="csl-entry">
+Stauffer, Reto, Georg J. Mayr, Markus Dabernig, and Achim Zeileis. 2009. <span>“Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations.”</span> <em>Bulletin of the American Meteorological Society</em> 96 (2): 203–16. <a href="https://doi.org/10.1175/BAMS-D-13-00155.1">https://doi.org/10.1175/BAMS-D-13-00155.1</a>.
+</div>
+<div class="csl-entry">
+Tay, J. Kenneth, Balasubramanian Narasimhan, and Trevor Hastie. 2023. <span>“Elastic Net Regularization Paths for All Generalized Linear Models.”</span> <em>Journal of Statistical Software</em> 106 (1): 1–31. <a href="https://doi.org/10.18637/jss.v106.i01">https://doi.org/10.18637/jss.v106.i01</a>.
+</div>
+<div class="csl-entry">
+Thorley, Joe, Kirill Müller, and Ayla Pearson. 2024. <em><span class="nocase">chk</span>: Check User-Supplied Function Arguments</em>. <a href="https://CRAN.R-project.org/package=chk">https://CRAN.R-project.org/package=chk</a>.
+</div>
+<div class="csl-entry">
+Urbanek, Simon. 2015. <em>Base64enc: Tools for Base64 Encoding</em>. <a href="https://CRAN.R-project.org/package=base64enc">https://CRAN.R-project.org/package=base64enc</a>.
+</div>
+<div class="csl-entry">
+Ushey, Kevin, and Hadley Wickham. 2024. <em><span class="nocase">renv</span>: Project Environments</em>. <a href="https://CRAN.R-project.org/package=renv">https://CRAN.R-project.org/package=renv</a>.
+</div>
+<div class="csl-entry">
+van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“<span class="nocase">mice</span>: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="https://doi.org/10.18637/jss.v045.i03">https://doi.org/10.18637/jss.v045.i03</a>.
+</div>
+<div class="csl-entry">
+van den Boogaart, K. Gerald. 2023. <em><span class="nocase">tensorA</span>: Advanced Tensor Arithmetic with Named Indices</em>. <a href="https://CRAN.R-project.org/package=tensorA">https://CRAN.R-project.org/package=tensorA</a>.
+</div>
+<div class="csl-entry">
+VanderWeele, Tyler J, John W Jackson, and Shanshan Li. 2016. <span>“Causal Inference and Longitudinal Data: <span>A</span> Case Study of Religion and Mental Health.”</span> <em>Social Psychiatry and Psychiatric Epidemiology</em> 51: 1457–66.
+</div>
+<div class="csl-entry">
+Vaughan, Davis. 2023. <em><span class="nocase">tzdb</span>: Time Zone Database Information</em>. <a href="https://CRAN.R-project.org/package=tzdb">https://CRAN.R-project.org/package=tzdb</a>.
+</div>
+<div class="csl-entry">
+Vaughan, Davis, Jim Hester, and Romain François. 2023. <em>Cpp11: A c++11 Interface for r’s c Interface</em>. <a href="https://CRAN.R-project.org/package=cpp11">https://CRAN.R-project.org/package=cpp11</a>.
+</div>
+<div class="csl-entry">
+Vehtari, Aki, Jonah Gabry, Måns Magnusson, Yuling Yao, Paul-Christian Bürkner, Topi Paananen, and Andrew Gelman. 2024. <span>“<span class="nocase">loo</span>: Efficient Leave-One-Out Cross-Validation and WAIC for Bayesian Models.”</span> <a href="https://mc-stan.org/loo/">https://mc-stan.org/loo/</a>.
+</div>
+<div class="csl-entry">
+Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical Bayesian Model Evaluation Using Leave-One-Out Cross-Validation and WAIC.”</span> <em>Statistics and Computing</em> 27: 1413–32. <a href="https://doi.org/10.1007/s11222-016-9696-4">https://doi.org/10.1007/s11222-016-9696-4</a>.
+</div>
+<div class="csl-entry">
+Vehtari, Aki, Andrew Gelman, Daniel Simpson, Bob Carpenter, and Paul-Christian Bürkner. 2021. <span>“Rank-Normalization, Folding, and Localization: An Improved Rhat for Assessing Convergence of MCMC (with Discussion).”</span> <em>Bayesian Analysis</em>.
+</div>
+<div class="csl-entry">
+Wickham, Charlotte. 2024. <em><span class="nocase">munsell</span>: Utilities for Using Munsell Colours</em>. <a href="https://CRAN.R-project.org/package=munsell">https://CRAN.R-project.org/package=munsell</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley. 2007. <span>“Reshaping Data with the <span class="nocase">reshape</span> Package.”</span> <em>Journal of Statistical Software</em> 21 (12): 1–20. <a href="http://www.jstatsoft.org/v21/i12/">http://www.jstatsoft.org/v21/i12/</a>.
+</div>
+<div class="csl-entry">
+———. 2011. <span>“The Split-Apply-Combine Strategy for Data Analysis.”</span> <em>Journal of Statistical Software</em> 40 (1): 1–29. <a href="https://www.jstatsoft.org/v40/i01/">https://www.jstatsoft.org/v40/i01/</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Lionel Henry, and Davis Vaughan. 2023. <em><span class="nocase">vctrs</span>: Vector Helpers</em>. <a href="https://CRAN.R-project.org/package=vctrs">https://CRAN.R-project.org/package=vctrs</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Jim Hester, Winston Chang, Kirill Müller, and Daniel Cook. 2021. <em><span class="nocase">memoise</span>: <span>“<span>Memoisation</span>”</span> of Functions</em>. <a href="https://CRAN.R-project.org/package=memoise">https://CRAN.R-project.org/package=memoise</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Jim Hester, and Gábor Csárdi. 2024. <em><span class="nocase">pkgbuild</span>: Find Tools Needed to Build r Packages</em>. <a href="https://CRAN.R-project.org/package=pkgbuild">https://CRAN.R-project.org/package=pkgbuild</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Max Kuhn, and Davis Vaughan. 2022. <em><span class="nocase">generics</span>: Common S3 Generics Not Provided by Base r Methods Related to Model Fitting</em>. <a href="https://CRAN.R-project.org/package=generics">https://CRAN.R-project.org/package=generics</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, and Thomas Lin Pedersen. 2024. <em><span class="nocase">gtable</span>: Arrange <span>“<span>Grobs</span>”</span> in Tables</em>. <a href="https://CRAN.R-project.org/package=gtable">https://CRAN.R-project.org/package=gtable</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Thomas Lin Pedersen, and Dana Seidel. 2023. <em><span class="nocase">scales</span>: Scale Functions for Visualization</em>. <a href="https://CRAN.R-project.org/package=scales">https://CRAN.R-project.org/package=scales</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, Claus O. Wilke, and Thomas Lin Pedersen. 2022. <em><span class="nocase">isoband</span>: Generate Isolines and Isobands from Regularly Spaced Elevation Grids</em>. <a href="https://CRAN.R-project.org/package=isoband">https://CRAN.R-project.org/package=isoband</a>.
+</div>
+<div class="csl-entry">
+Wickham, Hadley, and Yihui Xie. 2024. <em><span class="nocase">evaluate</span>: Parsing and Evaluation Tools That Provide More Details Than the Default</em>. <a href="https://CRAN.R-project.org/package=evaluate">https://CRAN.R-project.org/package=evaluate</a>.
+</div>
+<div class="csl-entry">
+Wilke, Claus O. 2024. <em><span class="nocase">ggridges</span>: Ridgeline Plots in <span>“<span class="nocase">ggplot2</span>”</span></em>. <a href="https://CRAN.R-project.org/package=ggridges">https://CRAN.R-project.org/package=ggridges</a>.
+</div>
+<div class="csl-entry">
+Xie, Yihui. 2014. <span>“<span class="nocase">knitr</span>: A Comprehensive Tool for Reproducible Research in <span>R</span>.”</span> In <em>Implementing Reproducible Computational Research</em>, edited by Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman; Hall/CRC.
+</div>
+<div class="csl-entry">
+———. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div class="csl-entry">
+———. 2016. <em><span class="nocase">bookdown</span>: Authoring Books and Technical Documents with <span>R</span> Markdown</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/bookdown">https://bookdown.org/yihui/bookdown</a>.
+</div>
+<div class="csl-entry">
+———. 2019. <span>“<span>TinyTeX</span>: A Lightweight, Cross-Platform, and Easy-to-Maintain LaTeX Distribution Based on TeX Live.”</span> <em>TUGboat</em> 40 (1): 30–32. <a href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</a>.
+</div>
+<div class="csl-entry">
+———. 2021. <em><span class="nocase">mime</span>: Map Filenames to MIME Types</em>. <a href="https://CRAN.R-project.org/package=mime">https://CRAN.R-project.org/package=mime</a>.
+</div>
+<div class="csl-entry">
+———. 2024a. <em><span class="nocase">bookdown</span>: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.
+</div>
+<div class="csl-entry">
+———. 2024b. <em><span class="nocase">knitr</span>: A General-Purpose Package for Dynamic Report Generation in r</em>. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div class="csl-entry">
+———. 2024c. <em><span class="nocase">tinytex</span>: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents</em>. <a href="https://github.com/rstudio/tinytex">https://github.com/rstudio/tinytex</a>.
+</div>
+<div class="csl-entry">
+———. 2024d. <em><span class="nocase">xfun</span>: Supporting Functions for Packages Maintained by <span>“<span>Yihui Xie</span>”</span></em>. <a href="https://CRAN.R-project.org/package=xfun">https://CRAN.R-project.org/package=xfun</a>.
+</div>
+<div class="csl-entry">
+Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown">https://bookdown.org/yihui/rmarkdown</a>.
+</div>
+<div class="csl-entry">
+Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>.
+</div>
+<div class="csl-entry">
+Xie, Yihui, and Yixuan Qiu. 2024. <em><span class="nocase">highr</span>: Syntax Highlighting for r Source Code</em>. <a href="https://CRAN.R-project.org/package=highr">https://CRAN.R-project.org/package=highr</a>.
+</div>
+<div class="csl-entry">
+Yao, Yuling, Aki Vehtari, Daniel Simpson, and Andrew Gelman. 2017. <span>“Using Stacking to Average Bayesian Predictive Distributions.”</span> <em>Bayesian Analysis</em>. <a href="https://doi.org/10.1214/17-BA1091">https://doi.org/10.1214/17-BA1091</a>.
+</div>
+<div class="csl-entry">
+Zeileis, Achim. 2004. <span>“Econometric Computing with <span>HC</span> and <span>HAC</span> Covariance Matrix Estimators.”</span> <em>Journal of Statistical Software</em> 11 (10): 1–17. <a href="https://doi.org/10.18637/jss.v011.i10">https://doi.org/10.18637/jss.v011.i10</a>.
+</div>
+<div class="csl-entry">
+———. 2006. <span>“Object-Oriented Computation of Sandwich Estimators.”</span> <em>Journal of Statistical Software</em> 16 (9): 1–16. <a href="https://doi.org/10.18637/jss.v016.i09">https://doi.org/10.18637/jss.v016.i09</a>.
+</div>
+<div class="csl-entry">
+Zeileis, Achim, Jason C. Fisher, Kurt Hornik, Ross Ihaka, Claire D. McWhite, Paul Murrell, Reto Stauffer, and Claus O. Wilke. 2020. <span>“<span class="nocase">colorspace</span>: A Toolbox for Manipulating and Assessing Colors and Palettes.”</span> <em>Journal of Statistical Software</em> 96 (1): 1–49. <a href="https://doi.org/10.18637/jss.v096.i01">https://doi.org/10.18637/jss.v096.i01</a>.
+</div>
+<div class="csl-entry">
+Zeileis, Achim, and Gabor Grothendieck. 2005. <span>“<span class="nocase">zoo</span>: S3 Infrastructure for Regular and Irregular Time Series.”</span> <em>Journal of Statistical Software</em> 14 (6): 1–27. <a href="https://doi.org/10.18637/jss.v014.i06">https://doi.org/10.18637/jss.v014.i06</a>.
+</div>
+<div class="csl-entry">
+Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009. <span>“Escaping <span>RGB</span>land: Selecting Colors for Statistical Graphics.”</span> <em>Computational Statistics &amp; Data Analysis</em> 53 (9): 3259–70. <a href="https://doi.org/10.1016/j.csda.2008.11.033">https://doi.org/10.1016/j.csda.2008.11.033</a>.
+</div>
+<div class="csl-entry">
+Zeileis, Achim, Susanne Köll, and Nathaniel Graham. 2020. <span>“Various Versatile Variances: An Object-Oriented Implementation of Clustered Covariances in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 95 (1): 1–36. <a href="https://doi.org/10.18637/jss.v095.i01">https://doi.org/10.18637/jss.v095.i01</a>.
+</div>
+<div class="csl-entry">
+Zhao, Jing Hua, and Joseph L. Schafer. 2023. <em><span class="nocase">pan</span>: Multiple Imputation for Multivariate Panel or Clustered Data</em>.
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RcppParallel" class="csl-entry">
+Allaire, JJ, Romain Francois, Kevin Ushey, Gregory Vandenbrouck, Marcus Geelnard, and Intel. 2023. <em><span>RcppParallel</span>: Parallel Programming Tools for <span>“<span>Rcpp</span>”</span></em>. <a href="https://CRAN.R-project.org/package=RcppParallel">https://CRAN.R-project.org/package=RcppParallel</a>.
+</div>
+<div id="ref-rmarkdown2024" class="csl-entry">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier Luraschi, Kevin Ushey, Aron Atkins, et al. 2024. <em><span class="nocase">rmarkdown</span>: Dynamic Documents for r</em>. <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div id="ref-iterators" class="csl-entry">
+Analytics, Revolution, and Steve Weston. 2022. <em><span class="nocase">iterators</span>: Provides Iterator Construct</em>. <a href="https://CRAN.R-project.org/package=iterators">https://CRAN.R-project.org/package=iterators</a>.
+</div>
+<div id="ref-digest" class="csl-entry">
+Antoine Lucas, Dirk Eddelbuettel with contributions by, Jarek Tuszynski, Henrik Bengtsson, Simon Urbanek, Mario Frasca, Bryan Lewis, Murray Stokely, et al. 2024. <em><span class="nocase">digest</span>: Create Compact Hash Digests of r Objects</em>. <a href="https://CRAN.R-project.org/package=digest">https://CRAN.R-project.org/package=digest</a>.
+</div>
+<div id="ref-R-marginaleffects" class="csl-entry">
+Arel-Bundock, Vincent, Noah Greifer, and Andrew Heiss. Forthcoming. <span>“How to Interpret Statistical Models Using <code>marginaleffects</code> in <code>R</code> and <code>Python</code>.”</span> <em>Journal of Statistical Software</em>, Forthcoming. <a href="https://marginaleffects.com">https://marginaleffects.com</a>.
+</div>
+<div id="ref-gridExtra" class="csl-entry">
+Auguie, Baptiste. 2017. <em><span class="nocase">gridExtra</span>: Miscellaneous Functions for <span>“<span>Grid</span>”</span> Graphics</em>. <a href="https://CRAN.R-project.org/package=gridExtra">https://CRAN.R-project.org/package=gridExtra</a>.
+</div>
+<div id="ref-datatable" class="csl-entry">
+Barrett, Tyson, Matt Dowle, Arun Srinivasan, Jan Gorecki, Michael Chirico, and Toby Hocking. 2024. <em><span class="nocase">data.table</span>: Extension of <span>“<span class="nocase">data.frame</span>”</span></em>. <a href="https://CRAN.R-project.org/package=data.table">https://CRAN.R-project.org/package=data.table</a>.
+</div>
+<div id="ref-RcppEigen" class="csl-entry">
+Bates, Douglas, and Dirk Eddelbuettel. 2013. <span>“Fast and Elegant Numerical Linear Algebra Using the <span>RcppEigen</span> Package.”</span> <em>Journal of Statistical Software</em> 52 (5): 1–24. <a href="https://doi.org/10.18637/jss.v052.i05">https://doi.org/10.18637/jss.v052.i05</a>.
+</div>
+<div id="ref-lme4" class="csl-entry">
+Bates, Douglas, Martin Mächler, Ben Bolker, and Steve Walker. 2015. <span>“Fitting Linear Mixed-Effects Models Using <span class="nocase">lme4</span>.”</span> <em>Journal of Statistical Software</em> 67 (1): 1–48. <a href="https://doi.org/10.18637/jss.v067.i01">https://doi.org/10.18637/jss.v067.i01</a>.
+</div>
+<div id="ref-minqa" class="csl-entry">
+Bates, Douglas, Katharine M. Mullen, John C. Nash, and Ravi Varadhan. 2024. <em><span class="nocase">minqa</span>: Derivative-Free Optimization Algorithms by Quadratic Approximation</em>. <a href="https://CRAN.R-project.org/package=minqa">https://CRAN.R-project.org/package=minqa</a>.
+</div>
+<div id="ref-arrayhelpers" class="csl-entry">
+Beleites, C. 2020. <em><span class="nocase">arrayhelpers</span>: Convenience Functions for Arrays</em>. <a href="https://CRAN.R-project.org/package=arrayhelpers">https://CRAN.R-project.org/package=arrayhelpers</a>.
+</div>
+<div id="ref-RJ-2021-048" class="csl-entry">
+Bengtsson, Henrik. 2021. <span>“A Unifying Framework for Parallel and Distributed Processing in r Using Futures.”</span> <em>The R Journal</em> 13 (2): 208–27. <a href="https://doi.org/10.32614/RJ-2021-048">https://doi.org/10.32614/RJ-2021-048</a>.
+</div>
+<div id="ref-globals" class="csl-entry">
+———. 2024a. <em><span class="nocase">globals</span>: Identify Global Objects in r Expressions</em>. <a href="https://CRAN.R-project.org/package=globals">https://CRAN.R-project.org/package=globals</a>.
+</div>
+<div id="ref-listenv" class="csl-entry">
+———. 2024b. <em><span class="nocase">listenv</span>: Environments Behaving (Almost) as Lists</em>. <a href="https://CRAN.R-project.org/package=listenv">https://CRAN.R-project.org/package=listenv</a>.
+</div>
+<div id="ref-matrixStats" class="csl-entry">
+———. 2024c. <em><span class="nocase">matrixStats</span>: Functions That Apply to Rows and Columns of Matrices (and to Vectors)</em>. <a href="https://CRAN.R-project.org/package=matrixStats">https://CRAN.R-project.org/package=matrixStats</a>.
+</div>
+<div id="ref-parallelly" class="csl-entry">
+———. 2024d. <em><span class="nocase">parallelly</span>: Enhancing the <span>“<span class="nocase">parallel</span>”</span> Package</em>. <a href="https://CRAN.R-project.org/package=parallelly">https://CRAN.R-project.org/package=parallelly</a>.
+</div>
+<div id="ref-quadprog" class="csl-entry">
+Berwin A. Turlach R port by Andreas Weingessel &lt;Andreas.Weingessel@ci.tuwien.ac.at&gt; Fortran contributions from Cleve Moler dpodi/LINPACK), S original by. 2019. <em><span class="nocase">quadprog</span>: Functions to Solve Quadratic Programming Problems</em>. <a href="https://CRAN.R-project.org/package=quadprog">https://CRAN.R-project.org/package=quadprog</a>.
+</div>
+<div id="ref-brms2017" class="csl-entry">
+Bürkner, Paul-Christian. 2017. <span>“<span class="nocase">brms</span>: An <span>R</span> Package for <span>Bayesian</span> Multilevel Models Using <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 80 (1): 1–28. <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a>.
+</div>
+<div id="ref-brms2018" class="csl-entry">
+———. 2018. <span>“Advanced <span>Bayesian</span> Multilevel Modeling with the <span>R</span> Package <span class="nocase">brms</span>.”</span> <em>The R Journal</em> 10 (1): 395–411. <a href="https://doi.org/10.32614/RJ-2018-017">https://doi.org/10.32614/RJ-2018-017</a>.
+</div>
+<div id="ref-brms2021" class="csl-entry">
+———. 2021. <span>“Bayesian Item Response Modeling in <span>R</span> with <span class="nocase">brms</span> and <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 100 (5): 1–54. <a href="https://doi.org/10.18637/jss.v100.i05">https://doi.org/10.18637/jss.v100.i05</a>.
+</div>
+<div id="ref-posterior2023" class="csl-entry">
+Bürkner, Paul-Christian, Jonah Gabry, Matthew Kay, and Aki Vehtari. 2023. <span>“<span class="nocase">posterior</span>: Tools for Working with Posterior Distributions.”</span> <a href="https://mc-stan.org/posterior/">https://mc-stan.org/posterior/</a>.
+</div>
+<div id="ref-R6" class="csl-entry">
+Chang, Winston. 2021. <em>R6: Encapsulated Classes with Reference Semantics</em>. <a href="https://CRAN.R-project.org/package=R6">https://CRAN.R-project.org/package=R6</a>.
+</div>
+<div id="ref-cachem" class="csl-entry">
+———. 2024a. <em><span class="nocase">cachem</span>: Cache r Objects with Automatic Pruning</em>. <a href="https://CRAN.R-project.org/package=cachem">https://CRAN.R-project.org/package=cachem</a>.
+</div>
+<div id="ref-fastmap" class="csl-entry">
+———. 2024b. <em><span class="nocase">fastmap</span>: Fast Data Structures</em>. <a href="https://CRAN.R-project.org/package=fastmap">https://CRAN.R-project.org/package=fastmap</a>.
+</div>
+<div id="ref-sass" class="csl-entry">
+Cheng, Joe, Timothy Mastny, Richard Iannone, Barret Schloerke, and Carson Sievert. 2024. <em><span class="nocase">sass</span>: Syntactically Awesome Style Sheets (<span>“<span>Sass</span>”</span>)</em>. <a href="https://CRAN.R-project.org/package=sass">https://CRAN.R-project.org/package=sass</a>.
+</div>
+<div id="ref-htmltools" class="csl-entry">
+Cheng, Joe, Carson Sievert, Barret Schloerke, Winston Chang, Yihui Xie, and Jeff Allen. 2024. <em><span class="nocase">htmltools</span>: Tools for HTML</em>. <a href="https://CRAN.R-project.org/package=htmltools">https://CRAN.R-project.org/package=htmltools</a>.
+</div>
+<div id="ref-ordinal" class="csl-entry">
+Christensen, Rune H. B. 2023. <em>Ordinal—Regression Models for Ordinal Data</em>. <a href="https://CRAN.R-project.org/package=ordinal">https://CRAN.R-project.org/package=ordinal</a>.
+</div>
+<div id="ref-prettyunits" class="csl-entry">
+Csardi, Gabor. 2023. <em><span class="nocase">prettyunits</span>: Pretty, Human Readable Formatting of Quantities</em>. <a href="https://CRAN.R-project.org/package=prettyunits">https://CRAN.R-project.org/package=prettyunits</a>.
+</div>
+<div id="ref-pkgconfig" class="csl-entry">
+Csárdi, Gábor. 2019. <em><span class="nocase">pkgconfig</span>: Private Configuration for <span>“<span>R</span>”</span> Packages</em>. <a href="https://CRAN.R-project.org/package=pkgconfig">https://CRAN.R-project.org/package=pkgconfig</a>.
+</div>
+<div id="ref-crayon" class="csl-entry">
+———. 2024. <em><span class="nocase">crayon</span>: Colored Terminal Output</em>. <a href="https://CRAN.R-project.org/package=crayon">https://CRAN.R-project.org/package=crayon</a>.
+</div>
+<div id="ref-callr" class="csl-entry">
+Csárdi, Gábor, and Winston Chang. 2024a. <em><span class="nocase">callr</span>: Call r from r</em>. <a href="https://CRAN.R-project.org/package=callr">https://CRAN.R-project.org/package=callr</a>.
+</div>
+<div id="ref-processx" class="csl-entry">
+———. 2024b. <em><span class="nocase">processx</span>: Execute and Control System Processes</em>. <a href="https://CRAN.R-project.org/package=processx">https://CRAN.R-project.org/package=processx</a>.
+</div>
+<div id="ref-progress" class="csl-entry">
+Csárdi, Gábor, and Rich FitzJohn. 2023. <em><span class="nocase">progress</span>: Terminal Progress Bars</em>. <a href="https://CRAN.R-project.org/package=progress">https://CRAN.R-project.org/package=progress</a>.
+</div>
+<div id="ref-remotes" class="csl-entry">
+Csárdi, Gábor, Jim Hester, Hadley Wickham, Winston Chang, Martin Morgan, and Dan Tenenbaum. 2024. <em><span class="nocase">remotes</span>: R Package Installation from Remote Repositories, Including <span>“<span>GitHub</span>”</span></em>. <a href="https://CRAN.R-project.org/package=remotes">https://CRAN.R-project.org/package=remotes</a>.
+</div>
+<div id="ref-desc" class="csl-entry">
+Csárdi, Gábor, Kirill Müller, and Jim Hester. 2023. <em><span class="nocase">desc</span>: Manipulate DESCRIPTION Files</em>. <a href="https://CRAN.R-project.org/package=desc">https://CRAN.R-project.org/package=desc</a>.
+</div>
+<div id="ref-xtable" class="csl-entry">
+Dahl, David B., David Scott, Charles Roosen, Arni Magnusson, and Jonathan Swinton. 2019. <em><span class="nocase">xtable</span>: Export Tables to LaTeX or HTML</em>. <a href="https://CRAN.R-project.org/package=xtable">https://CRAN.R-project.org/package=xtable</a>.
+</div>
+<div id="ref-Rcpp2013" class="csl-entry">
+Eddelbuettel, Dirk. 2013. <em>Seamless <span>R</span> and <span>C++</span> Integration with <span>Rcpp</span></em>. New York: Springer. <a href="https://doi.org/10.1007/978-1-4614-6868-4">https://doi.org/10.1007/978-1-4614-6868-4</a>.
+</div>
+<div id="ref-Rcpp2018" class="csl-entry">
+Eddelbuettel, Dirk, and James Joseph Balamuta. 2018. <span>“<span class="nocase">Extending <span>R</span> with <span>C++</span>: A Brief Introduction to <span>Rcpp</span></span>.”</span> <em>The American Statistician</em> 72 (1): 28–36. <a href="https://doi.org/10.1080/00031305.2017.1375990">https://doi.org/10.1080/00031305.2017.1375990</a>.
+</div>
+<div id="ref-BH" class="csl-entry">
+Eddelbuettel, Dirk, John W. Emerson, and Michael J. Kane. 2024. <em><span>BH</span>: Boost c++ Header Files</em>. <a href="https://CRAN.R-project.org/package=BH">https://CRAN.R-project.org/package=BH</a>.
+</div>
+<div id="ref-Rcpp2024" class="csl-entry">
+Eddelbuettel, Dirk, Romain Francois, JJ Allaire, Kevin Ushey, Qiang Kou, Nathan Russell, Inaki Ucar, Douglas Bates, and John Chambers. 2024. <em><span>Rcpp</span>: Seamless r and c++ Integration</em>. <a href="https://CRAN.R-project.org/package=Rcpp">https://CRAN.R-project.org/package=Rcpp</a>.
+</div>
+<div id="ref-Rcpp2011" class="csl-entry">
+Eddelbuettel, Dirk, and Romain François. 2011. <span>“<span>Rcpp</span>: Seamless <span>R</span> and <span>C++</span> Integration.”</span> <em>Journal of Statistical Software</em> 40 (8): 1–18. <a href="https://doi.org/10.18637/jss.v040.i08">https://doi.org/10.18637/jss.v040.i08</a>.
+</div>
+<div id="ref-glmnet2010" class="csl-entry">
+Friedman, Jerome, Robert Tibshirani, and Trevor Hastie. 2010. <span>“Regularization Paths for Generalized Linear Models via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
+</div>
+<div id="ref-rstantools" class="csl-entry">
+Gabry, Jonah, Ben Goodrich, Martin Lysy, and Andrew Johnson. 2024. <em><span class="nocase">rstantools</span>: Tools for Developing r Packages Interfacing with <span>“<span>Stan</span>”</span></em>. <a href="https://CRAN.R-project.org/package=rstantools">https://CRAN.R-project.org/package=rstantools</a>.
+</div>
+<div id="ref-bayesplot2024" class="csl-entry">
+Gabry, Jonah, and Tristan Mahr. 2024. <span>“<span class="nocase">bayesplot</span>: Plotting for Bayesian Models.”</span> <a href="https://mc-stan.org/bayesplot/">https://mc-stan.org/bayesplot/</a>.
+</div>
+<div id="ref-bayesplot2019" class="csl-entry">
+Gabry, Jonah, Daniel Simpson, Aki Vehtari, Michael Betancourt, and Andrew Gelman. 2019. <span>“Visualization in Bayesian Workflow.”</span> <em>J. R. Stat. Soc. A</em> 182: 389–402. <a href="https://doi.org/10.1111/rssa.12378">https://doi.org/10.1111/rssa.12378</a>.
+</div>
+<div id="ref-stringi" class="csl-entry">
+Gagolewski, Marek. 2022. <span>“<span class="nocase">stringi</span>: <span>F</span>ast and Portable Character String Processing in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 103 (2): 1–59. <a href="https://doi.org/10.18637/jss.v103.i02">https://doi.org/10.18637/jss.v103.i02</a>.
+</div>
+<div id="ref-yaml" class="csl-entry">
+Garbett, Shawn P, Jeremy Stephens, Kirill Simonov, Yihui Xie, Zhuoer Dong, Hadley Wickham, Jeffrey Horner, et al. 2023. <em><span class="nocase">yaml</span>: Methods to Convert r Data to YAML and Back</em>. <a href="https://CRAN.R-project.org/package=yaml">https://CRAN.R-project.org/package=yaml</a>.
+</div>
+<div id="ref-viridisLite" class="csl-entry">
+Garnier, Simon, Ross, Noam, Rudis, Robert, Camargo, et al. 2023. <em><span class="nocase">viridis(Lite)</span> - Colorblind-Friendly Color Maps for r</em>. <a href="https://doi.org/10.5281/zenodo.4678327">https://doi.org/10.5281/zenodo.4678327</a>.
+</div>
+<div id="ref-fansi" class="csl-entry">
+Gaslam, Brodie. 2023. <em><span class="nocase">fansi</span>: ANSI Control Sequence Aware String Functions</em>. <a href="https://CRAN.R-project.org/package=fansi">https://CRAN.R-project.org/package=fansi</a>.
+</div>
+<div id="ref-mvtnorm" class="csl-entry">
+Genz, Alan, and Frank Bretz. 2009. <em>Computation of Multivariate Normal and t Probabilities</em>. Lecture Notes in Statistics. Heidelberg: Springer-Verlag.
+</div>
+<div id="ref-numDeriv" class="csl-entry">
+Gilbert, Paul, and Ravi Varadhan. 2019. <em><span class="nocase">numDeriv</span>: Accurate Numerical Derivatives</em>. <a href="https://CRAN.R-project.org/package=numDeriv">https://CRAN.R-project.org/package=numDeriv</a>.
+</div>
+<div id="ref-cobalt" class="csl-entry">
+Greifer, Noah. 2024. <em><span class="nocase">cobalt</span>: Covariate Balance Tables and Plots</em>. <a href="https://CRAN.R-project.org/package=cobalt">https://CRAN.R-project.org/package=cobalt</a>.
+</div>
+<div id="ref-bridgesampling" class="csl-entry">
+Gronau, Quentin F., Henrik Singmann, and Eric-Jan Wagenmakers. 2020. <span>“<span class="nocase">bridgesampling</span>: An <span>R</span> Package for Estimating Normalizing Constants.”</span> <em>Journal of Statistical Software</em> 92 (10): 1–29. <a href="https://doi.org/10.18637/jss.v092.i10">https://doi.org/10.18637/jss.v092.i10</a>.
+</div>
+<div id="ref-svUnit" class="csl-entry">
+Grosjean, Philippe. 2024. <em>SciViews-r</em>. MONS, Belgium: UMONS. <a href="https://www.sciviews.org/SciViews-R/">https://www.sciviews.org/SciViews-R/</a>.
+</div>
+<div id="ref-mitml" class="csl-entry">
+Grund, Simon, Alexander Robitzsch, and Oliver Luedtke. 2023. <em><span class="nocase">mitml</span>: Tools for Multiple Imputation in Multilevel Modeling</em>. <a href="https://CRAN.R-project.org/package=mitml">https://CRAN.R-project.org/package=mitml</a>.
+</div>
+<div id="ref-Brobdingnag" class="csl-entry">
+Hankin, R. K. S. 2007. <span>“Very Large Numbers in r: Introducing Package Brobdingnag.”</span> <em>R News</em> 7.
+</div>
+<div id="ref-nleqslv" class="csl-entry">
+Hasselman, Berend. 2023. <em><span class="nocase">nleqslv</span>: Solve Systems of Nonlinear Equations</em>. <a href="https://CRAN.R-project.org/package=nleqslv">https://CRAN.R-project.org/package=nleqslv</a>.
+</div>
+<div id="ref-lifecycle" class="csl-entry">
+Henry, Lionel, and Hadley Wickham. 2023. <em><span class="nocase">lifecycle</span>: Manage the Life Cycle of Your Package Functions</em>. <a href="https://CRAN.R-project.org/package=lifecycle">https://CRAN.R-project.org/package=lifecycle</a>.
+</div>
+<div id="ref-tidyselect" class="csl-entry">
+———. 2024. <em><span class="nocase">tidyselect</span>: Select from a Set of Strings</em>. <a href="https://CRAN.R-project.org/package=tidyselect">https://CRAN.R-project.org/package=tidyselect</a>.
+</div>
+<div id="ref-glue" class="csl-entry">
+Hester, Jim, and Jennifer Bryan. 2024. <em><span class="nocase">glue</span>: Interpreted String Literals</em>. <a href="https://CRAN.R-project.org/package=glue">https://CRAN.R-project.org/package=glue</a>.
+</div>
+<div id="ref-withr" class="csl-entry">
+Hester, Jim, Lionel Henry, Kirill Müller, Kevin Ushey, Hadley Wickham, and Winston Chang. 2024. <em><span class="nocase">withr</span>: Run Code <span>“<span>With</span>”</span> Temporarily Modified Global State</em>. <a href="https://CRAN.R-project.org/package=withr">https://CRAN.R-project.org/package=withr</a>.
+</div>
+<div id="ref-vroom" class="csl-entry">
+Hester, Jim, Hadley Wickham, and Jennifer Bryan. 2023. <em><span class="nocase">vroom</span>: Read and Write Rectangular Text Data Quickly</em>. <a href="https://CRAN.R-project.org/package=vroom">https://CRAN.R-project.org/package=vroom</a>.
+</div>
+<div id="ref-fs" class="csl-entry">
+Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2024. <em><span class="nocase">fs</span>: Cross-Platform File System Operations Based on <span>“<span class="nocase">libuv</span>”</span></em>. <a href="https://CRAN.R-project.org/package=fs">https://CRAN.R-project.org/package=fs</a>.
+</div>
+<div id="ref-causaldata" class="csl-entry">
+Huntington-Klein, Nick, and Malcolm Barrett. 2024. <em><span class="nocase">causaldata</span>: Example Data Sets for Causal Inference Textbooks</em>. <a href="https://CRAN.R-project.org/package=causaldata">https://CRAN.R-project.org/package=causaldata</a>.
+</div>
+<div id="ref-fontawesome" class="csl-entry">
+Iannone, Richard. 2023. <em><span class="nocase">fontawesome</span>: Easily Work with <span>“<span>Font Awesome</span>”</span> Icons</em>. <a href="https://CRAN.R-project.org/package=fontawesome">https://CRAN.R-project.org/package=fontawesome</a>.
+</div>
+<div id="ref-QuickJSR" class="csl-entry">
+Johnson, Andrew R. 2024. <em><span>QuickJSR</span>: Interface for the <span>“<span>QuickJS</span>”</span> Lightweight <span>“<span>JavaScript</span>”</span> Engine</em>. <a href="https://CRAN.R-project.org/package=QuickJSR">https://CRAN.R-project.org/package=QuickJSR</a>.
+</div>
+<div id="ref-nloptr" class="csl-entry">
+Johnson, Steven G. 2008. <em>The NLopt Nonlinear-Optimization Package</em>. <a href="https://github.com/stevengj/nlopt">https://github.com/stevengj/nlopt</a>.
+</div>
+<div id="ref-labeling" class="csl-entry">
+Justin Talbot. 2023. <em><span class="nocase">labeling</span>: Axis Labeling</em>. <a href="https://CRAN.R-project.org/package=labeling">https://CRAN.R-project.org/package=labeling</a>.
+</div>
+<div id="ref-tidybayes" class="csl-entry">
+Kay, Matthew. 2023. <em><span class="nocase">tidybayes</span>: Tidy Data and Geoms for <span>Bayesian</span> Models</em>. <a href="https://doi.org/10.5281/zenodo.1308151">https://doi.org/10.5281/zenodo.1308151</a>.
+</div>
+<div id="ref-ggdist2024b" class="csl-entry">
+———. 2024a. <em><span class="nocase">ggdist</span>: Visualizations of Distributions and Uncertainty</em>. <a href="https://doi.org/10.5281/zenodo.3879620">https://doi.org/10.5281/zenodo.3879620</a>.
+</div>
+<div id="ref-ggdist2024a" class="csl-entry">
+———. 2024b. <span>“<span class="nocase">ggdist</span>: Visualizations of Distributions and Uncertainty in the Grammar of Graphics.”</span> <em>IEEE Transactions on Visualization and Computer Graphics</em> 30 (1): 414–24. <a href="https://doi.org/10.1109/TVCG.2023.3327195">https://doi.org/10.1109/TVCG.2023.3327195</a>.
+</div>
+<div id="ref-checkmate" class="csl-entry">
+Lang, Michel. 2017. <span>“<span class="nocase">checkmate</span>: Fast Argument Checks for Defensive <span>R</span> Programming.”</span> <em>The R Journal</em> 9 (1): 437–45. <a href="https://doi.org/10.32614/RJ-2017-028">https://doi.org/10.32614/RJ-2017-028</a>.
+</div>
+<div id="ref-backports" class="csl-entry">
+Lang, Michel, Duncan Murdoch, and R Core Team. 2024. <em><span class="nocase">backports</span>: Reimplementations of Functions Introduced Since r-3.0.0</em>. <a href="https://CRAN.R-project.org/package=backports">https://CRAN.R-project.org/package=backports</a>.
+</div>
+<div id="ref-estimability" class="csl-entry">
+Lenth, Russell. 2024. <em><span class="nocase">estimability</span>: Tools for Assessing Estimability of Linear Predictions</em>. <a href="https://CRAN.R-project.org/package=estimability">https://CRAN.R-project.org/package=estimability</a>.
+</div>
+<div id="ref-emmeans" class="csl-entry">
+Lenth, Russell V. 2024. <em><span class="nocase">emmeans</span>: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://CRAN.R-project.org/package=emmeans">https://CRAN.R-project.org/package=emmeans</a>.
+</div>
+<div id="ref-clipr" class="csl-entry">
+Lincoln, Matthew. 2022. <em><span class="nocase">clipr</span>: Read and Write from the System Clipboard</em>. <a href="https://CRAN.R-project.org/package=clipr">https://CRAN.R-project.org/package=clipr</a>.
+</div>
+<div id="ref-ps" class="csl-entry">
+Loden, Jay, Dave Daeschler, Giampaolo Rodola’, and Gábor Csárdi. 2024. <em><span class="nocase">ps</span>: List, Query, Manipulate System Processes</em>. <a href="https://CRAN.R-project.org/package=ps">https://CRAN.R-project.org/package=ps</a>.
+</div>
+<div id="ref-insight" class="csl-entry">
+Lüdecke, Daniel, Philip Waggoner, and Dominique Makowski. 2019. <span>“<span class="nocase">insight</span>: A Unified Interface to Access Information from Model Objects in <span>R</span>.”</span> <em>Journal of Open Source Software</em> 4 (38): 1412. <a href="https://doi.org/10.21105/joss.01412">https://doi.org/10.21105/joss.01412</a>.
+</div>
+<div id="ref-foreach" class="csl-entry">
+Microsoft, and Steve Weston. 2022. <em><span class="nocase">foreach</span>: Provides Foreach Looping Construct</em>. <a href="https://CRAN.R-project.org/package=foreach">https://CRAN.R-project.org/package=foreach</a>.
+</div>
+<div id="ref-RColorBrewer" class="csl-entry">
+Neuwirth, Erich. 2022. <em><span>RColorBrewer</span>: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.
+</div>
+<div id="ref-ucminf" class="csl-entry">
+Nielsen, Hans Bruun, and Stig Bousgaard Mortensen. 2024. <em><span class="nocase">ucminf</span>: General-Purpose Unconstrained Non-Linear Optimization</em>. <a href="https://CRAN.R-project.org/package=ucminf">https://CRAN.R-project.org/package=ucminf</a>.
+</div>
+<div id="ref-distributional" class="csl-entry">
+O’Hara-Wild, Mitchell, Matthew Kay, and Alex Hayes. 2024. <em><span class="nocase">distributional</span>: Vectorised Probability Distributions</em>. <a href="https://CRAN.R-project.org/package=distributional">https://CRAN.R-project.org/package=distributional</a>.
+</div>
+<div id="ref-bit" class="csl-entry">
+Oehlschlägel, Jens. 2024a. <em><span class="nocase">bit</span>: Classes and Methods for Fast Memory-Efficient Boolean Selections</em>. <a href="https://CRAN.R-project.org/package=bit">https://CRAN.R-project.org/package=bit</a>.
+</div>
+<div id="ref-bit64" class="csl-entry">
+———. 2024b. <em>Bit64: A S3 Class for Vectors of 64bit Integers</em>. <a href="https://CRAN.R-project.org/package=bit64">https://CRAN.R-project.org/package=bit64</a>.
+</div>
+<div id="ref-patchwork" class="csl-entry">
+Pedersen, Thomas Lin. 2024. <em><span class="nocase">patchwork</span>: The Composer of Plots</em>. <a href="https://CRAN.R-project.org/package=patchwork">https://CRAN.R-project.org/package=patchwork</a>.
+</div>
+<div id="ref-farver" class="csl-entry">
+Pedersen, Thomas Lin, Berendea Nicolae, and Romain François. 2024. <em><span class="nocase">farver</span>: High Performance Colour Space Manipulation</em>. <a href="https://CRAN.R-project.org/package=farver">https://CRAN.R-project.org/package=farver</a>.
+</div>
+<div id="ref-utf8" class="csl-entry">
+Perry, Patrick O. 2023. <em>Utf8: Unicode Text Processing</em>. <a href="https://CRAN.R-project.org/package=utf8">https://CRAN.R-project.org/package=utf8</a>.
+</div>
+<div id="ref-abind" class="csl-entry">
+Plate, Tony, and Richard Heiberger. 2016. <em><span class="nocase">abind</span>: Combine Multidimensional Arrays</em>. <a href="https://CRAN.R-project.org/package=abind">https://CRAN.R-project.org/package=abind</a>.
+</div>
+<div id="ref-coda" class="csl-entry">
+Plummer, Martyn, Nicky Best, Kate Cowles, and Karen Vines. 2006. <span>“<span>CODA</span>: Convergence Diagnosis and Output Analysis for MCMC.”</span> <em>R News</em> 6 (1): 7–11. <a href="https://journal.r-project.org/archive/">https://journal.r-project.org/archive/</a>.
+</div>
+<div id="ref-jomo" class="csl-entry">
+Quartagno, Matteo, and James Carpenter. 2023. <em><span class="nocase">jomo</span>: A Package for Multilevel Joint Modelling Multiple Imputation</em>. <a href="https://CRAN.R-project.org/package=jomo">https://CRAN.R-project.org/package=jomo</a>.
+</div>
+<div id="ref-base" class="csl-entry">
+R Core Team. 2024. <em><span>R</span>: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-rappdirs" class="csl-entry">
+Ratnakumar, Sridhar, Trent Mick, and Trevor Davis. 2021. <em><span class="nocase">rappdirs</span>: Application Directories: Determine Where to Save Data, Caches, and Logs</em>. <a href="https://CRAN.R-project.org/package=rappdirs">https://CRAN.R-project.org/package=rappdirs</a>.
+</div>
+<div id="ref-jquerylib" class="csl-entry">
+Sievert, Carson, and Joe Cheng. 2021. <em><span class="nocase">jquerylib</span>: Obtain <span>“<span class="nocase">jQuery</span>”</span> as an HTML Dependency Object</em>. <a href="https://CRAN.R-project.org/package=jquerylib">https://CRAN.R-project.org/package=jquerylib</a>.
+</div>
+<div id="ref-bslib" class="csl-entry">
+Sievert, Carson, Joe Cheng, and Garrick Aden-Buie. 2024. <em><span class="nocase">bslib</span>: Custom <span>“<span>Bootstrap</span>”</span> <span>“<span>Sass</span>”</span> Themes for <span>“<span class="nocase">shiny</span>”</span> and <span>“<span class="nocase">rmarkdown</span>”</span></em>. <a href="https://CRAN.R-project.org/package=bslib">https://CRAN.R-project.org/package=bslib</a>.
+</div>
+<div id="ref-glmnet2011" class="csl-entry">
+Simon, Noah, Jerome Friedman, Robert Tibshirani, and Trevor Hastie. 2011. <span>“Regularization Paths for Cox’s Proportional Hazards Model via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 39 (5): 1–13. <a href="https://doi.org/10.18637/jss.v039.i05">https://doi.org/10.18637/jss.v039.i05</a>.
+</div>
+<div id="ref-inline" class="csl-entry">
+Sklyar, Oleg, Duncan Murdoch, Mike Smith, Dirk Eddelbuettel, Romain Francois, Karline Soetaert, and Johannes Ranke. 2021. <em><span class="nocase">inline</span>: Functions to Inline c, c++, Fortran Function Calls from r</em>. <a href="https://CRAN.R-project.org/package=inline">https://CRAN.R-project.org/package=inline</a>.
+</div>
+<div id="ref-shape" class="csl-entry">
+Soetaert, Karline. 2024. <em><span class="nocase">shape</span>: Functions for Plotting Graphical Shapes, Colors</em>. <a href="https://CRAN.R-project.org/package=shape">https://CRAN.R-project.org/package=shape</a>.
+</div>
+<div id="ref-StanHeaders" class="csl-entry">
+Stan Development Team. 2020. <span>“<span>StanHeaders</span>: Headers for the <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
+</div>
+<div id="ref-rstan" class="csl-entry">
+———. n.d. <span>“<span>RStan</span>: The <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
+</div>
+<div id="ref-colorspace2009c" class="csl-entry">
+Stauffer, Reto, Georg J. Mayr, Markus Dabernig, and Achim Zeileis. 2009. <span>“Somewhere over the Rainbow: How to Make Effective Use of Colors in Meteorological Visualizations.”</span> <em>Bulletin of the American Meteorological Society</em> 96 (2): 203–16. <a href="https://doi.org/10.1175/BAMS-D-13-00155.1">https://doi.org/10.1175/BAMS-D-13-00155.1</a>.
+</div>
+<div id="ref-glmnet2023" class="csl-entry">
+Tay, J. Kenneth, Balasubramanian Narasimhan, and Trevor Hastie. 2023. <span>“Elastic Net Regularization Paths for All Generalized Linear Models.”</span> <em>Journal of Statistical Software</em> 106 (1): 1–31. <a href="https://doi.org/10.18637/jss.v106.i01">https://doi.org/10.18637/jss.v106.i01</a>.
+</div>
+<div id="ref-chk" class="csl-entry">
+Thorley, Joe, Kirill Müller, and Ayla Pearson. 2024. <em><span class="nocase">chk</span>: Check User-Supplied Function Arguments</em>. <a href="https://CRAN.R-project.org/package=chk">https://CRAN.R-project.org/package=chk</a>.
+</div>
+<div id="ref-base64enc" class="csl-entry">
+Urbanek, Simon. 2015. <em>Base64enc: Tools for Base64 Encoding</em>. <a href="https://CRAN.R-project.org/package=base64enc">https://CRAN.R-project.org/package=base64enc</a>.
+</div>
+<div id="ref-renv" class="csl-entry">
+Ushey, Kevin, and Hadley Wickham. 2024. <em><span class="nocase">renv</span>: Project Environments</em>. <a href="https://CRAN.R-project.org/package=renv">https://CRAN.R-project.org/package=renv</a>.
+</div>
+<div id="ref-mice" class="csl-entry">
+van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“<span class="nocase">mice</span>: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="https://doi.org/10.18637/jss.v045.i03">https://doi.org/10.18637/jss.v045.i03</a>.
+</div>
+<div id="ref-tensorA" class="csl-entry">
+van den Boogaart, K. Gerald. 2023. <em><span class="nocase">tensorA</span>: Advanced Tensor Arithmetic with Named Indices</em>. <a href="https://CRAN.R-project.org/package=tensorA">https://CRAN.R-project.org/package=tensorA</a>.
+</div>
+<div id="ref-tzdb" class="csl-entry">
+Vaughan, Davis. 2023. <em><span class="nocase">tzdb</span>: Time Zone Database Information</em>. <a href="https://CRAN.R-project.org/package=tzdb">https://CRAN.R-project.org/package=tzdb</a>.
+</div>
+<div id="ref-cpp11" class="csl-entry">
+Vaughan, Davis, Jim Hester, and Romain François. 2023. <em>Cpp11: A c++11 Interface for r’s c Interface</em>. <a href="https://CRAN.R-project.org/package=cpp11">https://CRAN.R-project.org/package=cpp11</a>.
+</div>
+<div id="ref-loo2024a" class="csl-entry">
+Vehtari, Aki, Jonah Gabry, Måns Magnusson, Yuling Yao, Paul-Christian Bürkner, Topi Paananen, and Andrew Gelman. 2024. <span>“<span class="nocase">loo</span>: Efficient Leave-One-Out Cross-Validation and WAIC for Bayesian Models.”</span> <a href="https://mc-stan.org/loo/">https://mc-stan.org/loo/</a>.
+</div>
+<div id="ref-loo2017b" class="csl-entry">
+Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical Bayesian Model Evaluation Using Leave-One-Out Cross-Validation and WAIC.”</span> <em>Statistics and Computing</em> 27: 1413–32. <a href="https://doi.org/10.1007/s11222-016-9696-4">https://doi.org/10.1007/s11222-016-9696-4</a>.
+</div>
+<div id="ref-posterior2021" class="csl-entry">
+Vehtari, Aki, Andrew Gelman, Daniel Simpson, Bob Carpenter, and Paul-Christian Bürkner. 2021. <span>“Rank-Normalization, Folding, and Localization: An Improved Rhat for Assessing Convergence of MCMC (with Discussion).”</span> <em>Bayesian Analysis</em>.
+</div>
+<div id="ref-munsell" class="csl-entry">
+Wickham, Charlotte. 2024. <em><span class="nocase">munsell</span>: Utilities for Using Munsell Colours</em>. <a href="https://CRAN.R-project.org/package=munsell">https://CRAN.R-project.org/package=munsell</a>.
+</div>
+<div id="ref-reshape2" class="csl-entry">
+Wickham, Hadley. 2007. <span>“Reshaping Data with the <span class="nocase">reshape</span> Package.”</span> <em>Journal of Statistical Software</em> 21 (12): 1–20. <a href="http://www.jstatsoft.org/v21/i12/">http://www.jstatsoft.org/v21/i12/</a>.
+</div>
+<div id="ref-plyr" class="csl-entry">
+———. 2011. <span>“The Split-Apply-Combine Strategy for Data Analysis.”</span> <em>Journal of Statistical Software</em> 40 (1): 1–29. <a href="https://www.jstatsoft.org/v40/i01/">https://www.jstatsoft.org/v40/i01/</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-vctrs" class="csl-entry">
+Wickham, Hadley, Lionel Henry, and Davis Vaughan. 2023. <em><span class="nocase">vctrs</span>: Vector Helpers</em>. <a href="https://CRAN.R-project.org/package=vctrs">https://CRAN.R-project.org/package=vctrs</a>.
+</div>
+<div id="ref-memoise" class="csl-entry">
+Wickham, Hadley, Jim Hester, Winston Chang, Kirill Müller, and Daniel Cook. 2021. <em><span class="nocase">memoise</span>: <span>“<span>Memoisation</span>”</span> of Functions</em>. <a href="https://CRAN.R-project.org/package=memoise">https://CRAN.R-project.org/package=memoise</a>.
+</div>
+<div id="ref-pkgbuild" class="csl-entry">
+Wickham, Hadley, Jim Hester, and Gábor Csárdi. 2024. <em><span class="nocase">pkgbuild</span>: Find Tools Needed to Build r Packages</em>. <a href="https://CRAN.R-project.org/package=pkgbuild">https://CRAN.R-project.org/package=pkgbuild</a>.
+</div>
+<div id="ref-generics" class="csl-entry">
+Wickham, Hadley, Max Kuhn, and Davis Vaughan. 2022. <em><span class="nocase">generics</span>: Common S3 Generics Not Provided by Base r Methods Related to Model Fitting</em>. <a href="https://CRAN.R-project.org/package=generics">https://CRAN.R-project.org/package=generics</a>.
+</div>
+<div id="ref-gtable" class="csl-entry">
+Wickham, Hadley, and Thomas Lin Pedersen. 2024. <em><span class="nocase">gtable</span>: Arrange <span>“<span>Grobs</span>”</span> in Tables</em>. <a href="https://CRAN.R-project.org/package=gtable">https://CRAN.R-project.org/package=gtable</a>.
+</div>
+<div id="ref-scales" class="csl-entry">
+Wickham, Hadley, Thomas Lin Pedersen, and Dana Seidel. 2023. <em><span class="nocase">scales</span>: Scale Functions for Visualization</em>. <a href="https://CRAN.R-project.org/package=scales">https://CRAN.R-project.org/package=scales</a>.
+</div>
+<div id="ref-isoband" class="csl-entry">
+Wickham, Hadley, Claus O. Wilke, and Thomas Lin Pedersen. 2022. <em><span class="nocase">isoband</span>: Generate Isolines and Isobands from Regularly Spaced Elevation Grids</em>. <a href="https://CRAN.R-project.org/package=isoband">https://CRAN.R-project.org/package=isoband</a>.
+</div>
+<div id="ref-evaluate" class="csl-entry">
+Wickham, Hadley, and Yihui Xie. 2024. <em><span class="nocase">evaluate</span>: Parsing and Evaluation Tools That Provide More Details Than the Default</em>. <a href="https://CRAN.R-project.org/package=evaluate">https://CRAN.R-project.org/package=evaluate</a>.
+</div>
+<div id="ref-ggridges" class="csl-entry">
+Wilke, Claus O. 2024. <em><span class="nocase">ggridges</span>: Ridgeline Plots in <span>“<span class="nocase">ggplot2</span>”</span></em>. <a href="https://CRAN.R-project.org/package=ggridges">https://CRAN.R-project.org/package=ggridges</a>.
+</div>
+<div id="ref-knitr2014" class="csl-entry">
+Xie, Yihui. 2014. <span>“<span class="nocase">knitr</span>: A Comprehensive Tool for Reproducible Research in <span>R</span>.”</span> In <em>Implementing Reproducible Computational Research</em>, edited by Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman; Hall/CRC.
+</div>
+<div id="ref-knitr2015" class="csl-entry">
+———. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div id="ref-bookdown2016" class="csl-entry">
+———. 2016. <em><span class="nocase">bookdown</span>: Authoring Books and Technical Documents with <span>R</span> Markdown</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/bookdown">https://bookdown.org/yihui/bookdown</a>.
+</div>
+<div id="ref-tinytex2019" class="csl-entry">
+———. 2019. <span>“<span>TinyTeX</span>: A Lightweight, Cross-Platform, and Easy-to-Maintain LaTeX Distribution Based on TeX Live.”</span> <em>TUGboat</em> 40 (1): 30–32. <a href="https://tug.org/TUGboat/Contents/contents40-1.html">https://tug.org/TUGboat/Contents/contents40-1.html</a>.
+</div>
+<div id="ref-mime" class="csl-entry">
+———. 2021. <em><span class="nocase">mime</span>: Map Filenames to MIME Types</em>. <a href="https://CRAN.R-project.org/package=mime">https://CRAN.R-project.org/package=mime</a>.
+</div>
+<div id="ref-bookdown2024" class="csl-entry">
+———. 2024a. <em><span class="nocase">bookdown</span>: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.
+</div>
+<div id="ref-knitr2024" class="csl-entry">
+———. 2024b. <em><span class="nocase">knitr</span>: A General-Purpose Package for Dynamic Report Generation in r</em>. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
+</div>
+<div id="ref-tinytex2024" class="csl-entry">
+———. 2024c. <em><span class="nocase">tinytex</span>: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents</em>. <a href="https://github.com/rstudio/tinytex">https://github.com/rstudio/tinytex</a>.
+</div>
+<div id="ref-xfun" class="csl-entry">
+———. 2024d. <em><span class="nocase">xfun</span>: Supporting Functions for Packages Maintained by <span>“<span>Yihui Xie</span>”</span></em>. <a href="https://CRAN.R-project.org/package=xfun">https://CRAN.R-project.org/package=xfun</a>.
+</div>
+<div id="ref-rmarkdown2018" class="csl-entry">
+Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. <em>R Markdown: The Definitive Guide</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown">https://bookdown.org/yihui/rmarkdown</a>.
+</div>
+<div id="ref-rmarkdown2020" class="csl-entry">
+Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>.
+</div>
+<div id="ref-highr" class="csl-entry">
+Xie, Yihui, and Yixuan Qiu. 2024. <em><span class="nocase">highr</span>: Syntax Highlighting for r Source Code</em>. <a href="https://CRAN.R-project.org/package=highr">https://CRAN.R-project.org/package=highr</a>.
+</div>
+<div id="ref-loo2017c" class="csl-entry">
+Yao, Yuling, Aki Vehtari, Daniel Simpson, and Andrew Gelman. 2017. <span>“Using Stacking to Average Bayesian Predictive Distributions.”</span> <em>Bayesian Analysis</em>. <a href="https://doi.org/10.1214/17-BA1091">https://doi.org/10.1214/17-BA1091</a>.
+</div>
+<div id="ref-sandwich2004" class="csl-entry">
+Zeileis, Achim. 2004. <span>“Econometric Computing with <span>HC</span> and <span>HAC</span> Covariance Matrix Estimators.”</span> <em>Journal of Statistical Software</em> 11 (10): 1–17. <a href="https://doi.org/10.18637/jss.v011.i10">https://doi.org/10.18637/jss.v011.i10</a>.
+</div>
+<div id="ref-sandwich2006" class="csl-entry">
+———. 2006. <span>“Object-Oriented Computation of Sandwich Estimators.”</span> <em>Journal of Statistical Software</em> 16 (9): 1–16. <a href="https://doi.org/10.18637/jss.v016.i09">https://doi.org/10.18637/jss.v016.i09</a>.
+</div>
+<div id="ref-colorspace2020a" class="csl-entry">
+Zeileis, Achim, Jason C. Fisher, Kurt Hornik, Ross Ihaka, Claire D. McWhite, Paul Murrell, Reto Stauffer, and Claus O. Wilke. 2020. <span>“<span class="nocase">colorspace</span>: A Toolbox for Manipulating and Assessing Colors and Palettes.”</span> <em>Journal of Statistical Software</em> 96 (1): 1–49. <a href="https://doi.org/10.18637/jss.v096.i01">https://doi.org/10.18637/jss.v096.i01</a>.
+</div>
+<div id="ref-zoo" class="csl-entry">
+Zeileis, Achim, and Gabor Grothendieck. 2005. <span>“<span class="nocase">zoo</span>: S3 Infrastructure for Regular and Irregular Time Series.”</span> <em>Journal of Statistical Software</em> 14 (6): 1–27. <a href="https://doi.org/10.18637/jss.v014.i06">https://doi.org/10.18637/jss.v014.i06</a>.
+</div>
+<div id="ref-colorspace2009b" class="csl-entry">
+Zeileis, Achim, Kurt Hornik, and Paul Murrell. 2009. <span>“Escaping <span>RGB</span>land: Selecting Colors for Statistical Graphics.”</span> <em>Computational Statistics &amp; Data Analysis</em> 53 (9): 3259–70. <a href="https://doi.org/10.1016/j.csda.2008.11.033">https://doi.org/10.1016/j.csda.2008.11.033</a>.
+</div>
+<div id="ref-sandwich2020" class="csl-entry">
+Zeileis, Achim, Susanne Köll, and Nathaniel Graham. 2020. <span>“Various Versatile Variances: An Object-Oriented Implementation of Clustered Covariances in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 95 (1): 1–36. <a href="https://doi.org/10.18637/jss.v095.i01">https://doi.org/10.18637/jss.v095.i01</a>.
+</div>
+<div id="ref-pan" class="csl-entry">
+Zhao, Jing Hua, and Joseph L. Schafer. 2023. <em><span class="nocase">pan</span>: Multiple Imputation for Multivariate Panel or Clustered Data</em>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-7.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toc_depth": 2
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 More Missing Data | The Data Analyst’s Guide to Cause and Effect</title>
+  <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 More Missing Data | The Data Analyst’s Guide to Cause and Effect" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="github-repo" content="tbendixen/DAG-companion" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 More Missing Data | The Data Analyst’s Guide to Cause and Effect" />
+  
+  <meta name="twitter:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  
+
+<meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
+
+
+<meta name="date" content="2024-10-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-5.html"/>
+<link rel="next" href="chapter-7.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The Data Analyst's Guide to Cause and Effect</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#version"><i class="fa fa-check"></i>Version</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#errata"><i class="fa fa-check"></i>Errata</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chapter-1.html"><a href="chapter-1.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="chapter-2.html"><a href="chapter-2.html"><i class="fa fa-check"></i><b>2</b> Causal Graphs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-2.html"><a href="chapter-2.html#the-fork"><i class="fa fa-check"></i><b>2.1</b> The Fork</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-2.html"><a href="chapter-2.html#the-pipe"><i class="fa fa-check"></i><b>2.2</b> The Pipe</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-2.html"><a href="chapter-2.html#the-collider"><i class="fa fa-check"></i><b>2.3</b> The Collider</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-2.html"><a href="chapter-2.html#post-treatment-bias"><i class="fa fa-check"></i><b>2.4</b> Post-treatment bias</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-2.html"><a href="chapter-2.html#session-info"><i class="fa fa-check"></i><b>2.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-3.html"><a href="chapter-3.html"><i class="fa fa-check"></i><b>3</b> G-methods and Marginal Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-3.html"><a href="chapter-3.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>3.1</b> Inverse probability weighting</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping"><i class="fa fa-check"></i><b>3.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.1.2" data-path="chapter-3.html"><a href="chapter-3.html#robust-standard-errors-for-ipw"><i class="fa fa-check"></i><b>3.1.2</b> ‘Robust’ standard errors for IPW</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="chapter-3.html"><a href="chapter-3.html#g-computation"><i class="fa fa-check"></i><b>3.2</b> G-computation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping-1"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapter-3.html"><a href="chapter-3.html#bayesian-g-computation"><i class="fa fa-check"></i><b>3.2.2</b> Bayesian g-computation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chapter-3.html"><a href="chapter-3.html#session-info-1"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-4.html"><a href="chapter-4.html"><i class="fa fa-check"></i><b>4</b> Adventures in G-methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="chapter-4.html"><a href="chapter-4.html#doubly-robust-estimation"><i class="fa fa-check"></i><b>4.1</b> Doubly robust estimation</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapping-2"><i class="fa fa-check"></i><b>4.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-5.html"><a href="chapter-5.html#simulating-missingness"><i class="fa fa-check"></i><b>5.1</b> Simulating missingness</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-5.html"><a href="chapter-5.html#poststratification"><i class="fa fa-check"></i><b>5.2</b> Poststratification</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chapter-5.html"><a href="chapter-5.html#frequentist-poststratification"><i class="fa fa-check"></i><b>5.2.1</b> Frequentist poststratification</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-poststratification"><i class="fa fa-check"></i><b>5.2.2</b> Bayesian poststratification</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chapter-5.html"><a href="chapter-5.html#instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.3</b> Instrumental variable analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter-5.html"><a href="chapter-5.html#preparing-cohen-et-al.-2015"><i class="fa fa-check"></i><b>5.3.1</b> Preparing Cohen et al. (2015)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="chapter-5.html"><a href="chapter-5.html#randomized-treatment-assignment-as-instrument"><i class="fa fa-check"></i><b>5.3.2</b> Randomized treatment assignment as instrument</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.4</b> Bayesian instrumental variable analysis</a></li>
+<li class="chapter" data-level="5.5" data-path="chapter-5.html"><a href="chapter-5.html#session-info-3"><i class="fa fa-check"></i><b>5.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-6.html"><a href="chapter-6.html"><i class="fa fa-check"></i><b>6</b> More Missing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-6.html"><a href="chapter-6.html#simple-mean-imputation-vs.-multiple-imputation"><i class="fa fa-check"></i><b>6.1</b> Simple mean imputation vs. multiple imputation</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-6.html"><a href="chapter-6.html#combine-then-predict-or-predict-then-combine"><i class="fa fa-check"></i><b>6.2</b> “Combine then predict” or “predict then combine”?</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-6.html"><a href="chapter-6.html#marginaleffects"><i class="fa fa-check"></i><b>6.2.1</b> <code>marginaleffects</code></a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-6.html"><a href="chapter-6.html#emmeans"><i class="fa fa-check"></i><b>6.2.2</b> <code>emmeans</code></a></li>
+<li class="chapter" data-level="6.2.3" data-path="chapter-6.html"><a href="chapter-6.html#comparison"><i class="fa fa-check"></i><b>6.2.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-6.html"><a href="chapter-6.html#bayesian-imputation"><i class="fa fa-check"></i><b>6.3</b> Bayesian imputation</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-6.html"><a href="chapter-6.html#session-info-4"><i class="fa fa-check"></i><b>6.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-7.html"><a href="chapter-7.html"><i class="fa fa-check"></i><b>7</b> Multilevel Modelling and Mundlak’s Legacy</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-7.html"><a href="chapter-7.html#multilevel-malaria-medicine"><i class="fa fa-check"></i><b>7.1</b> Multilevel malaria medicine</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-simple-intercept-and-slope"><i class="fa fa-check"></i><b>7.1.1</b> Naïve model: Simple intercept and slope</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects"><i class="fa fa-check"></i><b>7.1.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.1.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-interacting-treatment-and-group"><i class="fa fa-check"></i><b>7.1.3</b> Fixed effects interacting treatment and group</a></li>
+<li class="chapter" data-level="7.1.4" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts"><i class="fa fa-check"></i><b>7.1.4</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.1.5" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>7.1.5</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="7.1.6" data-path="chapter-7.html"><a href="chapter-7.html#plot-models-in-a-panel"><i class="fa fa-check"></i><b>7.1.6</b> Plot models in a panel</a></li>
+<li class="chapter" data-level="7.1.7" data-path="chapter-7.html"><a href="chapter-7.html#regularized-vs.-empirical-estimates"><i class="fa fa-check"></i><b>7.1.7</b> Regularized vs. empirical estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="chapter-7.html"><a href="chapter-7.html#simulating-mundlak"><i class="fa fa-check"></i><b>7.2</b> Simulating Mundlak</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-ignoring-group"><i class="fa fa-check"></i><b>7.2.1</b> Naïve model (ignoring group)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-1"><i class="fa fa-check"></i><b>7.2.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-1"><i class="fa fa-check"></i><b>7.2.3</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.2.4" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model"><i class="fa fa-check"></i><b>7.2.4</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.2.5" data-path="chapter-7.html"><a href="chapter-7.html#plot-effect-estimate-distributions"><i class="fa fa-check"></i><b>7.2.5</b> Plot effect estimate distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-7.html"><a href="chapter-7.html#education-and-prosociality-mundlak-in-action"><i class="fa fa-check"></i><b>7.3</b> Education and prosociality: Mundlak in action</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter-7.html"><a href="chapter-7.html#raw-data-distributions"><i class="fa fa-check"></i><b>7.3.1</b> Raw data distributions</a></li>
+<li class="chapter" data-level="7.3.2" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model"><i class="fa fa-check"></i><b>7.3.2</b> Naïve model</a></li>
+<li class="chapter" data-level="7.3.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-2"><i class="fa fa-check"></i><b>7.3.3</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.3.4" data-path="chapter-7.html"><a href="chapter-7.html#random-effects"><i class="fa fa-check"></i><b>7.3.4</b> Random effects</a></li>
+<li class="chapter" data-level="7.3.5" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model-1"><i class="fa fa-check"></i><b>7.3.5</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.3.6" data-path="chapter-7.html"><a href="chapter-7.html#plotting-effect-of-education-on-religiosity"><i class="fa fa-check"></i><b>7.3.6</b> Plotting effect of education on religiosity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter-7.html"><a href="chapter-7.html#marginal-effects-in-a-multilevel-model"><i class="fa fa-check"></i><b>7.4</b> Marginal effects in a multilevel model</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter-7.html"><a href="chapter-7.html#predicting-the-observed-sites"><i class="fa fa-check"></i><b>7.4.1</b> Predicting the observed sites</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter-7.html"><a href="chapter-7.html#frequentist-workflow"><i class="fa fa-check"></i><b>7.4.2</b> Frequentist workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chapter-7.html"><a href="chapter-7.html#session-info-5"><i class="fa fa-check"></i><b>7.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="pkgs.html"><a href="pkgs.html"><i class="fa fa-check"></i><b>8</b> Package Citations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><em>The Data Analyst’s Guide to Cause and Effect</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-6" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> More Missing Data<a href="chapter-6.html#chapter-6" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="simple-mean-imputation-vs.-multiple-imputation" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Simple mean imputation vs. multiple imputation<a href="chapter-6.html#simple-mean-imputation-vs.-multiple-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here we illustrate simple mean imputation.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chapter-6.html#cb93-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cohen2015miss.csv&quot;</span>)</span>
+<span id="cb93-2"><a href="chapter-6.html#cb93-2" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="chapter-6.html#cb93-3" tabindex="-1"></a>d<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">scale</span>(d<span class="sc">$</span>age) <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb93-4"><a href="chapter-6.html#cb93-4" tabindex="-1"></a>d_mimp <span class="ot">&lt;-</span> d</span>
+<span id="cb93-5"><a href="chapter-6.html#cb93-5" tabindex="-1"></a>d_mimp<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">with</span>(d_mimp,</span>
+<span id="cb93-6"><a href="chapter-6.html#cb93-6" tabindex="-1"></a>                   <span class="fu">ifelse</span>(<span class="fu">is.na</span>(age),</span>
+<span id="cb93-7"><a href="chapter-6.html#cb93-7" tabindex="-1"></a>                          <span class="fu">mean</span>(age, <span class="at">na.rm =</span> T),</span>
+<span id="cb93-8"><a href="chapter-6.html#cb93-8" tabindex="-1"></a>                          age))</span>
+<span id="cb93-9"><a href="chapter-6.html#cb93-9" tabindex="-1"></a></span>
+<span id="cb93-10"><a href="chapter-6.html#cb93-10" tabindex="-1"></a><span class="fu">lm</span>(act <span class="sc">~</span> subsidy <span class="sc">+</span> age, <span class="at">data =</span> d_mimp) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = act ~ subsidy + age, data = d_mimp)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.4774 -0.3866 -0.2396  0.5566  0.9431 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.19126    0.03555   5.380 1.05e-07 ***
+## subsidy      0.19535    0.04151   4.706 3.11e-06 ***
+## age         -0.06592    0.01892  -3.485 0.000527 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4608 on 628 degrees of freedom
+##   (34 observations deleted due to missingness)
+## Multiple R-squared:  0.05275,    Adjusted R-squared:  0.04973 
+## F-statistic: 17.49 on 2 and 628 DF,  p-value: 4.074e-08</code></pre>
+<p>We can compare with a complete-case analysis…</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="chapter-6.html#cb95-1" tabindex="-1"></a><span class="fu">lm</span>(act <span class="sc">~</span> subsidy <span class="sc">+</span> age, <span class="at">data =</span> d) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = act ~ subsidy + age, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.4908 -0.3978 -0.2439  0.5472  0.9378 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.19579    0.03679   5.321 1.46e-07 ***
+## subsidy      0.20467    0.04291   4.769 2.33e-06 ***
+## age         -0.06558    0.01905  -3.443 0.000615 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.464 on 598 degrees of freedom
+##   (64 observations deleted due to missingness)
+## Multiple R-squared:  0.05574,    Adjusted R-squared:  0.05258 
+## F-statistic: 17.65 on 2 and 598 DF,  p-value: 3.565e-08</code></pre>
+<p>… As well as multiple imputation.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapter-6.html#cb97-1" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb97-2"><a href="chapter-6.html#cb97-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb97-3"><a href="chapter-6.html#cb97-3" tabindex="-1"></a></span>
+<span id="cb97-4"><a href="chapter-6.html#cb97-4" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(d)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="chapter-6.html#cb98-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(imp, <span class="fu">lm</span>(act <span class="sc">~</span> subsidy <span class="sc">+</span> age))</span>
+<span id="cb98-2"><a href="chapter-6.html#cb98-2" tabindex="-1"></a></span>
+<span id="cb98-3"><a href="chapter-6.html#cb98-3" tabindex="-1"></a><span class="fu">pool</span>(fit) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>##          term    estimate  std.error statistic       df      p.value
+## 1 (Intercept)  0.18965550 0.03496624  5.423960 550.9040 8.739647e-08
+## 2     subsidy  0.19910361 0.04072650  4.888798 580.3649 1.314949e-06
+## 3         age -0.06753163 0.01892160 -3.569022 153.9652 4.781627e-04</code></pre>
+<p>In all cases, the point estimate for both the intercept and effect of subsidy is around 0.20.</p>
+</div>
+<div id="combine-then-predict-or-predict-then-combine" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> “Combine then predict” or “predict then combine”?<a href="chapter-6.html#combine-then-predict-or-predict-then-combine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the main text we say that we have a choice to make when working with a model fitted on multiply imputed data: Do we apply Rubin’s pooling rules on the model coefficients or on model predictions? We can refer to these different approaches as “combine then predict” and “predict then combine,” respectively, following <span class="citation">Miles (<a href="#ref-miles2016">2016</a>)</span>.</p>
+<p>Since different <code>R</code> packages implement post-processing of multiply imputed model fits differently, we show a basic implementations here with two popular <code>R</code> packages. What the packages have in common is that they allow us to conveniently work with the <code>mice</code> object as we would any other model fit. Let’s proceed with the malaria subsidy data and imagine we want an average treatment effect of the subsidy treatment of ACT uptake marginal of age using g-computation.</p>
+<div id="marginaleffects" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> <code>marginaleffects</code><a href="chapter-6.html#marginaleffects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>marginaleffects</code> package <span class="citation">(<a href="#ref-R-marginaleffects">Arel-Bundock, Greifer, and Heiss Forthcoming</a>)</span> implements “predict then combine”; that is, it obtains model predictions for each of the <em>m</em> data sets and then apply Rubin’s rules to the predictions to pool them. G-computation is very straightforward to implement.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="chapter-6.html#cb100-1" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb100-2"><a href="chapter-6.html#cb100-2" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="chapter-6.html#cb100-3" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">subsidy =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## 
+##  Estimate Std. Error    t Pr(&gt;|t|)    S 2.5 % 97.5 %   Df
+##     0.199     0.0407 4.89   &lt;0.001 19.9 0.119  0.279 5965
+## 
+## Term: subsidy
+## Type:  response 
+## Comparison: mean(1) - mean(0)
+## Columns: term, contrast, estimate, std.error, s.value, predicted_lo, predicted_hi, predicted, df, statistic, p.value, conf.low, conf.high</code></pre>
+</div>
+<div id="emmeans" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> <code>emmeans</code><a href="chapter-6.html#emmeans" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>On the other hand, the <code>emmeans</code> package <span class="citation">(<a href="#ref-emmeans">R. V. Lenth 2024</a>)</span> implements “combine then predict”; that is, it applies Rubin’s rules to the model coefficients to pool them and only then obtain model predictions. A basic g-computation implementation could like this using <code>emmeans</code>.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chapter-6.html#cb102-1" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb102-2"><a href="chapter-6.html#cb102-2" tabindex="-1"></a></span>
+<span id="cb102-3"><a href="chapter-6.html#cb102-3" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">specs =</span> <span class="st">&quot;subsidy&quot;</span>, </span>
+<span id="cb102-4"><a href="chapter-6.html#cb102-4" tabindex="-1"></a>        <span class="fu">ref_grid</span>(fit)) <span class="sc">|&gt;</span></span>
+<span id="cb102-5"><a href="chapter-6.html#cb102-5" tabindex="-1"></a>  <span class="fu">contrast</span>(<span class="st">&quot;revpairwise&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb102-6"><a href="chapter-6.html#cb102-6" tabindex="-1"></a>  <span class="fu">confint</span>()</span></code></pre></div>
+<pre><code>##  contrast            estimate     SE  df lower.CL upper.CL
+##  subsidy1 - subsidy0    0.199 0.0407 580    0.119    0.279
+## 
+## Confidence level used: 0.95</code></pre>
+<p>We see that results are identical to those obtained with <code>marginaleffects</code>.</p>
+</div>
+<div id="comparison" class="section level3 hasAnchor" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Comparison<a href="chapter-6.html#comparison" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>But let’s try to see when the two different approaches give different results. Instead of a linear model on the imputed datasets, we instead use a non-linear model in the form of a logistic regression. We do this by calling <code>glm()</code> instead of <code>lm()</code> and setting <code>family = "binomial"</code>.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="chapter-6.html#cb104-1" tabindex="-1"></a>fit_binom <span class="ot">&lt;-</span> <span class="fu">with</span>(imp, <span class="fu">glm</span>(act <span class="sc">~</span> subsidy <span class="sc">+</span> age, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>))</span></code></pre></div>
+<p>Then, we apply our two approaches. The <code>marginaleffects</code> implementation is identical to above even though the model fit is now a logistic regression.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="chapter-6.html#cb105-1" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit_binom, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">subsidy =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## 
+##  Estimate Std. Error    t Pr(&gt;|t|)    S 2.5 % 97.5 %   Df
+##     0.201     0.0369 5.44   &lt;0.001 24.1 0.128  0.273 3541
+## 
+## Term: subsidy
+## Type:  response 
+## Comparison: mean(1) - mean(0)
+## Columns: term, contrast, estimate, std.error, s.value, predicted_lo, predicted_hi, predicted, df, statistic, p.value, conf.low, conf.high</code></pre>
+<p>For the <code>emmeans</code> approach, to get predictions on the probability scale, we can wrap the <code>ref_grid()</code> function in <code>regrid()</code> and set <code>type = "response"</code>. We see that results are very similar but not identical.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="chapter-6.html#cb107-1" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">specs =</span> <span class="st">&quot;subsidy&quot;</span>,</span>
+<span id="cb107-2"><a href="chapter-6.html#cb107-2" tabindex="-1"></a>        <span class="fu">regrid</span>(<span class="fu">ref_grid</span>(fit_binom),</span>
+<span id="cb107-3"><a href="chapter-6.html#cb107-3" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb107-4"><a href="chapter-6.html#cb107-4" tabindex="-1"></a>  <span class="fu">contrast</span>(<span class="st">&quot;revpairwise&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb107-5"><a href="chapter-6.html#cb107-5" tabindex="-1"></a>  <span class="fu">confint</span>()</span></code></pre></div>
+<pre><code>##  contrast            estimate    SE   df lower.CL upper.CL
+##  subsidy1 - subsidy0    0.203 0.037 1566     0.13    0.275
+## 
+## Confidence level used: 0.95</code></pre>
+</div>
+</div>
+<div id="bayesian-imputation" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Bayesian imputation<a href="chapter-6.html#bayesian-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the book, we also mentioned an alternative imputation approach, namely Bayesian imputation. Using the <code>brms</code> package <span class="citation">(<a href="#ref-brms2017">Bürkner 2017</a>, <a href="#ref-brms2018">2018</a>, <a href="#ref-brms2021">2021</a>)</span>, we’ll show a very basic implementation. The syntax should seem somewhat familiar, as <code>brms</code> uses common <code>R</code> regression syntax.</p>
+<p>First, we define the model formula. At its core, it’s similar to the <code>lm()</code> formula above, except for a few complications. The formula object holds two main components, each wrapped by <code>bf()</code>. In the first part, we indicate the covariate we want to impute – in the case, <code>age</code> – with the <code>mi()</code> wrapper. The second part specifies a model for the variable we want to impute. Finally, we feed that formula to <code>brm()</code> along with the data. We then set the cores to 4 for speedier sampling and a seed for numeric reproducibility. We strongly recommend McElreath (and Kurz’ translations) [REF] for more details and a general introduction ot Bayesian inference more generally.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="chapter-6.html#cb109-1" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="chapter-6.html#cb110-1" tabindex="-1"></a><span class="co"># Define model formula</span></span>
+<span id="cb110-2"><a href="chapter-6.html#cb110-2" tabindex="-1"></a>formula <span class="ot">&lt;-</span> <span class="fu">bf</span>(act <span class="sc">~</span> subsidy <span class="sc">+</span> <span class="fu">mi</span>(age)) <span class="sc">+</span></span>
+<span id="cb110-3"><a href="chapter-6.html#cb110-3" tabindex="-1"></a>           <span class="fu">bf</span>(age <span class="sc">|</span> <span class="fu">mi</span>() <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb110-4"><a href="chapter-6.html#cb110-4" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="chapter-6.html#cb110-5" tabindex="-1"></a><span class="co"># Fit model to data</span></span>
+<span id="cb110-6"><a href="chapter-6.html#cb110-6" tabindex="-1"></a>bfit <span class="ot">&lt;-</span> <span class="fu">brm</span>(formula,</span>
+<span id="cb110-7"><a href="chapter-6.html#cb110-7" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb110-8"><a href="chapter-6.html#cb110-8" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">2020</span>,</span>
+<span id="cb110-9"><a href="chapter-6.html#cb110-9" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/bfit.rds&quot;</span>)</span></code></pre></div>
+<p>We can get a summary of the Bayesian model by calling <code>summary()</code></p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="chapter-6.html#cb111-1" tabindex="-1"></a><span class="fu">summary</span>(bfit)</span></code></pre></div>
+<pre><code>##  Family: MV(gaussian, gaussian) 
+##   Links: mu = identity; sigma = identity
+##          mu = identity; sigma = identity 
+## Formula: act ~ subsidy + mi(age) 
+##          age | mi() ~ 1 
+##    Data: d (Number of observations: 631) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Regression Coefficients:
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## act_Intercept     0.19      0.04     0.12     0.26 1.00     8466     2986
+## age_Intercept    -0.02      0.04    -0.10     0.06 1.00     6946     3032
+## act_subsidy       0.20      0.04     0.12     0.28 1.00     7634     2840
+## act_miage        -0.06      0.02    -0.10    -0.03 1.00     9493     2986
+## 
+## Further Distributional Parameters:
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma_act     0.46      0.01     0.44     0.49 1.00     8351     3073
+## sigma_age     1.00      0.03     0.94     1.06 1.00     6670     2543
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>The coefficient <code>act_subsidy</code> corresponds to the <code>subsidy</code> coefficient in the <code>lm()</code> and <code>glm()</code> calls above. We see that the coefficients are very similar to the models above, except now we also have coefficients for the model predicting age (the <code>age_</code> parameters).</p>
+<p>Now, there are many ways to extend this model, which are outside the scope of this companion website, for instance using more informative prior settings, constraining imputed values to be within realistic ranges, include covariates in the sub-model predicting missing <code>age</code> values, or use a different likelihood for <code>act</code> that respects its binary nature (e.g., a logistic regression model).</p>
+<p>We can also inspect the distribution of imputed values. For instance, we can plot 20 draws from the distribution of the imputed age variable (light blue curves) against the observed distribution of age in the sample (dark blue curve)…</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="chapter-6.html#cb113-1" tabindex="-1"></a><span class="fu">pp_check</span>(bfit, <span class="at">resp =</span> <span class="st">&quot;age&quot;</span>, <span class="at">ndraws =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch6-fig-unnamed-chunk-88-1.png" width="480" /></p>
+<p>… Which is somewhat similar to this plot of imputed data sets (red curves) against the observed (blue curve) from the <code>mice</code> implementation shown in the text.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="chapter-6.html#cb114-1" tabindex="-1"></a><span class="fu">densityplot</span>(imp, <span class="sc">~</span> age)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch6-fig-unnamed-chunk-89-1.png" width="480" /></p>
+<p>Now, we can post-process the Bayesian model fit exactly as shown in Chapters 3 and 5 [REF] using the <code>tidybayes</code>-based workflow <span class="citation">(<a href="#ref-tidybayes">Kay 2023</a>)</span>. Or, we can use <code>marginaleffects</code> just as shown for the <code>mice</code> object above, except we need to specify that it’s the model predicting ACT uptake that we want to apply g-computation to; this is what <code>resp = "act"</code> does.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="chapter-6.html#cb115-1" tabindex="-1"></a><span class="fu">avg_comparisons</span>(bfit, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">subsidy =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>), <span class="at">resp =</span> <span class="st">&quot;act&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Estimate 2.5 % 97.5 %
+##     0.195 0.116  0.276
+## 
+## Term: subsidy
+## Type:  response 
+## Comparison: mean(1) - mean(0)
+## Columns: term, contrast, estimate, conf.low, conf.high, predicted_lo, predicted_hi, predicted, tmp_idx</code></pre>
+</div>
+<div id="session-info-4" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Session info<a href="chapter-6.html#session-info-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="chapter-6.html#cb117-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.4.1 (2024-06-14 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 10 x64 (build 19045)
+## 
+## Matrix products: default
+## 
+## 
+## locale:
+## [1] LC_COLLATE=Danish_Denmark.utf8  LC_CTYPE=Danish_Denmark.utf8   
+## [3] LC_MONETARY=Danish_Denmark.utf8 LC_NUMERIC=C                   
+## [5] LC_TIME=Danish_Denmark.utf8    
+## 
+## time zone: Europe/Copenhagen
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] brms_2.21.0            Rcpp_1.0.12            emmeans_1.10.5        
+##  [4] marginaleffects_0.23.0 mice_3.16.0            dplyr_1.1.4           
+##  [7] cobalt_4.5.5           causaldata_0.1.4       sandwich_3.1-1        
+## [10] patchwork_1.3.0        ggplot2_3.5.1         
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_1.2.1        farver_2.1.2            loo_2.7.0.9000         
+##  [4] fastmap_1.2.0           tensorA_0.36.2.1        rpart_4.1.23           
+##  [7] digest_0.6.35           estimability_1.5.1      lifecycle_1.0.4        
+## [10] StanHeaders_2.35.0.9000 survival_3.6-4          magrittr_2.0.3         
+## [13] posterior_1.5.0.9000    compiler_4.4.1          rlang_1.1.4            
+## [16] sass_0.4.9              tools_4.4.1             utf8_1.2.4             
+## [19] yaml_2.3.8              collapse_2.0.16         data.table_1.15.4      
+## [22] knitr_1.47              labeling_0.4.3          bridgesampling_1.1-2   
+## [25] pkgbuild_1.4.4          plyr_1.8.9              abind_1.4-5            
+## [28] withr_3.0.0             purrr_1.0.2             nnet_7.3-19            
+## [31] grid_4.4.1              stats4_4.4.1            fansi_1.0.6            
+## [34] jomo_2.7-6              xtable_1.8-4            colorspace_2.1-0       
+## [37] inline_0.3.19           MASS_7.3-60.2           scales_1.3.0           
+## [40] iterators_1.0.14        insight_0.20.5          cli_3.6.2              
+## [43] mvtnorm_1.2-5           rmarkdown_2.27          crayon_1.5.3           
+## [46] generics_0.1.3          RcppParallel_5.1.7      rstudioapi_0.16.0      
+## [49] reshape2_1.4.4          minqa_1.2.7             cachem_1.1.0           
+## [52] rstan_2.35.0.9000       stringr_1.5.1           splines_4.4.1          
+## [55] bayesplot_1.11.1        parallel_4.4.1          matrixStats_1.3.0      
+## [58] vctrs_0.6.5             boot_1.3-30             glmnet_4.1-8           
+## [61] Matrix_1.7-0            jsonlite_1.8.8          bookdown_0.41          
+## [64] mitml_0.4-5             foreach_1.5.2           jquerylib_0.1.4        
+## [67] tidyr_1.3.1             glue_1.7.0              pan_1.9                
+## [70] nloptr_2.1.1            chk_0.9.2               codetools_0.2-20       
+## [73] distributional_0.4.0    stringi_1.8.4           gtable_0.3.5           
+## [76] shape_1.4.6.1           QuickJSR_1.2.2          lme4_1.1-35.4          
+## [79] munsell_0.5.1           tibble_3.2.1            pillar_1.9.0           
+## [82] htmltools_0.5.8.1       Brobdingnag_1.2-9       R6_2.5.1               
+## [85] evaluate_0.24.0         lattice_0.22-6          highr_0.11             
+## [88] backports_1.5.0         broom_1.0.6             bslib_0.7.0            
+## [91] rstantools_2.4.0        coda_0.19-4.1           gridExtra_2.3          
+## [94] nlme_3.1-164            checkmate_2.3.1         mgcv_1.9-1             
+## [97] xfun_0.48               zoo_1.8-12              pkgconfig_2.0.3</code></pre>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-marginaleffects" class="csl-entry">
+Arel-Bundock, Vincent, Noah Greifer, and Andrew Heiss. Forthcoming. <span>“How to Interpret Statistical Models Using <code>marginaleffects</code> in <code>R</code> and <code>Python</code>.”</span> <em>Journal of Statistical Software</em>, Forthcoming. <a href="https://marginaleffects.com">https://marginaleffects.com</a>.
+</div>
+<div id="ref-brms2017" class="csl-entry">
+Bürkner, Paul-Christian. 2017. <span>“<span class="nocase">brms</span>: An <span>R</span> Package for <span>Bayesian</span> Multilevel Models Using <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 80 (1): 1–28. <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a>.
+</div>
+<div id="ref-brms2018" class="csl-entry">
+———. 2018. <span>“Advanced <span>Bayesian</span> Multilevel Modeling with the <span>R</span> Package <span class="nocase">brms</span>.”</span> <em>The R Journal</em> 10 (1): 395–411. <a href="https://doi.org/10.32614/RJ-2018-017">https://doi.org/10.32614/RJ-2018-017</a>.
+</div>
+<div id="ref-brms2021" class="csl-entry">
+———. 2021. <span>“Bayesian Item Response Modeling in <span>R</span> with <span class="nocase">brms</span> and <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 100 (5): 1–54. <a href="https://doi.org/10.18637/jss.v100.i05">https://doi.org/10.18637/jss.v100.i05</a>.
+</div>
+<div id="ref-tidybayes" class="csl-entry">
+Kay, Matthew. 2023. <em><span class="nocase">tidybayes</span>: Tidy Data and Geoms for <span>Bayesian</span> Models</em>. <a href="https://doi.org/10.5281/zenodo.1308151">https://doi.org/10.5281/zenodo.1308151</a>.
+</div>
+<div id="ref-emmeans" class="csl-entry">
+Lenth, Russell V. 2024. <em><span class="nocase">emmeans</span>: Estimated Marginal Means, Aka Least-Squares Means</em>. <a href="https://CRAN.R-project.org/package=emmeans">https://CRAN.R-project.org/package=emmeans</a>.
+</div>
+<div id="ref-miles2016" class="csl-entry">
+Miles, Andrew. 2016. <span>“Obtaining Predictions from Models Fit to Multiply Imputed Data.”</span> <em>Sociological Methods &amp; Research</em> 45 (1): 175–85. <a href="https://doi.org/10.1177/0049124115610345">https://doi.org/10.1177/0049124115610345</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toc_depth": 2
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

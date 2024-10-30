@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Multilevel Modelling and Mundlak’s Legacy | The Data Analyst’s Guide to Cause and Effect</title>
+  <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Multilevel Modelling and Mundlak’s Legacy | The Data Analyst’s Guide to Cause and Effect" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="github-repo" content="tbendixen/DAG-companion" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Multilevel Modelling and Mundlak’s Legacy | The Data Analyst’s Guide to Cause and Effect" />
+  
+  <meta name="twitter:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  
+
+<meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
+
+
+<meta name="date" content="2024-10-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-6.html"/>
+<link rel="next" href="pkgs.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The Data Analyst's Guide to Cause and Effect</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#version"><i class="fa fa-check"></i>Version</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#errata"><i class="fa fa-check"></i>Errata</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chapter-1.html"><a href="chapter-1.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="chapter-2.html"><a href="chapter-2.html"><i class="fa fa-check"></i><b>2</b> Causal Graphs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-2.html"><a href="chapter-2.html#the-fork"><i class="fa fa-check"></i><b>2.1</b> The Fork</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-2.html"><a href="chapter-2.html#the-pipe"><i class="fa fa-check"></i><b>2.2</b> The Pipe</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-2.html"><a href="chapter-2.html#the-collider"><i class="fa fa-check"></i><b>2.3</b> The Collider</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-2.html"><a href="chapter-2.html#post-treatment-bias"><i class="fa fa-check"></i><b>2.4</b> Post-treatment bias</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-2.html"><a href="chapter-2.html#session-info"><i class="fa fa-check"></i><b>2.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-3.html"><a href="chapter-3.html"><i class="fa fa-check"></i><b>3</b> G-methods and Marginal Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-3.html"><a href="chapter-3.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>3.1</b> Inverse probability weighting</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping"><i class="fa fa-check"></i><b>3.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.1.2" data-path="chapter-3.html"><a href="chapter-3.html#robust-standard-errors-for-ipw"><i class="fa fa-check"></i><b>3.1.2</b> ‘Robust’ standard errors for IPW</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="chapter-3.html"><a href="chapter-3.html#g-computation"><i class="fa fa-check"></i><b>3.2</b> G-computation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping-1"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapter-3.html"><a href="chapter-3.html#bayesian-g-computation"><i class="fa fa-check"></i><b>3.2.2</b> Bayesian g-computation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chapter-3.html"><a href="chapter-3.html#session-info-1"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-4.html"><a href="chapter-4.html"><i class="fa fa-check"></i><b>4</b> Adventures in G-methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="chapter-4.html"><a href="chapter-4.html#doubly-robust-estimation"><i class="fa fa-check"></i><b>4.1</b> Doubly robust estimation</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapping-2"><i class="fa fa-check"></i><b>4.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-5.html"><a href="chapter-5.html#simulating-missingness"><i class="fa fa-check"></i><b>5.1</b> Simulating missingness</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-5.html"><a href="chapter-5.html#poststratification"><i class="fa fa-check"></i><b>5.2</b> Poststratification</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chapter-5.html"><a href="chapter-5.html#frequentist-poststratification"><i class="fa fa-check"></i><b>5.2.1</b> Frequentist poststratification</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-poststratification"><i class="fa fa-check"></i><b>5.2.2</b> Bayesian poststratification</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chapter-5.html"><a href="chapter-5.html#instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.3</b> Instrumental variable analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter-5.html"><a href="chapter-5.html#preparing-cohen-et-al.-2015"><i class="fa fa-check"></i><b>5.3.1</b> Preparing Cohen et al. (2015)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="chapter-5.html"><a href="chapter-5.html#randomized-treatment-assignment-as-instrument"><i class="fa fa-check"></i><b>5.3.2</b> Randomized treatment assignment as instrument</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.4</b> Bayesian instrumental variable analysis</a></li>
+<li class="chapter" data-level="5.5" data-path="chapter-5.html"><a href="chapter-5.html#session-info-3"><i class="fa fa-check"></i><b>5.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-6.html"><a href="chapter-6.html"><i class="fa fa-check"></i><b>6</b> More Missing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-6.html"><a href="chapter-6.html#simple-mean-imputation-vs.-multiple-imputation"><i class="fa fa-check"></i><b>6.1</b> Simple mean imputation vs. multiple imputation</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-6.html"><a href="chapter-6.html#combine-then-predict-or-predict-then-combine"><i class="fa fa-check"></i><b>6.2</b> “Combine then predict” or “predict then combine”?</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-6.html"><a href="chapter-6.html#marginaleffects"><i class="fa fa-check"></i><b>6.2.1</b> <code>marginaleffects</code></a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-6.html"><a href="chapter-6.html#emmeans"><i class="fa fa-check"></i><b>6.2.2</b> <code>emmeans</code></a></li>
+<li class="chapter" data-level="6.2.3" data-path="chapter-6.html"><a href="chapter-6.html#comparison"><i class="fa fa-check"></i><b>6.2.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-6.html"><a href="chapter-6.html#bayesian-imputation"><i class="fa fa-check"></i><b>6.3</b> Bayesian imputation</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-6.html"><a href="chapter-6.html#session-info-4"><i class="fa fa-check"></i><b>6.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-7.html"><a href="chapter-7.html"><i class="fa fa-check"></i><b>7</b> Multilevel Modelling and Mundlak’s Legacy</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-7.html"><a href="chapter-7.html#multilevel-malaria-medicine"><i class="fa fa-check"></i><b>7.1</b> Multilevel malaria medicine</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-simple-intercept-and-slope"><i class="fa fa-check"></i><b>7.1.1</b> Naïve model: Simple intercept and slope</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects"><i class="fa fa-check"></i><b>7.1.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.1.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-interacting-treatment-and-group"><i class="fa fa-check"></i><b>7.1.3</b> Fixed effects interacting treatment and group</a></li>
+<li class="chapter" data-level="7.1.4" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts"><i class="fa fa-check"></i><b>7.1.4</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.1.5" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>7.1.5</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="7.1.6" data-path="chapter-7.html"><a href="chapter-7.html#plot-models-in-a-panel"><i class="fa fa-check"></i><b>7.1.6</b> Plot models in a panel</a></li>
+<li class="chapter" data-level="7.1.7" data-path="chapter-7.html"><a href="chapter-7.html#regularized-vs.-empirical-estimates"><i class="fa fa-check"></i><b>7.1.7</b> Regularized vs. empirical estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="chapter-7.html"><a href="chapter-7.html#simulating-mundlak"><i class="fa fa-check"></i><b>7.2</b> Simulating Mundlak</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-ignoring-group"><i class="fa fa-check"></i><b>7.2.1</b> Naïve model (ignoring group)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-1"><i class="fa fa-check"></i><b>7.2.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-1"><i class="fa fa-check"></i><b>7.2.3</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.2.4" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model"><i class="fa fa-check"></i><b>7.2.4</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.2.5" data-path="chapter-7.html"><a href="chapter-7.html#plot-effect-estimate-distributions"><i class="fa fa-check"></i><b>7.2.5</b> Plot effect estimate distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-7.html"><a href="chapter-7.html#education-and-prosociality-mundlak-in-action"><i class="fa fa-check"></i><b>7.3</b> Education and prosociality: Mundlak in action</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter-7.html"><a href="chapter-7.html#raw-data-distributions"><i class="fa fa-check"></i><b>7.3.1</b> Raw data distributions</a></li>
+<li class="chapter" data-level="7.3.2" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model"><i class="fa fa-check"></i><b>7.3.2</b> Naïve model</a></li>
+<li class="chapter" data-level="7.3.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-2"><i class="fa fa-check"></i><b>7.3.3</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.3.4" data-path="chapter-7.html"><a href="chapter-7.html#random-effects"><i class="fa fa-check"></i><b>7.3.4</b> Random effects</a></li>
+<li class="chapter" data-level="7.3.5" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model-1"><i class="fa fa-check"></i><b>7.3.5</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.3.6" data-path="chapter-7.html"><a href="chapter-7.html#plotting-effect-of-education-on-religiosity"><i class="fa fa-check"></i><b>7.3.6</b> Plotting effect of education on religiosity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter-7.html"><a href="chapter-7.html#marginal-effects-in-a-multilevel-model"><i class="fa fa-check"></i><b>7.4</b> Marginal effects in a multilevel model</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter-7.html"><a href="chapter-7.html#predicting-the-observed-sites"><i class="fa fa-check"></i><b>7.4.1</b> Predicting the observed sites</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter-7.html"><a href="chapter-7.html#frequentist-workflow"><i class="fa fa-check"></i><b>7.4.2</b> Frequentist workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chapter-7.html"><a href="chapter-7.html#session-info-5"><i class="fa fa-check"></i><b>7.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="pkgs.html"><a href="pkgs.html"><i class="fa fa-check"></i><b>8</b> Package Citations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><em>The Data Analyst’s Guide to Cause and Effect</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-7" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Multilevel Modelling and Mundlak’s Legacy<a href="chapter-7.html#chapter-7" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="chapter-7.html#cb119-1" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb119-2"><a href="chapter-7.html#cb119-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb119-3"><a href="chapter-7.html#cb119-3" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb119-4"><a href="chapter-7.html#cb119-4" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb119-5"><a href="chapter-7.html#cb119-5" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span></code></pre></div>
+<div id="multilevel-malaria-medicine" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Multilevel malaria medicine<a href="chapter-7.html#multilevel-malaria-medicine" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To reproduce the figure comparing random and fixed effects, we first load the malaria subsidy data and fit the five models. We again use the <code>brms</code> package with default prior settings, but models could just as well be implemented using e.g., <code>lme4</code>.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="chapter-7.html#cb120-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cohen2015.csv&quot;</span>)</span>
+<span id="cb120-2"><a href="chapter-7.html#cb120-2" tabindex="-1"></a>d<span class="sc">$</span>stratum <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d<span class="sc">$</span>stratum)</span></code></pre></div>
+<div id="naïve-model-simple-intercept-and-slope" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Naïve model: Simple intercept and slope<a href="chapter-7.html#naïve-model-simple-intercept-and-slope" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="chapter-7.html#cb121-1" tabindex="-1"></a>msimp <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy,</span>
+<span id="cb121-2"><a href="chapter-7.html#cb121-2" tabindex="-1"></a>             <span class="at">data =</span> d, </span>
+<span id="cb121-3"><a href="chapter-7.html#cb121-3" tabindex="-1"></a>             <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb121-4"><a href="chapter-7.html#cb121-4" tabindex="-1"></a>             <span class="at">file =</span> <span class="st">&quot;fits/msimp&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Fixed effects<a href="chapter-7.html#fixed-effects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="chapter-7.html#cb122-1" tabindex="-1"></a>mfix <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> stratum,</span>
+<span id="cb122-2"><a href="chapter-7.html#cb122-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb122-3"><a href="chapter-7.html#cb122-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb122-4"><a href="chapter-7.html#cb122-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mfix.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-interacting-treatment-and-group" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Fixed effects interacting treatment and group<a href="chapter-7.html#fixed-effects-interacting-treatment-and-group" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="chapter-7.html#cb123-1" tabindex="-1"></a>mfix2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">*</span> stratum,</span>
+<span id="cb123-2"><a href="chapter-7.html#cb123-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb123-3"><a href="chapter-7.html#cb123-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb123-4"><a href="chapter-7.html#cb123-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mfix2.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts" class="section level3 hasAnchor" number="7.1.4">
+<h3><span class="header-section-number">7.1.4</span> Random intercepts<a href="chapter-7.html#random-intercepts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="chapter-7.html#cb124-1" tabindex="-1"></a>mran <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stratum),</span>
+<span id="cb124-2"><a href="chapter-7.html#cb124-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb124-3"><a href="chapter-7.html#cb124-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb124-4"><a href="chapter-7.html#cb124-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mran.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts-and-slopes" class="section level3 hasAnchor" number="7.1.5">
+<h3><span class="header-section-number">7.1.5</span> Random intercepts and slopes<a href="chapter-7.html#random-intercepts-and-slopes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="chapter-7.html#cb125-1" tabindex="-1"></a>mran2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(act <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> subsidy <span class="sc">|</span> stratum),</span>
+<span id="cb125-2"><a href="chapter-7.html#cb125-2" tabindex="-1"></a>            <span class="at">data =</span> d,</span>
+<span id="cb125-3"><a href="chapter-7.html#cb125-3" tabindex="-1"></a>            <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb125-4"><a href="chapter-7.html#cb125-4" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;fits/mran2.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plot-models-in-a-panel" class="section level3 hasAnchor" number="7.1.6">
+<h3><span class="header-section-number">7.1.6</span> Plot models in a panel<a href="chapter-7.html#plot-models-in-a-panel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we extract and collect model coefficients in a data frame.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="chapter-7.html#cb126-1" tabindex="-1"></a>FEREpanel <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">intercept =</span> <span class="fu">c</span>(<span class="fu">fixef</span>(msimp)[<span class="dv">1</span>],</span>
+<span id="cb126-2"><a href="chapter-7.html#cb126-2" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mran)[<span class="dv">1</span>],</span>
+<span id="cb126-3"><a href="chapter-7.html#cb126-3" tabindex="-1"></a>                                      <span class="fu">coef</span>(mran)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb126-4"><a href="chapter-7.html#cb126-4" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mran2)[<span class="dv">1</span>],</span>
+<span id="cb126-5"><a href="chapter-7.html#cb126-5" tabindex="-1"></a>                                      <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb126-6"><a href="chapter-7.html#cb126-6" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix)[<span class="dv">1</span>],</span>
+<span id="cb126-7"><a href="chapter-7.html#cb126-7" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix)[<span class="dv">3</span><span class="sc">:</span><span class="dv">29</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix)[<span class="dv">1</span>],</span>
+<span id="cb126-8"><a href="chapter-7.html#cb126-8" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix2)[<span class="dv">1</span>],</span>
+<span id="cb126-9"><a href="chapter-7.html#cb126-9" tabindex="-1"></a>                                      <span class="fu">fixef</span>(mfix2)[<span class="dv">3</span><span class="sc">:</span><span class="dv">29</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix2)[<span class="dv">1</span>]),</span>
+<span id="cb126-10"><a href="chapter-7.html#cb126-10" tabindex="-1"></a>                        <span class="at">slope =</span> <span class="fu">c</span>(<span class="fu">fixef</span>(msimp)[<span class="dv">1</span>],</span>
+<span id="cb126-11"><a href="chapter-7.html#cb126-11" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mran)[<span class="dv">2</span>],</span>
+<span id="cb126-12"><a href="chapter-7.html#cb126-12" tabindex="-1"></a>                                  <span class="fu">coef</span>(mran)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">2</span>],</span>
+<span id="cb126-13"><a href="chapter-7.html#cb126-13" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mran2)[<span class="dv">2</span>],</span>
+<span id="cb126-14"><a href="chapter-7.html#cb126-14" tabindex="-1"></a>                                  <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="dv">1</span>,<span class="dv">2</span>],</span>
+<span id="cb126-15"><a href="chapter-7.html#cb126-15" tabindex="-1"></a>                                  <span class="fu">rep</span>(<span class="fu">fixef</span>(mfix)[<span class="dv">2</span>],<span class="dv">28</span>),</span>
+<span id="cb126-16"><a href="chapter-7.html#cb126-16" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mfix2)[<span class="dv">2</span>],</span>
+<span id="cb126-17"><a href="chapter-7.html#cb126-17" tabindex="-1"></a>                                  <span class="fu">fixef</span>(mfix2)[<span class="dv">30</span><span class="sc">:</span><span class="dv">56</span>] <span class="sc">+</span> <span class="fu">fixef</span>(mfix2)[<span class="dv">2</span>]),</span>
+<span id="cb126-18"><a href="chapter-7.html#cb126-18" tabindex="-1"></a>                        <span class="at">g =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">29</span>, <span class="dv">2</span>), <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>, <span class="dv">2</span>)),</span>
+<span id="cb126-19"><a href="chapter-7.html#cb126-19" tabindex="-1"></a>                        <span class="at">grand =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">28</span>), <span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">28</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">56</span>)),</span>
+<span id="cb126-20"><a href="chapter-7.html#cb126-20" tabindex="-1"></a>                        <span class="at">model =</span> <span class="fu">c</span>(<span class="st">&quot;Y ~ 1 + X&quot;</span>,</span>
+<span id="cb126-21"><a href="chapter-7.html#cb126-21" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>, <span class="dv">29</span>),</span>
+<span id="cb126-22"><a href="chapter-7.html#cb126-22" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>, <span class="dv">29</span>),</span>
+<span id="cb126-23"><a href="chapter-7.html#cb126-23" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X + G&quot;</span>, <span class="dv">28</span>),</span>
+<span id="cb126-24"><a href="chapter-7.html#cb126-24" tabindex="-1"></a>                                <span class="fu">rep</span>(<span class="st">&quot;Y ~ 1 + X * G&quot;</span>, <span class="dv">28</span>)))</span></code></pre></div>
+<p>Next, we generate predictions from each of the models.</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="chapter-7.html#cb127-1" tabindex="-1"></a><span class="co"># Define a range of x-values (here, it&#39;s simply control (X = 0) vs. treatment (X = 1)</span></span>
+<span id="cb127-2"><a href="chapter-7.html#cb127-2" tabindex="-1"></a>x_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb127-3"><a href="chapter-7.html#cb127-3" tabindex="-1"></a></span>
+<span id="cb127-4"><a href="chapter-7.html#cb127-4" tabindex="-1"></a><span class="co"># Expand the dataframe to include x-values for each line...</span></span>
+<span id="cb127-5"><a href="chapter-7.html#cb127-5" tabindex="-1"></a>FEREpanel <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb127-6"><a href="chapter-7.html#cb127-6" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">x =</span> x_values) <span class="sc">|&gt;</span></span>
+<span id="cb127-7"><a href="chapter-7.html#cb127-7" tabindex="-1"></a>  <span class="co"># ... and compute predictions for control vs. treatment</span></span>
+<span id="cb127-8"><a href="chapter-7.html#cb127-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">y =</span> intercept <span class="sc">+</span> slope <span class="sc">*</span> x)</span></code></pre></div>
+<p>Then we plot predictions from each of the models</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="chapter-7.html#cb128-1" tabindex="-1"></a><span class="co"># Set y-axis limit</span></span>
+<span id="cb128-2"><a href="chapter-7.html#cb128-2" tabindex="-1"></a>ylim <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb128-3"><a href="chapter-7.html#cb128-3" tabindex="-1"></a></span>
+<span id="cb128-4"><a href="chapter-7.html#cb128-4" tabindex="-1"></a><span class="co"># Generate individual plots</span></span>
+<span id="cb128-5"><a href="chapter-7.html#cb128-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb128-6"><a href="chapter-7.html#cb128-6" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb128-7"><a href="chapter-7.html#cb128-7" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb128-8"><a href="chapter-7.html#cb128-8" tabindex="-1"></a>             <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb128-9"><a href="chapter-7.html#cb128-9" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb128-10"><a href="chapter-7.html#cb128-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb128-11"><a href="chapter-7.html#cb128-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Simple intercept and slope&quot;</span>,</span>
+<span id="cb128-12"><a href="chapter-7.html#cb128-12" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X&quot;</span>,</span>
+<span id="cb128-13"><a href="chapter-7.html#cb128-13" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb128-14"><a href="chapter-7.html#cb128-14" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb128-15"><a href="chapter-7.html#cb128-15" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb128-16"><a href="chapter-7.html#cb128-16" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb128-17"><a href="chapter-7.html#cb128-17" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb128-18"><a href="chapter-7.html#cb128-18" tabindex="-1"></a></span>
+<span id="cb128-19"><a href="chapter-7.html#cb128-19" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb128-20"><a href="chapter-7.html#cb128-20" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + G&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb128-21"><a href="chapter-7.html#cb128-21" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb128-22"><a href="chapter-7.html#cb128-22" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb128-23"><a href="chapter-7.html#cb128-23" tabindex="-1"></a>             <span class="at">group =</span> g)) <span class="sc">+</span></span>
+<span id="cb128-24"><a href="chapter-7.html#cb128-24" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span> </span>
+<span id="cb128-25"><a href="chapter-7.html#cb128-25" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb128-26"><a href="chapter-7.html#cb128-26" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-27"><a href="chapter-7.html#cb128-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Fixed effects&quot;</span>,</span>
+<span id="cb128-28"><a href="chapter-7.html#cb128-28" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + G&quot;</span>,</span>
+<span id="cb128-29"><a href="chapter-7.html#cb128-29" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Prob. of taking ACT&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb128-30"><a href="chapter-7.html#cb128-30" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb128-31"><a href="chapter-7.html#cb128-31" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb128-32"><a href="chapter-7.html#cb128-32" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb128-33"><a href="chapter-7.html#cb128-33" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb128-34"><a href="chapter-7.html#cb128-34" tabindex="-1"></a></span>
+<span id="cb128-35"><a href="chapter-7.html#cb128-35" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb128-36"><a href="chapter-7.html#cb128-36" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X * G&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb128-37"><a href="chapter-7.html#cb128-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb128-38"><a href="chapter-7.html#cb128-38" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb128-39"><a href="chapter-7.html#cb128-39" tabindex="-1"></a>             <span class="at">group =</span> g)) <span class="sc">+</span></span>
+<span id="cb128-40"><a href="chapter-7.html#cb128-40" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span> </span>
+<span id="cb128-41"><a href="chapter-7.html#cb128-41" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb128-42"><a href="chapter-7.html#cb128-42" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb128-43"><a href="chapter-7.html#cb128-43" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb128-44"><a href="chapter-7.html#cb128-44" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb128-45"><a href="chapter-7.html#cb128-45" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;FE interacting X and group&quot;</span>,</span>
+<span id="cb128-46"><a href="chapter-7.html#cb128-46" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X * G&quot;</span>,</span>
+<span id="cb128-47"><a href="chapter-7.html#cb128-47" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb128-48"><a href="chapter-7.html#cb128-48" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb128-49"><a href="chapter-7.html#cb128-49" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb128-50"><a href="chapter-7.html#cb128-50" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb128-51"><a href="chapter-7.html#cb128-51" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb128-52"><a href="chapter-7.html#cb128-52" tabindex="-1"></a></span>
+<span id="cb128-53"><a href="chapter-7.html#cb128-53" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb128-54"><a href="chapter-7.html#cb128-54" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb128-55"><a href="chapter-7.html#cb128-55" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb128-56"><a href="chapter-7.html#cb128-56" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb128-57"><a href="chapter-7.html#cb128-57" tabindex="-1"></a>             <span class="at">group =</span> g, </span>
+<span id="cb128-58"><a href="chapter-7.html#cb128-58" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fu">factor</span>(grand))) <span class="sc">+</span></span>
+<span id="cb128-59"><a href="chapter-7.html#cb128-59" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb128-60"><a href="chapter-7.html#cb128-60" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb128-61"><a href="chapter-7.html#cb128-61" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb128-62"><a href="chapter-7.html#cb128-62" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-63"><a href="chapter-7.html#cb128-63" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Random intercepts&quot;</span>,</span>
+<span id="cb128-64"><a href="chapter-7.html#cb128-64" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + (1 | G)&quot;</span>,</span>
+<span id="cb128-65"><a href="chapter-7.html#cb128-65" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb128-66"><a href="chapter-7.html#cb128-66" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb128-67"><a href="chapter-7.html#cb128-67" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb128-68"><a href="chapter-7.html#cb128-68" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb128-69"><a href="chapter-7.html#cb128-69" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span>
+<span id="cb128-70"><a href="chapter-7.html#cb128-70" tabindex="-1"></a></span>
+<span id="cb128-71"><a href="chapter-7.html#cb128-71" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> FEREpanel <span class="sc">|&gt;</span></span>
+<span id="cb128-72"><a href="chapter-7.html#cb128-72" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb128-73"><a href="chapter-7.html#cb128-73" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, </span>
+<span id="cb128-74"><a href="chapter-7.html#cb128-74" tabindex="-1"></a>             <span class="at">y =</span> y, </span>
+<span id="cb128-75"><a href="chapter-7.html#cb128-75" tabindex="-1"></a>             <span class="at">group =</span> g, </span>
+<span id="cb128-76"><a href="chapter-7.html#cb128-76" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fu">factor</span>(grand))) <span class="sc">+</span></span>
+<span id="cb128-77"><a href="chapter-7.html#cb128-77" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb128-78"><a href="chapter-7.html#cb128-78" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb128-79"><a href="chapter-7.html#cb128-79" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb128-80"><a href="chapter-7.html#cb128-80" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb128-81"><a href="chapter-7.html#cb128-81" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb128-82"><a href="chapter-7.html#cb128-82" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb128-83"><a href="chapter-7.html#cb128-83" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Random intercepts and slopes&quot;</span>,</span>
+<span id="cb128-84"><a href="chapter-7.html#cb128-84" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Y ~ 1 + X + (1 + X | G)&quot;</span>,</span>
+<span id="cb128-85"><a href="chapter-7.html#cb128-85" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb128-86"><a href="chapter-7.html#cb128-86" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb128-87"><a href="chapter-7.html#cb128-87" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>), </span>
+<span id="cb128-88"><a href="chapter-7.html#cb128-88" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<span id="cb128-89"><a href="chapter-7.html#cb128-89" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> ylim)</span></code></pre></div>
+<p>Finally, we panel the individual plots using the <code>patchwork</code> package</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter-7.html#cb129-1" tabindex="-1"></a>layout <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb129-2"><a href="chapter-7.html#cb129-2" tabindex="-1"></a><span class="st">A#</span></span>
+<span id="cb129-3"><a href="chapter-7.html#cb129-3" tabindex="-1"></a><span class="st">BC</span></span>
+<span id="cb129-4"><a href="chapter-7.html#cb129-4" tabindex="-1"></a><span class="st">DE</span></span>
+<span id="cb129-5"><a href="chapter-7.html#cb129-5" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb129-6"><a href="chapter-7.html#cb129-6" tabindex="-1"></a></span>
+<span id="cb129-7"><a href="chapter-7.html#cb129-7" tabindex="-1"></a>(p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> p4 <span class="sc">+</span> p5 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">design =</span> layout))</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-103-1.png" width="480" /></p>
+</div>
+<div id="regularized-vs.-empirical-estimates" class="section level3 hasAnchor" number="7.1.7">
+<h3><span class="header-section-number">7.1.7</span> Regularized vs. empirical estimates<a href="chapter-7.html#regularized-vs.-empirical-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the text, we show an alternative way to demonstrate partial pooling in a multilevel model. This is where we compare the regularized predictions from a multilevel model against the “empirical” estimates from a fixed effects model. We re-use the model objects from above, <code>mfix2</code> and <code>mran2</code>, where the treatment effect is allowed to vary by strata.</p>
+<p>First, we create two data frames that include the estimated treatment effect for each randomization stratum for each of the two models.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="chapter-7.html#cb130-1" tabindex="-1"></a><span class="co"># Fixed effects treatment effects</span></span>
+<span id="cb130-2"><a href="chapter-7.html#cb130-2" tabindex="-1"></a>coeffix <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb130-3"><a href="chapter-7.html#cb130-3" tabindex="-1"></a>  <span class="at">strata =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,</span>
+<span id="cb130-4"><a href="chapter-7.html#cb130-4" tabindex="-1"></a>  <span class="at">coef =</span> <span class="fu">fixef</span>(mfix2)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">30</span><span class="sc">:</span><span class="dv">56</span>), <span class="dv">1</span>])</span>
+<span id="cb130-5"><a href="chapter-7.html#cb130-5" tabindex="-1"></a></span>
+<span id="cb130-6"><a href="chapter-7.html#cb130-6" tabindex="-1"></a>coeffix<span class="sc">$</span>coef[<span class="dv">2</span><span class="sc">:</span><span class="dv">28</span>] <span class="ot">&lt;-</span> coeffix<span class="sc">$</span>coef[<span class="dv">2</span><span class="sc">:</span><span class="dv">28</span>] <span class="sc">+</span> coeffix<span class="sc">$</span>coef[<span class="dv">1</span>]</span>
+<span id="cb130-7"><a href="chapter-7.html#cb130-7" tabindex="-1"></a></span>
+<span id="cb130-8"><a href="chapter-7.html#cb130-8" tabindex="-1"></a><span class="co"># Random effects treatment effects</span></span>
+<span id="cb130-9"><a href="chapter-7.html#cb130-9" tabindex="-1"></a>coefran <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb130-10"><a href="chapter-7.html#cb130-10" tabindex="-1"></a>  <span class="at">strata =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,</span>
+<span id="cb130-11"><a href="chapter-7.html#cb130-11" tabindex="-1"></a>  <span class="at">coef =</span> <span class="fu">coef</span>(mran2)<span class="sc">$</span>stratum[,<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;subsidy&quot;</span>])</span>
+<span id="cb130-12"><a href="chapter-7.html#cb130-12" tabindex="-1"></a></span>
+<span id="cb130-13"><a href="chapter-7.html#cb130-13" tabindex="-1"></a><span class="co"># Compute strata sample sizes</span></span>
+<span id="cb130-14"><a href="chapter-7.html#cb130-14" tabindex="-1"></a>N <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb130-15"><a href="chapter-7.html#cb130-15" tabindex="-1"></a>  <span class="fu">group_by</span>(stratum) <span class="sc">|&gt;</span></span>
+<span id="cb130-16"><a href="chapter-7.html#cb130-16" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N =</span> <span class="fu">n</span>())</span>
+<span id="cb130-17"><a href="chapter-7.html#cb130-17" tabindex="-1"></a></span>
+<span id="cb130-18"><a href="chapter-7.html#cb130-18" tabindex="-1"></a><span class="co"># Input strata sample sizes in data frames</span></span>
+<span id="cb130-19"><a href="chapter-7.html#cb130-19" tabindex="-1"></a>coeffix<span class="sc">$</span>N <span class="ot">&lt;-</span> N<span class="sc">$</span>N</span>
+<span id="cb130-20"><a href="chapter-7.html#cb130-20" tabindex="-1"></a>coefran<span class="sc">$</span>N <span class="ot">&lt;-</span> N<span class="sc">$</span>N</span>
+<span id="cb130-21"><a href="chapter-7.html#cb130-21" tabindex="-1"></a></span>
+<span id="cb130-22"><a href="chapter-7.html#cb130-22" tabindex="-1"></a><span class="co"># Arrange data frames according to strata sample sizes</span></span>
+<span id="cb130-23"><a href="chapter-7.html#cb130-23" tabindex="-1"></a>coeffix <span class="ot">&lt;-</span> coeffix <span class="sc">|&gt;</span> <span class="fu">arrange</span>(N)</span>
+<span id="cb130-24"><a href="chapter-7.html#cb130-24" tabindex="-1"></a>coeffix<span class="sc">$</span>strata <span class="ot">&lt;-</span> <span class="fu">factor</span>(coeffix<span class="sc">$</span>strata, <span class="at">levels =</span> coeffix<span class="sc">$</span>strata)</span>
+<span id="cb130-25"><a href="chapter-7.html#cb130-25" tabindex="-1"></a></span>
+<span id="cb130-26"><a href="chapter-7.html#cb130-26" tabindex="-1"></a>coefran <span class="ot">&lt;-</span> coefran <span class="sc">|&gt;</span> <span class="fu">arrange</span>(N)</span>
+<span id="cb130-27"><a href="chapter-7.html#cb130-27" tabindex="-1"></a>coefran<span class="sc">$</span>strata <span class="ot">&lt;-</span> <span class="fu">factor</span>(coefran<span class="sc">$</span>strata, <span class="at">levels =</span> coefran<span class="sc">$</span>strata)</span></code></pre></div>
+<p>Then, we plot the stratum-specific treatment effects.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter-7.html#cb131-1" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb131-2"><a href="chapter-7.html#cb131-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">rbind</span>(coeffix, coefran), </span>
+<span id="cb131-3"><a href="chapter-7.html#cb131-3" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef, <span class="at">group =</span> strata),</span>
+<span id="cb131-4"><a href="chapter-7.html#cb131-4" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">0.25</span>,</span>
+<span id="cb131-5"><a href="chapter-7.html#cb131-5" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb131-6"><a href="chapter-7.html#cb131-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> coeffix, <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef),</span>
+<span id="cb131-7"><a href="chapter-7.html#cb131-7" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb131-8"><a href="chapter-7.html#cb131-8" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb131-9"><a href="chapter-7.html#cb131-9" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
+<span id="cb131-10"><a href="chapter-7.html#cb131-10" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> coefran, <span class="fu">aes</span>(<span class="at">x =</span> strata, <span class="at">y =</span> coef),</span>
+<span id="cb131-11"><a href="chapter-7.html#cb131-11" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb131-12"><a href="chapter-7.html#cb131-12" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-13"><a href="chapter-7.html#cb131-13" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.19</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb131-14"><a href="chapter-7.html#cb131-14" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax =</span> <span class="cn">Inf</span>, <span class="at">ymin =</span> <span class="fl">0.07</span>, <span class="at">ymax =</span> <span class="fl">0.3</span>), <span class="at">fill =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb131-15"><a href="chapter-7.html#cb131-15" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Treatment Effect&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-16"><a href="chapter-7.html#cb131-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Randomization Strata</span><span class="sc">\n</span><span class="st">(smallest to largest)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-17"><a href="chapter-7.html#cb131-17" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb131-18"><a href="chapter-7.html#cb131-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb131-19"><a href="chapter-7.html#cb131-19" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-105-1.png" width="480" /></p>
+<p>Instead of using a fixed effects model, an alternative way to compute the “empirical” estimates would be to, within each stratum, take the mean of the outcome variable <code>act</code> for the control (<code>subsidy = 0</code>) and treatment (<code>subsidy = 1</code>) groups separately and then subtract those values.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="chapter-7.html#cb132-1" tabindex="-1"></a>d <span class="sc">|&gt;</span></span>
+<span id="cb132-2"><a href="chapter-7.html#cb132-2" tabindex="-1"></a>  <span class="co"># within each stratum and for each subsidy condition (control vs. treatment)...</span></span>
+<span id="cb132-3"><a href="chapter-7.html#cb132-3" tabindex="-1"></a>  <span class="fu">group_by</span>(stratum, subsidy) <span class="sc">|&gt;</span></span>
+<span id="cb132-4"><a href="chapter-7.html#cb132-4" tabindex="-1"></a>  <span class="co"># ... take the mean of the outcome variable</span></span>
+<span id="cb132-5"><a href="chapter-7.html#cb132-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">&quot;T&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(act, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span></span>
+<span id="cb132-6"><a href="chapter-7.html#cb132-6" tabindex="-1"></a>  <span class="co"># wrangle and name columns</span></span>
+<span id="cb132-7"><a href="chapter-7.html#cb132-7" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;subsidy&quot;</span>, </span>
+<span id="cb132-8"><a href="chapter-7.html#cb132-8" tabindex="-1"></a>                     <span class="at">values_from =</span> <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb132-9"><a href="chapter-7.html#cb132-9" tabindex="-1"></a>                     <span class="at">names_prefix =</span> <span class="st">&quot;T&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb132-10"><a href="chapter-7.html#cb132-10" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb132-11"><a href="chapter-7.html#cb132-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coef =</span> T1 <span class="sc">-</span> T0)</span></code></pre></div>
+</div>
+</div>
+<div id="simulating-mundlak" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Simulating Mundlak<a href="chapter-7.html#simulating-mundlak" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here we show the simulation and plotting code for the synthetic Mundlak demonstration.</p>
+<p>First, we simulate the confounded data and store it in <code>d_sim</code></p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter-7.html#cb133-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb133-2"><a href="chapter-7.html#cb133-2" tabindex="-1"></a></span>
+<span id="cb133-3"><a href="chapter-7.html#cb133-3" tabindex="-1"></a><span class="co"># define sample size and effects</span></span>
+<span id="cb133-4"><a href="chapter-7.html#cb133-4" tabindex="-1"></a>N_groups <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb133-5"><a href="chapter-7.html#cb133-5" tabindex="-1"></a>N_id <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb133-6"><a href="chapter-7.html#cb133-6" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb133-7"><a href="chapter-7.html#cb133-7" tabindex="-1"></a>bZY <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb133-8"><a href="chapter-7.html#cb133-8" tabindex="-1"></a>bXY <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb133-9"><a href="chapter-7.html#cb133-9" tabindex="-1"></a></span>
+<span id="cb133-10"><a href="chapter-7.html#cb133-10" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>N_groups, <span class="at">size =</span> N_id, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># sample into groups</span></span>
+<span id="cb133-11"><a href="chapter-7.html#cb133-11" tabindex="-1"></a>Ug <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_groups, <span class="fl">1.5</span>, <span class="dv">1</span>) <span class="co"># group confounds</span></span>
+<span id="cb133-12"><a href="chapter-7.html#cb133-12" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_id, Ug[g], <span class="dv">1</span>) <span class="co"># individual varying trait</span></span>
+<span id="cb133-13"><a href="chapter-7.html#cb133-13" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_groups, <span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># group varying trait (observed)</span></span>
+<span id="cb133-14"><a href="chapter-7.html#cb133-14" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N_id, a <span class="sc">+</span> bXY<span class="sc">*</span>X <span class="sc">+</span> Ug[g] <span class="sc">+</span> bZY<span class="sc">*</span>Z[g] )</span>
+<span id="cb133-15"><a href="chapter-7.html#cb133-15" tabindex="-1"></a></span>
+<span id="cb133-16"><a href="chapter-7.html#cb133-16" tabindex="-1"></a><span class="co"># collect in data frame</span></span>
+<span id="cb133-17"><a href="chapter-7.html#cb133-17" tabindex="-1"></a>d_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb133-18"><a href="chapter-7.html#cb133-18" tabindex="-1"></a>  <span class="at">Y =</span> Y,</span>
+<span id="cb133-19"><a href="chapter-7.html#cb133-19" tabindex="-1"></a>  <span class="at">X =</span> X,</span>
+<span id="cb133-20"><a href="chapter-7.html#cb133-20" tabindex="-1"></a>  <span class="at">Z =</span> Z[g],</span>
+<span id="cb133-21"><a href="chapter-7.html#cb133-21" tabindex="-1"></a>  <span class="at">G =</span> <span class="fu">as.factor</span>(g)</span>
+<span id="cb133-22"><a href="chapter-7.html#cb133-22" tabindex="-1"></a>)</span></code></pre></div>
+<p>To properly quantify uncertainty and obtain neat posterior distributions of the effects from each model, we again analyze the data in a Bayesian framework using <code>brms</code> with default priors. We fit our four models.</p>
+<div id="naïve-model-ignoring-group" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Naïve model (ignoring group)<a href="chapter-7.html#naïve-model-ignoring-group" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="chapter-7.html#cb134-1" tabindex="-1"></a>mNA <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, </span>
+<span id="cb134-2"><a href="chapter-7.html#cb134-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb134-3"><a href="chapter-7.html#cb134-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb134-4"><a href="chapter-7.html#cb134-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mNA.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-1" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Fixed effects<a href="chapter-7.html#fixed-effects-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="chapter-7.html#cb135-1" tabindex="-1"></a>mFE <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> G, </span>
+<span id="cb135-2"><a href="chapter-7.html#cb135-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb135-3"><a href="chapter-7.html#cb135-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb135-4"><a href="chapter-7.html#cb135-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mFE.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-intercepts-1" class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Random intercepts<a href="chapter-7.html#random-intercepts-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="chapter-7.html#cb136-1" tabindex="-1"></a>mRE <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> G), </span>
+<span id="cb136-2"><a href="chapter-7.html#cb136-2" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb136-3"><a href="chapter-7.html#cb136-3" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb136-4"><a href="chapter-7.html#cb136-4" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mRE.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="mundlak-model" class="section level3 hasAnchor" number="7.2.4">
+<h3><span class="header-section-number">7.2.4</span> Mundlak model<a href="chapter-7.html#mundlak-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="chapter-7.html#cb137-1" tabindex="-1"></a>d_sim<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">with</span>(d_sim, <span class="fu">ave</span>(X, G, <span class="at">FUN =</span> mean))</span>
+<span id="cb137-2"><a href="chapter-7.html#cb137-2" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="chapter-7.html#cb137-3" tabindex="-1"></a>mMU <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Xbar <span class="sc">+</span> Z <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> G), </span>
+<span id="cb137-4"><a href="chapter-7.html#cb137-4" tabindex="-1"></a>           <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb137-5"><a href="chapter-7.html#cb137-5" tabindex="-1"></a>           <span class="at">data =</span> d_sim, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb137-6"><a href="chapter-7.html#cb137-6" tabindex="-1"></a>           <span class="at">file =</span> <span class="st">&quot;fits/mMU.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plot-effect-estimate-distributions" class="section level3 hasAnchor" number="7.2.5">
+<h3><span class="header-section-number">7.2.5</span> Plot effect estimate distributions<a href="chapter-7.html#plot-effect-estimate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we extract posterior distributions of the coefficient of interest (<code>X</code>) from each model and collect in a data frame.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chapter-7.html#cb138-1" tabindex="-1"></a>ndraws <span class="ot">&lt;-</span> <span class="fu">nrow</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNA, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>))</span>
+<span id="cb138-2"><a href="chapter-7.html#cb138-2" tabindex="-1"></a></span>
+<span id="cb138-3"><a href="chapter-7.html#cb138-3" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bX =</span> <span class="fu">c</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNA, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb138-4"><a href="chapter-7.html#cb138-4" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mFE, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb138-5"><a href="chapter-7.html#cb138-5" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mRE, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X,</span>
+<span id="cb138-6"><a href="chapter-7.html#cb138-6" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mMU, <span class="at">variable =</span> <span class="st">&quot;b_X&quot;</span>)<span class="sc">$</span>b_X),</span>
+<span id="cb138-7"><a href="chapter-7.html#cb138-7" tabindex="-1"></a>           <span class="at">model =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Naïve model</span><span class="sc">\n</span><span class="st">Y ~ X + Z&quot;</span>, ndraws),</span>
+<span id="cb138-8"><a href="chapter-7.html#cb138-8" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Fixed effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + G&quot;</span>, ndraws),</span>
+<span id="cb138-9"><a href="chapter-7.html#cb138-9" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Random effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + (1 | G)&quot;</span>, ndraws),</span>
+<span id="cb138-10"><a href="chapter-7.html#cb138-10" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Mundlak model</span><span class="sc">\n</span><span class="st">Y ~ X + Xbar + Z + (1 | G)&quot;</span>, ndraws)))</span></code></pre></div>
+<p>Next, the models are arranged…</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="chapter-7.html#cb139-1" tabindex="-1"></a>forest<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">factor</span>(forest<span class="sc">$</span>model,</span>
+<span id="cb139-2"><a href="chapter-7.html#cb139-2" tabindex="-1"></a>                       <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Naïve model</span><span class="sc">\n</span><span class="st">Y ~ X + Z&quot;</span>,</span>
+<span id="cb139-3"><a href="chapter-7.html#cb139-3" tabindex="-1"></a>                                <span class="st">&quot;Fixed effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + G&quot;</span>,</span>
+<span id="cb139-4"><a href="chapter-7.html#cb139-4" tabindex="-1"></a>                                <span class="st">&quot;Random effects</span><span class="sc">\n</span><span class="st">Y ~ X + Z + (1 | G)&quot;</span>,</span>
+<span id="cb139-5"><a href="chapter-7.html#cb139-5" tabindex="-1"></a>                                <span class="st">&quot;Mundlak model</span><span class="sc">\n</span><span class="st">Y ~ X + Xbar + Z + (1 | G)&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb139-6"><a href="chapter-7.html#cb139-6" tabindex="-1"></a>  forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span></code></pre></div>
+<p>… and then plotted.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chapter-7.html#cb140-1" tabindex="-1"></a>forest <span class="sc">|&gt;</span></span>
+<span id="cb140-2"><a href="chapter-7.html#cb140-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> model, <span class="at">x =</span> bX)) <span class="sc">+</span></span>
+<span id="cb140-3"><a href="chapter-7.html#cb140-3" tabindex="-1"></a>    <span class="fu">stat_halfeye</span>(<span class="at">slab_fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb140-4"><a href="chapter-7.html#cb140-4" tabindex="-1"></a>                 <span class="at">slab_color =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb140-5"><a href="chapter-7.html#cb140-5" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb140-6"><a href="chapter-7.html#cb140-6" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, </span>
+<span id="cb140-7"><a href="chapter-7.html#cb140-7" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb140-8"><a href="chapter-7.html#cb140-8" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb140-9"><a href="chapter-7.html#cb140-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb140-10"><a href="chapter-7.html#cb140-10" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Regression coefficient&quot;</span>) <span class="sc">+</span></span>
+<span id="cb140-11"><a href="chapter-7.html#cb140-11" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb140-12"><a href="chapter-7.html#cb140-12" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-114-1.png" width="480" /></p>
+</div>
+</div>
+<div id="education-and-prosociality-mundlak-in-action" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Education and prosociality: Mundlak in action<a href="chapter-7.html#education-and-prosociality-mundlak-in-action" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We finally show the Mundlak model in action in real-world data. We load the <code>cerc</code> data <span class="citation">(<a href="#ref-lang2019moralizing">Martin Lang et al. 2019</a>)</span> and plot the raw data distribution for the key predictor and outcome variable, respectively, before fitting and plotting our four models.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter-7.html#cb141-1" tabindex="-1"></a>cerc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cerc.csv&quot;</span>)</span></code></pre></div>
+<div id="raw-data-distributions" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Raw data distributions<a href="chapter-7.html#raw-data-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chapter-7.html#cb142-1" tabindex="-1"></a>cerc <span class="sc">|&gt;</span></span>
+<span id="cb142-2"><a href="chapter-7.html#cb142-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED)) <span class="sc">+</span></span>
+<span id="cb142-3"><a href="chapter-7.html#cb142-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(scaled))) <span class="sc">+</span></span>
+<span id="cb142-4"><a href="chapter-7.html#cb142-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb142-5"><a href="chapter-7.html#cb142-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb142-6"><a href="chapter-7.html#cb142-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb142-7"><a href="chapter-7.html#cb142-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb142-8"><a href="chapter-7.html#cb142-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb142-9"><a href="chapter-7.html#cb142-9" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb142-10"><a href="chapter-7.html#cb142-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb142-11"><a href="chapter-7.html#cb142-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Years of formal education&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-116-1.png" width="480" /></p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter-7.html#cb143-1" tabindex="-1"></a>cerc <span class="sc">|&gt;</span></span>
+<span id="cb143-2"><a href="chapter-7.html#cb143-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Y)) <span class="sc">+</span></span>
+<span id="cb143-3"><a href="chapter-7.html#cb143-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(scaled))) <span class="sc">+</span></span>
+<span id="cb143-4"><a href="chapter-7.html#cb143-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb143-5"><a href="chapter-7.html#cb143-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb143-6"><a href="chapter-7.html#cb143-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb143-7"><a href="chapter-7.html#cb143-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb143-8"><a href="chapter-7.html#cb143-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb143-9"><a href="chapter-7.html#cb143-9" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb143-10"><a href="chapter-7.html#cb143-10" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb143-11"><a href="chapter-7.html#cb143-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-117-1.png" width="480" /></p>
+</div>
+<div id="naïve-model" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Naïve model<a href="chapter-7.html#naïve-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="chapter-7.html#cb144-1" tabindex="-1"></a>mNAcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED,</span>
+<span id="cb144-2"><a href="chapter-7.html#cb144-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb144-3"><a href="chapter-7.html#cb144-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb144-4"><a href="chapter-7.html#cb144-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mNAcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fixed-effects-2" class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Fixed effects<a href="chapter-7.html#fixed-effects-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter-7.html#cb145-1" tabindex="-1"></a>mFEcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED<span class="sc">+</span> SITE,</span>
+<span id="cb145-2"><a href="chapter-7.html#cb145-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb145-3"><a href="chapter-7.html#cb145-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb145-4"><a href="chapter-7.html#cb145-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mFEcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="random-effects" class="section level3 hasAnchor" number="7.3.4">
+<h3><span class="header-section-number">7.3.4</span> Random effects<a href="chapter-7.html#random-effects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chapter-7.html#cb146-1" tabindex="-1"></a>mREcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SITE),</span>
+<span id="cb146-2"><a href="chapter-7.html#cb146-2" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb146-3"><a href="chapter-7.html#cb146-3" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb146-4"><a href="chapter-7.html#cb146-4" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mREcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="mundlak-model-1" class="section level3 hasAnchor" number="7.3.5">
+<h3><span class="header-section-number">7.3.5</span> Mundlak model<a href="chapter-7.html#mundlak-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="chapter-7.html#cb147-1" tabindex="-1"></a>cerc<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">with</span>(cerc, <span class="fu">ave</span>(FORMALED, SITE, <span class="at">FUN =</span> mean))</span>
+<span id="cb147-2"><a href="chapter-7.html#cb147-2" tabindex="-1"></a></span>
+<span id="cb147-3"><a href="chapter-7.html#cb147-3" tabindex="-1"></a>mMUcerc <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SITE),</span>
+<span id="cb147-4"><a href="chapter-7.html#cb147-4" tabindex="-1"></a>               <span class="at">data =</span> cerc,</span>
+<span id="cb147-5"><a href="chapter-7.html#cb147-5" tabindex="-1"></a>               <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb147-6"><a href="chapter-7.html#cb147-6" tabindex="-1"></a>               <span class="at">file =</span> <span class="st">&quot;fits/mMUcerc.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plotting-effect-of-education-on-religiosity" class="section level3 hasAnchor" number="7.3.6">
+<h3><span class="header-section-number">7.3.6</span> Plotting effect of education on religiosity<a href="chapter-7.html#plotting-effect-of-education-on-religiosity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The code for this plot is much the same as for the simulated Mundlak example above.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter-7.html#cb148-1" tabindex="-1"></a>ndraws <span class="ot">&lt;-</span> <span class="fu">nrow</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNAcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>))</span>
+<span id="cb148-2"><a href="chapter-7.html#cb148-2" tabindex="-1"></a></span>
+<span id="cb148-3"><a href="chapter-7.html#cb148-3" tabindex="-1"></a>forestcerc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bX =</span> <span class="fu">c</span>(brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mNAcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb148-4"><a href="chapter-7.html#cb148-4" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mFEcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb148-5"><a href="chapter-7.html#cb148-5" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mREcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED,</span>
+<span id="cb148-6"><a href="chapter-7.html#cb148-6" tabindex="-1"></a>                 brms<span class="sc">::</span><span class="fu">as_draws_df</span>(mMUcerc, <span class="at">variable =</span> <span class="st">&quot;b_FORMALED&quot;</span>)<span class="sc">$</span>b_FORMALED),</span>
+<span id="cb148-7"><a href="chapter-7.html#cb148-7" tabindex="-1"></a>           <span class="at">model =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Naïve model&quot;</span>, ndraws),</span>
+<span id="cb148-8"><a href="chapter-7.html#cb148-8" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Fixed effects&quot;</span>, ndraws),</span>
+<span id="cb148-9"><a href="chapter-7.html#cb148-9" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Random effects&quot;</span>, ndraws),</span>
+<span id="cb148-10"><a href="chapter-7.html#cb148-10" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="st">&quot;Mundlak model&quot;</span>, ndraws)))</span>
+<span id="cb148-11"><a href="chapter-7.html#cb148-11" tabindex="-1"></a>  </span>
+<span id="cb148-12"><a href="chapter-7.html#cb148-12" tabindex="-1"></a>forestcerc<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">factor</span>(forestcerc<span class="sc">$</span>model,</span>
+<span id="cb148-13"><a href="chapter-7.html#cb148-13" tabindex="-1"></a>                           <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Naïve model&quot;</span>,</span>
+<span id="cb148-14"><a href="chapter-7.html#cb148-14" tabindex="-1"></a>                                    <span class="st">&quot;Fixed effects&quot;</span>,</span>
+<span id="cb148-15"><a href="chapter-7.html#cb148-15" tabindex="-1"></a>                                    <span class="st">&quot;Random effects&quot;</span>,</span>
+<span id="cb148-16"><a href="chapter-7.html#cb148-16" tabindex="-1"></a>                                    <span class="st">&quot;Mundlak model&quot;</span>)) <span class="sc">|&gt;</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="chapter-7.html#cb149-1" tabindex="-1"></a>forestcerc <span class="sc">|&gt;</span></span>
+<span id="cb149-2"><a href="chapter-7.html#cb149-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> model, </span>
+<span id="cb149-3"><a href="chapter-7.html#cb149-3" tabindex="-1"></a>             <span class="at">x =</span> bX)) <span class="sc">+</span></span>
+<span id="cb149-4"><a href="chapter-7.html#cb149-4" tabindex="-1"></a>    <span class="fu">stat_halfeye</span>(<span class="at">point_interval =</span> <span class="st">&quot;mean_hdci&quot;</span>, </span>
+<span id="cb149-5"><a href="chapter-7.html#cb149-5" tabindex="-1"></a>                 <span class="at">.width =</span> <span class="fl">0.95</span>, </span>
+<span id="cb149-6"><a href="chapter-7.html#cb149-6" tabindex="-1"></a>                 <span class="at">slab_fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb149-7"><a href="chapter-7.html#cb149-7" tabindex="-1"></a>                 <span class="at">slab_color =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb149-8"><a href="chapter-7.html#cb149-8" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb149-9"><a href="chapter-7.html#cb149-9" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, </span>
+<span id="cb149-10"><a href="chapter-7.html#cb149-10" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb149-11"><a href="chapter-7.html#cb149-11" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb149-12"><a href="chapter-7.html#cb149-12" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cross-cultural Dictator Game&quot;</span>,</span>
+<span id="cb149-13"><a href="chapter-7.html#cb149-13" tabindex="-1"></a>         <span class="at">y =</span> <span class="cn">NULL</span>, </span>
+<span id="cb149-14"><a href="chapter-7.html#cb149-14" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Effect of Education on Prosociality&quot;</span>) <span class="sc">+</span></span>
+<span id="cb149-15"><a href="chapter-7.html#cb149-15" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-123-1.png" width="480" /></p>
+</div>
+</div>
+<div id="marginal-effects-in-a-multilevel-model" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Marginal effects in a multilevel model<a href="chapter-7.html#marginal-effects-in-a-multilevel-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As we discuss in the text, there are several ways of obtaining predictions from a multilevel model, including predictions for <em>each site</em>, for an <em>average site</em> and <em>marginal of site</em>.</p>
+<p>Note that we here show a general g-computation approach, where we first compute marginal effects <em>within</em> each MCMC draw (<code>group_by(.draw, ...) |&gt; summarise(.epred = mean(.epred))</code>), before summarizing by the posterior mean and quantile intervals <em>across</em> MCMC draws (<code>group_by(FORMALED) |&gt; summarise(.epred = mean_qi(.epred))</code>). In the current data example, the <code>group_by(.draw, ...)</code> step is redundant, but it’s how we would go about applying g-computation to obtain marginal effects in a setting with a <em>continuous</em> focal (causal) predictor and with possible covariates and nonlinearities.</p>
+<p>First, we fit an extended Mundlak model, that allows the effect of education on religiosity to vary by site.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter-7.html#cb150-1" tabindex="-1"></a>mMUcerc2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">|</span> SITE),</span>
+<span id="cb150-2"><a href="chapter-7.html#cb150-2" tabindex="-1"></a>                <span class="at">data =</span> cerc,</span>
+<span id="cb150-3"><a href="chapter-7.html#cb150-3" tabindex="-1"></a>                <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb150-4"><a href="chapter-7.html#cb150-4" tabindex="-1"></a>                <span class="at">file =</span> <span class="st">&quot;fits/mMUcerc2.rds&quot;</span>)</span></code></pre></div>
+<div id="predicting-the-observed-sites" class="section level3 hasAnchor" number="7.4.1">
+<h3><span class="header-section-number">7.4.1</span> Predicting the observed sites<a href="chapter-7.html#predicting-the-observed-sites" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can then visualize effect estimates for each group (field site, in this case) across the full range of observed education years and at site-specific average years of education.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="chapter-7.html#cb151-1" tabindex="-1"></a><span class="co"># prepare prediction grid across full range of education years...</span></span>
+<span id="cb151-2"><a href="chapter-7.html#cb151-2" tabindex="-1"></a>nd <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">FORMALED =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>),</span>
+<span id="cb151-3"><a href="chapter-7.html#cb151-3" tabindex="-1"></a>                         <span class="at">SITE =</span> <span class="fu">unique</span>(cerc<span class="sc">$</span>SITE))</span>
+<span id="cb151-4"><a href="chapter-7.html#cb151-4" tabindex="-1"></a></span>
+<span id="cb151-5"><a href="chapter-7.html#cb151-5" tabindex="-1"></a><span class="co"># ... and at site-specific average years of education</span></span>
+<span id="cb151-6"><a href="chapter-7.html#cb151-6" tabindex="-1"></a>nd<span class="sc">$</span>Xbar <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(cerc<span class="sc">$</span>Xbar), <span class="fu">length</span>(<span class="fu">unique</span>(nd<span class="sc">$</span>FORMALED)))</span></code></pre></div>
+<p>Plot predictions for each site in separate panels. For this, we need to include the random effects in the predictions.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter-7.html#cb152-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb152-2"><a href="chapter-7.html#cb152-2" tabindex="-1"></a><span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb152-3"><a href="chapter-7.html#cb152-3" tabindex="-1"></a>                <span class="co"># for prediction grid and...</span></span>
+<span id="cb152-4"><a href="chapter-7.html#cb152-4" tabindex="-1"></a>                <span class="at">newdata =</span> nd,</span>
+<span id="cb152-5"><a href="chapter-7.html#cb152-5" tabindex="-1"></a>                <span class="co"># ... *include* all random effect components.</span></span>
+<span id="cb152-6"><a href="chapter-7.html#cb152-6" tabindex="-1"></a>                <span class="at">re_formula =</span> <span class="cn">NULL</span>) <span class="sc">|&gt;</span></span>
+<span id="cb152-7"><a href="chapter-7.html#cb152-7" tabindex="-1"></a>  </span>
+<span id="cb152-8"><a href="chapter-7.html#cb152-8" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb152-9"><a href="chapter-7.html#cb152-9" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, SITE, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb152-10"><a href="chapter-7.html#cb152-10" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb152-11"><a href="chapter-7.html#cb152-11" tabindex="-1"></a></span>
+<span id="cb152-12"><a href="chapter-7.html#cb152-12" tabindex="-1"></a>  <span class="co"># Summarise average effect *across* each MCMC draw</span></span>
+<span id="cb152-13"><a href="chapter-7.html#cb152-13" tabindex="-1"></a>  <span class="co"># for each site and educational level.</span></span>
+<span id="cb152-14"><a href="chapter-7.html#cb152-14" tabindex="-1"></a>  <span class="fu">group_by</span>(SITE, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb152-15"><a href="chapter-7.html#cb152-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb152-16"><a href="chapter-7.html#cb152-16" tabindex="-1"></a></span>
+<span id="cb152-17"><a href="chapter-7.html#cb152-17" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb152-18"><a href="chapter-7.html#cb152-18" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb152-19"><a href="chapter-7.html#cb152-19" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb152-20"><a href="chapter-7.html#cb152-20" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb152-21"><a href="chapter-7.html#cb152-21" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb152-22"><a href="chapter-7.html#cb152-22" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb152-23"><a href="chapter-7.html#cb152-23" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb152-24"><a href="chapter-7.html#cb152-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb152-25"><a href="chapter-7.html#cb152-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb152-26"><a href="chapter-7.html#cb152-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the observed sites&quot;</span>, </span>
+<span id="cb152-27"><a href="chapter-7.html#cb152-27" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Including random effects&quot;</span>,</span>
+<span id="cb152-28"><a href="chapter-7.html#cb152-28" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-126-1.png" width="480" /></p>
+<p>But we can also ignore site-specific effects altogether and instead aim at predicting a perfectly average site. This amounts to ignoring the random effects of the model. We first need to set up a new prediction grid for the new hypothetical site – let’s call it “Newland” – with an average of 7 years of education, the average of the site averages (this can be checked by running <code>mean(unique(cerc$Xbar))</code>).</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter-7.html#cb153-1" tabindex="-1"></a>nd2 <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">expand_grid</span>(<span class="at">FORMALED =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>),</span>
+<span id="cb153-2"><a href="chapter-7.html#cb153-2" tabindex="-1"></a>                          <span class="at">SITE =</span> <span class="st">&quot;Newland&quot;</span>, <span class="co"># could also just set to NA</span></span>
+<span id="cb153-3"><a href="chapter-7.html#cb153-3" tabindex="-1"></a>                          <span class="at">Xbar =</span> <span class="dv">7</span>) <span class="co"># could also make a distribution of Xbars to average over</span></span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="chapter-7.html#cb154-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb154-2"><a href="chapter-7.html#cb154-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb154-3"><a href="chapter-7.html#cb154-3" tabindex="-1"></a>                <span class="co"># for new prediction grid and...</span></span>
+<span id="cb154-4"><a href="chapter-7.html#cb154-4" tabindex="-1"></a>                <span class="at">newdata =</span> nd2,</span>
+<span id="cb154-5"><a href="chapter-7.html#cb154-5" tabindex="-1"></a>                <span class="co"># ... *ignore* all random effect components.</span></span>
+<span id="cb154-6"><a href="chapter-7.html#cb154-6" tabindex="-1"></a>                <span class="at">re_formula =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span></span>
+<span id="cb154-7"><a href="chapter-7.html#cb154-7" tabindex="-1"></a></span>
+<span id="cb154-8"><a href="chapter-7.html#cb154-8" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb154-9"><a href="chapter-7.html#cb154-9" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb154-10"><a href="chapter-7.html#cb154-10" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb154-11"><a href="chapter-7.html#cb154-11" tabindex="-1"></a>  </span>
+<span id="cb154-12"><a href="chapter-7.html#cb154-12" tabindex="-1"></a>  <span class="co"># Summarise average effect *across* MCMC draws</span></span>
+<span id="cb154-13"><a href="chapter-7.html#cb154-13" tabindex="-1"></a>  <span class="co"># for each educational level.</span></span>
+<span id="cb154-14"><a href="chapter-7.html#cb154-14" tabindex="-1"></a>  <span class="fu">group_by</span>(FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb154-15"><a href="chapter-7.html#cb154-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb154-16"><a href="chapter-7.html#cb154-16" tabindex="-1"></a></span>
+<span id="cb154-17"><a href="chapter-7.html#cb154-17" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb154-18"><a href="chapter-7.html#cb154-18" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb154-19"><a href="chapter-7.html#cb154-19" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb154-20"><a href="chapter-7.html#cb154-20" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb154-21"><a href="chapter-7.html#cb154-21" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb154-22"><a href="chapter-7.html#cb154-22" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb154-23"><a href="chapter-7.html#cb154-23" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>() <span class="sc">+</span> </span>
+<span id="cb154-24"><a href="chapter-7.html#cb154-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb154-25"><a href="chapter-7.html#cb154-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb154-26"><a href="chapter-7.html#cb154-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the average site&quot;</span>, </span>
+<span id="cb154-27"><a href="chapter-7.html#cb154-27" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Ignoring random effects&quot;</span>,</span>
+<span id="cb154-28"><a href="chapter-7.html#cb154-28" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p>And finally, we could be interested in predicting a new site drawing from all that we know about the observed sites. This amounts to <em>averaging over</em> – instead of <em>ignoring</em>, as above – the uncertainty that we have around the observed sites and generating predictions from that.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="chapter-7.html#cb155-1" tabindex="-1"></a><span class="co"># Predict effect estimates...</span></span>
+<span id="cb155-2"><a href="chapter-7.html#cb155-2" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(mMUcerc2,</span>
+<span id="cb155-3"><a href="chapter-7.html#cb155-3" tabindex="-1"></a>                      <span class="co"># for prediction grid and...</span></span>
+<span id="cb155-4"><a href="chapter-7.html#cb155-4" tabindex="-1"></a>                      <span class="at">newdata =</span> nd2,</span>
+<span id="cb155-5"><a href="chapter-7.html#cb155-5" tabindex="-1"></a>                      <span class="co"># ... *include* all random effect components.</span></span>
+<span id="cb155-6"><a href="chapter-7.html#cb155-6" tabindex="-1"></a>                      <span class="at">re_formula =</span> <span class="cn">NULL</span>,</span>
+<span id="cb155-7"><a href="chapter-7.html#cb155-7" tabindex="-1"></a>                      <span class="co"># Allow predictions for an unobserved group and...</span></span>
+<span id="cb155-8"><a href="chapter-7.html#cb155-8" tabindex="-1"></a>                      <span class="at">allow_new_levels =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb155-9"><a href="chapter-7.html#cb155-9" tabindex="-1"></a>                      <span class="co"># ... sample from the implied multivariate gaussian.</span></span>
+<span id="cb155-10"><a href="chapter-7.html#cb155-10" tabindex="-1"></a>                      <span class="at">sample_new_levels =</span> <span class="st">&quot;gaussian&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb155-11"><a href="chapter-7.html#cb155-11" tabindex="-1"></a>  </span>
+<span id="cb155-12"><a href="chapter-7.html#cb155-12" tabindex="-1"></a>  <span class="co"># Compute average effect *within* each MCMC draw.</span></span>
+<span id="cb155-13"><a href="chapter-7.html#cb155-13" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb155-14"><a href="chapter-7.html#cb155-14" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.epred =</span> <span class="fu">mean</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb155-15"><a href="chapter-7.html#cb155-15" tabindex="-1"></a>  </span>
+<span id="cb155-16"><a href="chapter-7.html#cb155-16" tabindex="-1"></a>  <span class="co"># Summarise average causal effect across MCMC draws</span></span>
+<span id="cb155-17"><a href="chapter-7.html#cb155-17" tabindex="-1"></a>  <span class="co"># for each educational level.</span></span>
+<span id="cb155-18"><a href="chapter-7.html#cb155-18" tabindex="-1"></a>  <span class="fu">group_by</span>(FORMALED) <span class="sc">|&gt;</span></span>
+<span id="cb155-19"><a href="chapter-7.html#cb155-19" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean_qi</span>(.epred)) <span class="sc">|&gt;</span></span>
+<span id="cb155-20"><a href="chapter-7.html#cb155-20" tabindex="-1"></a></span>
+<span id="cb155-21"><a href="chapter-7.html#cb155-21" tabindex="-1"></a>  <span class="co"># Plot!</span></span>
+<span id="cb155-22"><a href="chapter-7.html#cb155-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> y, <span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb155-23"><a href="chapter-7.html#cb155-23" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb155-24"><a href="chapter-7.html#cb155-24" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb155-25"><a href="chapter-7.html#cb155-25" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb155-26"><a href="chapter-7.html#cb155-26" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb155-27"><a href="chapter-7.html#cb155-27" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>() <span class="sc">+</span> </span>
+<span id="cb155-28"><a href="chapter-7.html#cb155-28" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb155-29"><a href="chapter-7.html#cb155-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb155-30"><a href="chapter-7.html#cb155-30" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting a new site&quot;</span>, </span>
+<span id="cb155-31"><a href="chapter-7.html#cb155-31" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Averaging over random effects&quot;</span>,</span>
+<span id="cb155-32"><a href="chapter-7.html#cb155-32" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb155-33"><a href="chapter-7.html#cb155-33" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="chapter-7.html#cb156-1" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">axis_titles =</span> <span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-130-1.png" width="480" /></p>
+</div>
+<div id="frequentist-workflow" class="section level3 hasAnchor" number="7.4.2">
+<h3><span class="header-section-number">7.4.2</span> Frequentist workflow<a href="chapter-7.html#frequentist-workflow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For completeness, we can also plot predictions for each site with a frequentist approach.</p>
+<p>First, we fit a corresponding frequentist model.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="chapter-7.html#cb157-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb157-2"><a href="chapter-7.html#cb157-2" tabindex="-1"></a></span>
+<span id="cb157-3"><a href="chapter-7.html#cb157-3" tabindex="-1"></a>mMUcerc2_freq <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">+</span> Xbar <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> FORMALED <span class="sc">|</span> SITE),</span>
+<span id="cb157-4"><a href="chapter-7.html#cb157-4" tabindex="-1"></a>                      <span class="at">data =</span> cerc)</span></code></pre></div>
+<p>Next, we obtain predictions using the <code>marginaleffects</code> package to obtain confidence intervals. Now, the frequentist approach excludes uncertainty in the random effects, so it’s not entirely comparable to the predictions obtained in the text.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="chapter-7.html#cb158-1" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb158-2"><a href="chapter-7.html#cb158-2" tabindex="-1"></a></span>
+<span id="cb158-3"><a href="chapter-7.html#cb158-3" tabindex="-1"></a><span class="co"># Predicting the observed sites (only with uncertainty in the global/fixed effects parameters)</span></span>
+<span id="cb158-4"><a href="chapter-7.html#cb158-4" tabindex="-1"></a><span class="fu">predictions</span>(mMUcerc2_freq,</span>
+<span id="cb158-5"><a href="chapter-7.html#cb158-5" tabindex="-1"></a>            <span class="at">newdata =</span> nd) <span class="sc">|&gt;</span></span>
+<span id="cb158-6"><a href="chapter-7.html#cb158-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> FORMALED, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb158-7"><a href="chapter-7.html#cb158-7" tabindex="-1"></a>  <span class="fu">geom_lineribbon</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb158-8"><a href="chapter-7.html#cb158-8" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey90&quot;</span>,</span>
+<span id="cb158-9"><a href="chapter-7.html#cb158-9" tabindex="-1"></a>                  <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb158-10"><a href="chapter-7.html#cb158-10" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb158-11"><a href="chapter-7.html#cb158-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SITE, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb158-12"><a href="chapter-7.html#cb158-12" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb158-13"><a href="chapter-7.html#cb158-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb158-14"><a href="chapter-7.html#cb158-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Predicting the observed sites&quot;</span>, </span>
+<span id="cb158-15"><a href="chapter-7.html#cb158-15" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Frequentist version&quot;</span>,</span>
+<span id="cb158-16"><a href="chapter-7.html#cb158-16" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Years of education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coins to co-player&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch7-fig-unnamed-chunk-132-1.png" width="480" /></p>
+</div>
+</div>
+<div id="session-info-5" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Session info<a href="chapter-7.html#session-info-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="chapter-7.html#cb159-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.4.1 (2024-06-14 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 10 x64 (build 19045)
+## 
+## Matrix products: default
+## 
+## 
+## locale:
+## [1] LC_COLLATE=Danish_Denmark.utf8  LC_CTYPE=Danish_Denmark.utf8   
+## [3] LC_MONETARY=Danish_Denmark.utf8 LC_NUMERIC=C                   
+## [5] LC_TIME=Danish_Denmark.utf8    
+## 
+## time zone: Europe/Copenhagen
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] lme4_1.1-35.4          Matrix_1.7-0           tidybayes_3.0.6       
+##  [4] brms_2.21.0            Rcpp_1.0.12            emmeans_1.10.5        
+##  [7] marginaleffects_0.23.0 mice_3.16.0            dplyr_1.1.4           
+## [10] cobalt_4.5.5           causaldata_0.1.4       sandwich_3.1-1        
+## [13] patchwork_1.3.0        ggplot2_3.5.1         
+## 
+## loaded via a namespace (and not attached):
+##   [1] gridExtra_2.3           inline_0.3.19           rlang_1.1.4            
+##   [4] magrittr_2.0.3          matrixStats_1.3.0       compiler_4.4.1         
+##   [7] mgcv_1.9-1              loo_2.7.0.9000          vctrs_0.6.5            
+##  [10] reshape2_1.4.4          stringr_1.5.1           pkgconfig_2.0.3        
+##  [13] shape_1.4.6.1           arrayhelpers_1.1-0      crayon_1.5.3           
+##  [16] fastmap_1.2.0           backports_1.5.0         labeling_0.4.3         
+##  [19] utf8_1.2.4              rmarkdown_2.27          nloptr_2.1.1           
+##  [22] purrr_1.0.2             xfun_0.48               glmnet_4.1-8           
+##  [25] jomo_2.7-6              cachem_1.1.0            jsonlite_1.8.8         
+##  [28] collapse_2.0.16         highr_0.11              chk_0.9.2              
+##  [31] pan_1.9                 broom_1.0.6             parallel_4.4.1         
+##  [34] R6_2.5.1                bslib_0.7.0             stringi_1.8.4          
+##  [37] StanHeaders_2.35.0.9000 boot_1.3-30             rpart_4.1.23           
+##  [40] jquerylib_0.1.4         estimability_1.5.1      bookdown_0.41          
+##  [43] rstan_2.35.0.9000       iterators_1.0.14        knitr_1.47             
+##  [46] zoo_1.8-12              bayesplot_1.11.1        splines_4.4.1          
+##  [49] nnet_7.3-19             tidyselect_1.2.1        rstudioapi_0.16.0      
+##  [52] abind_1.4-5             yaml_2.3.8              codetools_0.2-20       
+##  [55] pkgbuild_1.4.4          lattice_0.22-6          tibble_3.2.1           
+##  [58] plyr_1.8.9              withr_3.0.0             bridgesampling_1.1-2   
+##  [61] posterior_1.5.0.9000    coda_0.19-4.1           evaluate_0.24.0        
+##  [64] survival_3.6-4          RcppParallel_5.1.7      ggdist_3.3.2           
+##  [67] pillar_1.9.0            tensorA_0.36.2.1        checkmate_2.3.1        
+##  [70] foreach_1.5.2           stats4_4.4.1            insight_0.20.5         
+##  [73] distributional_0.4.0    generics_0.1.3          rstantools_2.4.0       
+##  [76] munsell_0.5.1           scales_1.3.0            minqa_1.2.7            
+##  [79] xtable_1.8-4            glue_1.7.0              tools_4.4.1            
+##  [82] data.table_1.15.4       forcats_1.0.0           mvtnorm_1.2-5          
+##  [85] grid_4.4.1              tidyr_1.3.1             QuickJSR_1.2.2         
+##  [88] colorspace_2.1-0        nlme_3.1-164            cli_3.6.2              
+##  [91] svUnit_1.0.6            fansi_1.0.6             Brobdingnag_1.2-9      
+##  [94] gtable_0.3.5            sass_0.4.9              digest_0.6.35          
+##  [97] farver_2.1.2            htmltools_0.5.8.1       lifecycle_1.0.4        
+## [100] mitml_0.4-5             MASS_7.3-60.2</code></pre>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-lang2019moralizing" class="csl-entry">
+Lang, Martin, Benjamin G Purzycki, Coren L Apicella, Quentin D Atkinson, Alexander Bolyanatz, Emma Cohen, Carla Handley, et al. 2019. <span>“Moralizing Gods, Impartiality and Religious Parochialism Across 15 Societies.”</span> <em>Proceedings of the Royal Society B</em> 286 (1898): 20190202.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-6.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pkgs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toc_depth": 2
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
