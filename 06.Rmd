@@ -62,7 +62,7 @@ Since different `R` packages implement post-processing of multiply imputed model
 
 ### `marginaleffects`
 
-The `marginaleffects` package [@R-marginaleffects] implements "predict then combine"; that is, it obtains model predictions for each of the *m* data sets and then apply Rubin's rules to the predictions to pool them. G-computation with multiply imputed datasets is very straightforward to implement.
+The `marginaleffects` package [@marginaleffects] implements "predict then combine"; that is, it obtains model predictions for each of the *m* data sets and then apply Rubin's rules to the predictions to pool them. G-computation is very straightforward to implement.
 
 ```{r, results='markup'}
 library(marginaleffects)
@@ -72,7 +72,7 @@ avg_comparisons(fit, variables = list(subsidy = 0:1))
 
 ### `emmeans`
 
-On the other hand, the `emmeans` package [@emmeans] implements "combine then predict"; that is, it applies Rubin's rules to the model coefficients to pool them and only then obtain model predictions. A basic g-computation implementation with multiply imputed datasets could like this using `emmeans`.
+On the other hand, the `emmeans` package [@emmeans] implements "combine then predict"; that is, it applies Rubin's rules to the model coefficients to pool them and only then obtain model predictions. A basic g-computation implementation could like this using `emmeans`.
 
 ```{r, results='markup'}
 library(emmeans)
@@ -87,7 +87,7 @@ We see that results are identical to those obtained with `marginaleffects`.
 
 ### Comparison
 
-But let's try to see when the two different approaches give different results, such as for non-linear models. Instead of a linear model on the imputed datasets, we instead use a non-linear model in the form of a logistic regression. We do this by calling `glm()` instead of `lm()` and setting `family = "binomial"`.
+But let's try to see when the two different approaches give different results. Instead of a linear model on the imputed datasets, we instead use a non-linear model in the form of a logistic regression. We do this by calling `glm()` instead of `lm()` and setting `family = "binomial"`.
 
 ```{r}
 fit_binom <- with(imp, glm(act ~ subsidy + age, family = "binomial"))

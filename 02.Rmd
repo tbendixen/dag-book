@@ -27,7 +27,7 @@ X <- Z*bZ + rnorm(n, 0, 1)
 Y <- Z*bZ + rnorm(n, 0, 1)
 ```
 
-We then write a function for fitting and plotting our models that we can re-use for the 'Pipe' and 'Collider' scenarios. This function depends on the `ggplot2` [@tidyverse] and `patchwork` [@patchwork] packages.
+We then write a function for fitting and plotting our models that we can re-use for the 'Pipe' and 'Collider' scenarios. This function depends on the `ggplot2` and `patchwork` [@patchwork] packages.
 
 ```{r}
 library(ggplot2)

@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.path = "bookdown-dag_files/figure-html/ch3-fig-",
                       cache.path = "bookdown-dag_cache/html/ch3-")
 
+memory.limit(1e6)
+
 ```
 
 ## Inverse probability weighting
@@ -100,7 +102,9 @@ The above approach showcases IPW with so-called 'unstabilized' weights. But stab
 
 ```{r, fig.height=3, fig.width=5}
 # IPW with stabilized weights
-pn <- glm(X ~ 1, data = d)
+pn <- glm(X ~ 1, 
+          data = d, 
+          family = "binomial")
 
 d$pnX <- predict(pn, type = "response")
   
