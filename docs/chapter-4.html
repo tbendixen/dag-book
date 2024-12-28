@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Adventures in G-methods | The Data Analyst’s Guide to Cause and Effect</title>
+  <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Adventures in G-methods | The Data Analyst’s Guide to Cause and Effect" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  <meta name="github-repo" content="tbendixen/DAG-companion" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Adventures in G-methods | The Data Analyst’s Guide to Cause and Effect" />
+  
+  <meta name="twitter:description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
+  
+
+<meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
+
+
+<meta name="date" content="2024-12-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-3.html"/>
+<link rel="next" href="chapter-5.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The Data Analyst's Guide to Cause and Effect</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#version"><i class="fa fa-check"></i>Version</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#errata"><i class="fa fa-check"></i>Errata</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chapter-1.html"><a href="chapter-1.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="chapter-2.html"><a href="chapter-2.html"><i class="fa fa-check"></i><b>2</b> Causal Graphs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-2.html"><a href="chapter-2.html#the-fork"><i class="fa fa-check"></i><b>2.1</b> The Fork</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-2.html"><a href="chapter-2.html#the-pipe"><i class="fa fa-check"></i><b>2.2</b> The Pipe</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-2.html"><a href="chapter-2.html#the-collider"><i class="fa fa-check"></i><b>2.3</b> The Collider</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-2.html"><a href="chapter-2.html#post-treatment-bias"><i class="fa fa-check"></i><b>2.4</b> Post-treatment bias</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-2.html"><a href="chapter-2.html#session-info"><i class="fa fa-check"></i><b>2.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-3.html"><a href="chapter-3.html"><i class="fa fa-check"></i><b>3</b> G-methods and Marginal Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-3.html"><a href="chapter-3.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>3.1</b> Inverse probability weighting</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping"><i class="fa fa-check"></i><b>3.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.1.2" data-path="chapter-3.html"><a href="chapter-3.html#robust-standard-errors-for-ipw"><i class="fa fa-check"></i><b>3.1.2</b> ‘Robust’ standard errors for IPW</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="chapter-3.html"><a href="chapter-3.html#g-computation"><i class="fa fa-check"></i><b>3.2</b> G-computation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="chapter-3.html"><a href="chapter-3.html#bootstrapping-1"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapter-3.html"><a href="chapter-3.html#bayesian-g-computation"><i class="fa fa-check"></i><b>3.2.2</b> Bayesian g-computation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chapter-3.html"><a href="chapter-3.html#session-info-1"><i class="fa fa-check"></i><b>3.3</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-4.html"><a href="chapter-4.html"><i class="fa fa-check"></i><b>4</b> Adventures in G-methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="chapter-4.html"><a href="chapter-4.html#doubly-robust-estimation"><i class="fa fa-check"></i><b>4.1</b> Doubly robust estimation</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapping-2"><i class="fa fa-check"></i><b>4.1.1</b> Bootstrapping</a></li>
+<li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-designs"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal designs</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#more-complexity"><i class="fa fa-check"></i><b>4.4</b> More complexity</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="chapter-4.html"><a href="chapter-4.html#g-computation-1"><i class="fa fa-check"></i><b>4.4.1</b> G-computation</a></li>
+<li class="chapter" data-level="4.4.2" data-path="chapter-4.html"><a href="chapter-4.html#ipw"><i class="fa fa-check"></i><b>4.4.2</b> IPW</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-5.html"><a href="chapter-5.html#simulating-missingness"><i class="fa fa-check"></i><b>5.1</b> Simulating missingness</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-5.html"><a href="chapter-5.html#poststratification"><i class="fa fa-check"></i><b>5.2</b> Poststratification</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chapter-5.html"><a href="chapter-5.html#frequentist-poststratification"><i class="fa fa-check"></i><b>5.2.1</b> Frequentist poststratification</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-poststratification"><i class="fa fa-check"></i><b>5.2.2</b> Bayesian poststratification</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chapter-5.html"><a href="chapter-5.html#instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.3</b> Instrumental variable analysis</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter-5.html"><a href="chapter-5.html#preparing-cohen-et-al.-2015"><i class="fa fa-check"></i><b>5.3.1</b> Preparing Cohen et al. (2015)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="chapter-5.html"><a href="chapter-5.html#randomized-treatment-assignment-as-instrument"><i class="fa fa-check"></i><b>5.3.2</b> Randomized treatment assignment as instrument</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter-5.html"><a href="chapter-5.html#bayesian-instrumental-variable-analysis"><i class="fa fa-check"></i><b>5.4</b> Bayesian instrumental variable analysis</a></li>
+<li class="chapter" data-level="5.5" data-path="chapter-5.html"><a href="chapter-5.html#session-info-3"><i class="fa fa-check"></i><b>5.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-6.html"><a href="chapter-6.html"><i class="fa fa-check"></i><b>6</b> More Missing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-6.html"><a href="chapter-6.html#simple-mean-imputation-vs.-multiple-imputation"><i class="fa fa-check"></i><b>6.1</b> Simple mean imputation vs. multiple imputation</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-6.html"><a href="chapter-6.html#combine-then-predict-or-predict-then-combine"><i class="fa fa-check"></i><b>6.2</b> “Combine then predict” or “predict then combine”?</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-6.html"><a href="chapter-6.html#marginaleffects"><i class="fa fa-check"></i><b>6.2.1</b> <code>marginaleffects</code></a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-6.html"><a href="chapter-6.html#emmeans"><i class="fa fa-check"></i><b>6.2.2</b> <code>emmeans</code></a></li>
+<li class="chapter" data-level="6.2.3" data-path="chapter-6.html"><a href="chapter-6.html#comparison"><i class="fa fa-check"></i><b>6.2.3</b> Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-6.html"><a href="chapter-6.html#bayesian-imputation"><i class="fa fa-check"></i><b>6.3</b> Bayesian imputation</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-6.html"><a href="chapter-6.html#session-info-4"><i class="fa fa-check"></i><b>6.4</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-7.html"><a href="chapter-7.html"><i class="fa fa-check"></i><b>7</b> Multilevel Modelling and Mundlak’s Legacy</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-7.html"><a href="chapter-7.html#multilevel-malaria-medicine"><i class="fa fa-check"></i><b>7.1</b> Multilevel malaria medicine</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-simple-intercept-and-slope"><i class="fa fa-check"></i><b>7.1.1</b> Naïve model: Simple intercept and slope</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects"><i class="fa fa-check"></i><b>7.1.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.1.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-interacting-treatment-and-group"><i class="fa fa-check"></i><b>7.1.3</b> Fixed effects interacting treatment and group</a></li>
+<li class="chapter" data-level="7.1.4" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts"><i class="fa fa-check"></i><b>7.1.4</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.1.5" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-and-slopes"><i class="fa fa-check"></i><b>7.1.5</b> Random intercepts and slopes</a></li>
+<li class="chapter" data-level="7.1.6" data-path="chapter-7.html"><a href="chapter-7.html#plot-models-in-a-panel"><i class="fa fa-check"></i><b>7.1.6</b> Plot models in a panel</a></li>
+<li class="chapter" data-level="7.1.7" data-path="chapter-7.html"><a href="chapter-7.html#regularized-vs.-empirical-estimates"><i class="fa fa-check"></i><b>7.1.7</b> Regularized vs. empirical estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="chapter-7.html"><a href="chapter-7.html#simulating-mundlak"><i class="fa fa-check"></i><b>7.2</b> Simulating Mundlak</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model-ignoring-group"><i class="fa fa-check"></i><b>7.2.1</b> Naïve model (ignoring group)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-1"><i class="fa fa-check"></i><b>7.2.2</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chapter-7.html"><a href="chapter-7.html#random-intercepts-1"><i class="fa fa-check"></i><b>7.2.3</b> Random intercepts</a></li>
+<li class="chapter" data-level="7.2.4" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model"><i class="fa fa-check"></i><b>7.2.4</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.2.5" data-path="chapter-7.html"><a href="chapter-7.html#plot-effect-estimate-distributions"><i class="fa fa-check"></i><b>7.2.5</b> Plot effect estimate distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-7.html"><a href="chapter-7.html#education-and-prosociality-mundlak-in-action"><i class="fa fa-check"></i><b>7.3</b> Education and prosociality: Mundlak in action</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter-7.html"><a href="chapter-7.html#raw-data-distributions"><i class="fa fa-check"></i><b>7.3.1</b> Raw data distributions</a></li>
+<li class="chapter" data-level="7.3.2" data-path="chapter-7.html"><a href="chapter-7.html#naïve-model"><i class="fa fa-check"></i><b>7.3.2</b> Naïve model</a></li>
+<li class="chapter" data-level="7.3.3" data-path="chapter-7.html"><a href="chapter-7.html#fixed-effects-2"><i class="fa fa-check"></i><b>7.3.3</b> Fixed effects</a></li>
+<li class="chapter" data-level="7.3.4" data-path="chapter-7.html"><a href="chapter-7.html#random-effects"><i class="fa fa-check"></i><b>7.3.4</b> Random effects</a></li>
+<li class="chapter" data-level="7.3.5" data-path="chapter-7.html"><a href="chapter-7.html#mundlak-model-1"><i class="fa fa-check"></i><b>7.3.5</b> Mundlak model</a></li>
+<li class="chapter" data-level="7.3.6" data-path="chapter-7.html"><a href="chapter-7.html#plotting-effect-of-education-on-religiosity"><i class="fa fa-check"></i><b>7.3.6</b> Plotting effect of education on religiosity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter-7.html"><a href="chapter-7.html#marginal-effects-in-a-multilevel-model"><i class="fa fa-check"></i><b>7.4</b> Marginal effects in a multilevel model</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter-7.html"><a href="chapter-7.html#predicting-the-observed-sites"><i class="fa fa-check"></i><b>7.4.1</b> Predicting the observed sites</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter-7.html"><a href="chapter-7.html#frequentist-workflow"><i class="fa fa-check"></i><b>7.4.2</b> Frequentist workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chapter-7.html"><a href="chapter-7.html#session-info-5"><i class="fa fa-check"></i><b>7.5</b> Session info</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="pkgs.html"><a href="pkgs.html"><i class="fa fa-check"></i><b>8</b> Package Citations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><em>The Data Analyst’s Guide to Cause and Effect</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-4" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Adventures in G-methods<a href="chapter-4.html#chapter-4" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="doubly-robust-estimation" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Doubly robust estimation<a href="chapter-4.html#doubly-robust-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For demonstrating a ‘doubly robust’ estimator that combines IPW and g-computation, we use the <code>nhefs</code> data from the <code>causaldata</code> package <span class="citation">(<a href="#ref-causaldata">Huntington-Klein and Barrett 2021</a>)</span>. This data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter-4.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(causaldata)</span>
+<span id="cb39-2"><a href="chapter-4.html#cb39-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> nhefs</span></code></pre></div>
+<p>We first calculate stabilized IP weights.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="chapter-4.html#cb40-1" tabindex="-1"></a>treat_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> sex <span class="sc">+</span> age,</span>
+<span id="cb40-2"><a href="chapter-4.html#cb40-2" tabindex="-1"></a>                 <span class="at">data =</span> d,</span>
+<span id="cb40-3"><a href="chapter-4.html#cb40-3" tabindex="-1"></a>                 <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb40-4"><a href="chapter-4.html#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="chapter-4.html#cb40-5" tabindex="-1"></a>d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treat_mod, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb40-6"><a href="chapter-4.html#cb40-6" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="chapter-4.html#cb40-7" tabindex="-1"></a>pn <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb40-8"><a href="chapter-4.html#cb40-8" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb40-9"><a href="chapter-4.html#cb40-9" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb40-10"><a href="chapter-4.html#cb40-10" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="chapter-4.html#cb40-11" tabindex="-1"></a>d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb40-12"><a href="chapter-4.html#cb40-12" tabindex="-1"></a>  </span>
+<span id="cb40-13"><a href="chapter-4.html#cb40-13" tabindex="-1"></a>d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(qsmk<span class="sc">==</span><span class="dv">1</span>, pnX<span class="sc">/</span>pX, (<span class="dv">1</span><span class="sc">-</span>pnX)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span></code></pre></div>
+<p>We can then plot the sample before and after weighting.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter-4.html#cb41-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb41-2"><a href="chapter-4.html#cb41-2" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb41-3"><a href="chapter-4.html#cb41-3" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="chapter-4.html#cb41-4" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb41-5"><a href="chapter-4.html#cb41-5" tabindex="-1"></a>  <span class="co"># X = 1 (sample)</span></span>
+<span id="cb41-6"><a href="chapter-4.html#cb41-6" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, qsmk <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb41-7"><a href="chapter-4.html#cb41-7" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
+<span id="cb41-8"><a href="chapter-4.html#cb41-8" tabindex="-1"></a>  <span class="co"># X = 0 (sample)</span></span>
+<span id="cb41-9"><a href="chapter-4.html#cb41-9" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, qsmk <span class="sc">==</span> <span class="dv">0</span>), </span>
+<span id="cb41-10"><a href="chapter-4.html#cb41-10" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb41-11"><a href="chapter-4.html#cb41-11" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb41-12"><a href="chapter-4.html#cb41-12" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb41-13"><a href="chapter-4.html#cb41-13" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-14"><a href="chapter-4.html#cb41-14" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-15"><a href="chapter-4.html#cb41-15" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-16"><a href="chapter-4.html#cb41-16" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb41-17"><a href="chapter-4.html#cb41-17" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-18"><a href="chapter-4.html#cb41-18" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Before IP weighting&quot;</span>)</span>
+<span id="cb41-19"><a href="chapter-4.html#cb41-19" tabindex="-1"></a></span>
+<span id="cb41-20"><a href="chapter-4.html#cb41-20" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb41-21"><a href="chapter-4.html#cb41-21" tabindex="-1"></a>  <span class="co"># X = 1 (pseudo-population)</span></span>
+<span id="cb41-22"><a href="chapter-4.html#cb41-22" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, qsmk <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb41-23"><a href="chapter-4.html#cb41-23" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> sw), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb41-24"><a href="chapter-4.html#cb41-24" tabindex="-1"></a>  <span class="co"># X = 0 (pseudo-population)</span></span>
+<span id="cb41-25"><a href="chapter-4.html#cb41-25" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, qsmk <span class="sc">==</span> <span class="dv">0</span>), </span>
+<span id="cb41-26"><a href="chapter-4.html#cb41-26" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> sw), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb41-27"><a href="chapter-4.html#cb41-27" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb41-28"><a href="chapter-4.html#cb41-28" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb41-29"><a href="chapter-4.html#cb41-29" tabindex="-1"></a>  <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-30"><a href="chapter-4.html#cb41-30" tabindex="-1"></a>  <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-31"><a href="chapter-4.html#cb41-31" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb41-32"><a href="chapter-4.html#cb41-32" tabindex="-1"></a>  <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb41-33"><a href="chapter-4.html#cb41-33" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-34"><a href="chapter-4.html#cb41-34" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;After IP weighting&quot;</span>) </span>
+<span id="cb41-35"><a href="chapter-4.html#cb41-35" tabindex="-1"></a></span>
+<span id="cb41-36"><a href="chapter-4.html#cb41-36" tabindex="-1"></a>(p1 <span class="sc">+</span> p2)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch4-fig-unnamed-chunk-35-1.png" width="480" /></p>
+<p>We can also make a ‘love plot’ using the <code>cobalt</code> package <span class="citation">(<a href="#ref-cobalt">Greifer 2024</a>)</span> to inspect whether the IP weights ensures acceptable balance on the level of individual covariates. By setting <code>continuous = "std"</code>, we indicate that the function should return the <em>standardized</em> absolute mean difference for any continuous variables (here, <code>age</code>). If we wanted the raw absolute mean difference, we’d set <code>continuous = "raw"</code>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter-4.html#cb42-1" tabindex="-1"></a><span class="fu">library</span>(cobalt)</span>
+<span id="cb42-2"><a href="chapter-4.html#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="chapter-4.html#cb42-3" tabindex="-1"></a><span class="fu">love.plot</span>(treat_mod, <span class="at">abs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-4"><a href="chapter-4.html#cb42-4" tabindex="-1"></a>          <span class="at">sample.names =</span> <span class="fu">c</span>(<span class="st">&quot;Unweighted&quot;</span>, <span class="st">&quot;IP Weighted&quot;</span>), </span>
+<span id="cb42-5"><a href="chapter-4.html#cb42-5" tabindex="-1"></a>          <span class="at">weights =</span> d<span class="sc">$</span>sw,</span>
+<span id="cb42-6"><a href="chapter-4.html#cb42-6" tabindex="-1"></a>          <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">&quot;grey60&quot;</span>, <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb42-7"><a href="chapter-4.html#cb42-7" tabindex="-1"></a>          <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> .<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch4-fig-unnamed-chunk-36-1.png" width="480" /></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter-4.html#cb43-1" tabindex="-1"></a><span class="fu">bal.tab</span>(treat_mod, <span class="at">abs =</span> <span class="cn">TRUE</span>, <span class="at">un =</span> <span class="cn">TRUE</span>, <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> .<span class="dv">1</span>), <span class="at">weights =</span> d<span class="sc">$</span>sw, <span class="at">continuous =</span> <span class="st">&quot;std&quot;</span>)<span class="sc">$</span>Balance</span></code></pre></div>
+<p>Finally, we include the stabilized weights in an outcome model, which we in turn use for g-computation.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter-4.html#cb44-1" tabindex="-1"></a>out_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt82_71 <span class="sc">~</span> qsmk <span class="sc">+</span> sex <span class="sc">+</span> age, <span class="at">data =</span> d, <span class="at">weights =</span> sw)</span>
+<span id="cb44-2"><a href="chapter-4.html#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="chapter-4.html#cb44-3" tabindex="-1"></a>EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb44-4"><a href="chapter-4.html#cb44-4" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">1</span>))</span>
+<span id="cb44-5"><a href="chapter-4.html#cb44-5" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="chapter-4.html#cb44-6" tabindex="-1"></a>EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb44-7"><a href="chapter-4.html#cb44-7" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">0</span>))</span>
+<span id="cb44-8"><a href="chapter-4.html#cb44-8" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="chapter-4.html#cb44-9" tabindex="-1"></a><span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0)</span></code></pre></div>
+<pre><code>## [1] 3.039286</code></pre>
+<div id="bootstrapping-2" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Bootstrapping<a href="chapter-4.html#bootstrapping-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The basic approach to bootstrapping is similar as in the previous chapter. Here, we bootstrap the doubly robust estimator from above. We use only 100 bootstrap samples, but in practice we’d often want more.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter-4.html#cb46-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb46-2"><a href="chapter-4.html#cb46-2" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="chapter-4.html#cb46-3" tabindex="-1"></a><span class="co"># Number of bootstrap samples</span></span>
+<span id="cb46-4"><a href="chapter-4.html#cb46-4" tabindex="-1"></a>n_bootstrap <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb46-5"><a href="chapter-4.html#cb46-5" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="chapter-4.html#cb46-6" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb46-7"><a href="chapter-4.html#cb46-7" tabindex="-1"></a>    </span>
+<span id="cb46-8"><a href="chapter-4.html#cb46-8" tabindex="-1"></a>    <span class="co"># Resample the data</span></span>
+<span id="cb46-9"><a href="chapter-4.html#cb46-9" tabindex="-1"></a>    d <span class="ot">&lt;-</span> data[indices, ]</span>
+<span id="cb46-10"><a href="chapter-4.html#cb46-10" tabindex="-1"></a>  </span>
+<span id="cb46-11"><a href="chapter-4.html#cb46-11" tabindex="-1"></a>    <span class="co"># IPW</span></span>
+<span id="cb46-12"><a href="chapter-4.html#cb46-12" tabindex="-1"></a>    treat_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> sex <span class="sc">+</span> age,</span>
+<span id="cb46-13"><a href="chapter-4.html#cb46-13" tabindex="-1"></a>                     <span class="at">data =</span> d,</span>
+<span id="cb46-14"><a href="chapter-4.html#cb46-14" tabindex="-1"></a>                     <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb46-15"><a href="chapter-4.html#cb46-15" tabindex="-1"></a></span>
+<span id="cb46-16"><a href="chapter-4.html#cb46-16" tabindex="-1"></a>    d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treat_mod, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb46-17"><a href="chapter-4.html#cb46-17" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="chapter-4.html#cb46-18" tabindex="-1"></a>    pn <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb46-19"><a href="chapter-4.html#cb46-19" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb46-20"><a href="chapter-4.html#cb46-20" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb46-21"><a href="chapter-4.html#cb46-21" tabindex="-1"></a></span>
+<span id="cb46-22"><a href="chapter-4.html#cb46-22" tabindex="-1"></a>    d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb46-23"><a href="chapter-4.html#cb46-23" tabindex="-1"></a>  </span>
+<span id="cb46-24"><a href="chapter-4.html#cb46-24" tabindex="-1"></a>    d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(qsmk<span class="sc">==</span><span class="dv">1</span>, pnX<span class="sc">/</span>pX, (<span class="dv">1</span><span class="sc">-</span>pnX)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
+<span id="cb46-25"><a href="chapter-4.html#cb46-25" tabindex="-1"></a>    </span>
+<span id="cb46-26"><a href="chapter-4.html#cb46-26" tabindex="-1"></a>    <span class="co"># G-computation with IP weighted outcome model</span></span>
+<span id="cb46-27"><a href="chapter-4.html#cb46-27" tabindex="-1"></a>    out_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt82_71 <span class="sc">~</span> qsmk <span class="sc">+</span> sex <span class="sc">+</span> age, <span class="at">data =</span> d, <span class="at">weights =</span> sw)</span>
+<span id="cb46-28"><a href="chapter-4.html#cb46-28" tabindex="-1"></a></span>
+<span id="cb46-29"><a href="chapter-4.html#cb46-29" tabindex="-1"></a>    EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb46-30"><a href="chapter-4.html#cb46-30" tabindex="-1"></a>                   <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">1</span>))</span>
+<span id="cb46-31"><a href="chapter-4.html#cb46-31" tabindex="-1"></a>  </span>
+<span id="cb46-32"><a href="chapter-4.html#cb46-32" tabindex="-1"></a>    EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb46-33"><a href="chapter-4.html#cb46-33" tabindex="-1"></a>                   <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">0</span>))</span>
+<span id="cb46-34"><a href="chapter-4.html#cb46-34" tabindex="-1"></a></span>
+<span id="cb46-35"><a href="chapter-4.html#cb46-35" tabindex="-1"></a>    <span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0)</span>
+<span id="cb46-36"><a href="chapter-4.html#cb46-36" tabindex="-1"></a>  </span>
+<span id="cb46-37"><a href="chapter-4.html#cb46-37" tabindex="-1"></a>  <span class="co"># Return the coefficient of X</span></span>
+<span id="cb46-38"><a href="chapter-4.html#cb46-38" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0))</span>
+<span id="cb46-39"><a href="chapter-4.html#cb46-39" tabindex="-1"></a>}</span>
+<span id="cb46-40"><a href="chapter-4.html#cb46-40" tabindex="-1"></a></span>
+<span id="cb46-41"><a href="chapter-4.html#cb46-41" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
+<span id="cb46-42"><a href="chapter-4.html#cb46-42" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
+<span id="cb46-43"><a href="chapter-4.html#cb46-43" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
+<span id="cb46-44"><a href="chapter-4.html#cb46-44" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
+<span id="cb46-45"><a href="chapter-4.html#cb46-45" tabindex="-1"></a></span>
+<span id="cb46-46"><a href="chapter-4.html#cb46-46" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
+<span id="cb46-47"><a href="chapter-4.html#cb46-47" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>)</span>
+<span id="cb46-48"><a href="chapter-4.html#cb46-48" tabindex="-1"></a></span>
+<span id="cb46-49"><a href="chapter-4.html#cb46-49" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb46-50"><a href="chapter-4.html#cb46-50" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 100 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootstrap_results, type = &quot;norm&quot;)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 2.092,  3.909 )  
+## Calculations and Intervals on Original Scale</code></pre>
+</div>
+<div id="more-covariates" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> More covariates<a href="chapter-4.html#more-covariates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can try the same analysis but with a more comprehensive set of covariates.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter-4.html#cb48-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb48-2"><a href="chapter-4.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="chapter-4.html#cb48-3" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb48-4"><a href="chapter-4.html#cb48-4" tabindex="-1"></a>    </span>
+<span id="cb48-5"><a href="chapter-4.html#cb48-5" tabindex="-1"></a>    <span class="co"># Resample the data</span></span>
+<span id="cb48-6"><a href="chapter-4.html#cb48-6" tabindex="-1"></a>    d <span class="ot">&lt;-</span> data[indices, ]</span>
+<span id="cb48-7"><a href="chapter-4.html#cb48-7" tabindex="-1"></a>  </span>
+<span id="cb48-8"><a href="chapter-4.html#cb48-8" tabindex="-1"></a>    <span class="co"># IPW</span></span>
+<span id="cb48-9"><a href="chapter-4.html#cb48-9" tabindex="-1"></a>    <span class="co"># see: https://remlapmot.github.io/cibookex-r/ip-weighting-and-marginal-structural-models.html</span></span>
+<span id="cb48-10"><a href="chapter-4.html#cb48-10" tabindex="-1"></a>    treat_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> sex <span class="sc">+</span> race <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">I</span>(age <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb48-11"><a href="chapter-4.html#cb48-11" tabindex="-1"></a>                       <span class="fu">as.factor</span>(education) <span class="sc">+</span> smokeintensity <span class="sc">+</span></span>
+<span id="cb48-12"><a href="chapter-4.html#cb48-12" tabindex="-1"></a>                       <span class="fu">I</span>(smokeintensity <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span> smokeyrs <span class="sc">+</span> <span class="fu">I</span>(smokeyrs <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb48-13"><a href="chapter-4.html#cb48-13" tabindex="-1"></a>                       <span class="fu">as.factor</span>(exercise) <span class="sc">+</span> <span class="fu">as.factor</span>(active) <span class="sc">+</span> wt71 <span class="sc">+</span> <span class="fu">I</span>(wt71 <span class="sc">^</span> <span class="dv">2</span>),</span>
+<span id="cb48-14"><a href="chapter-4.html#cb48-14" tabindex="-1"></a>                     <span class="at">data =</span> d,</span>
+<span id="cb48-15"><a href="chapter-4.html#cb48-15" tabindex="-1"></a>                     <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb48-16"><a href="chapter-4.html#cb48-16" tabindex="-1"></a></span>
+<span id="cb48-17"><a href="chapter-4.html#cb48-17" tabindex="-1"></a>    d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treat_mod, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb48-18"><a href="chapter-4.html#cb48-18" tabindex="-1"></a></span>
+<span id="cb48-19"><a href="chapter-4.html#cb48-19" tabindex="-1"></a>    pn <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb48-20"><a href="chapter-4.html#cb48-20" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb48-21"><a href="chapter-4.html#cb48-21" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb48-22"><a href="chapter-4.html#cb48-22" tabindex="-1"></a></span>
+<span id="cb48-23"><a href="chapter-4.html#cb48-23" tabindex="-1"></a>    d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb48-24"><a href="chapter-4.html#cb48-24" tabindex="-1"></a>  </span>
+<span id="cb48-25"><a href="chapter-4.html#cb48-25" tabindex="-1"></a>    d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(qsmk<span class="sc">==</span><span class="dv">1</span>, pnX<span class="sc">/</span>pX, (<span class="dv">1</span><span class="sc">-</span>pnX)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
+<span id="cb48-26"><a href="chapter-4.html#cb48-26" tabindex="-1"></a>    </span>
+<span id="cb48-27"><a href="chapter-4.html#cb48-27" tabindex="-1"></a>    <span class="co"># G-computation with IP weighted outcome model</span></span>
+<span id="cb48-28"><a href="chapter-4.html#cb48-28" tabindex="-1"></a>    out_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt82_71 <span class="sc">~</span> qsmk <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">I</span>(age <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb48-29"><a href="chapter-4.html#cb48-29" tabindex="-1"></a>                       <span class="fu">as.factor</span>(education) <span class="sc">+</span> smokeintensity <span class="sc">+</span></span>
+<span id="cb48-30"><a href="chapter-4.html#cb48-30" tabindex="-1"></a>                       <span class="fu">I</span>(smokeintensity <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span> smokeyrs <span class="sc">+</span> <span class="fu">I</span>(smokeyrs <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb48-31"><a href="chapter-4.html#cb48-31" tabindex="-1"></a>                       <span class="fu">as.factor</span>(exercise) <span class="sc">+</span> <span class="fu">as.factor</span>(active) <span class="sc">+</span> wt71 <span class="sc">+</span> <span class="fu">I</span>(wt71 <span class="sc">^</span> <span class="dv">2</span>), </span>
+<span id="cb48-32"><a href="chapter-4.html#cb48-32" tabindex="-1"></a>                  <span class="at">data =</span> d, <span class="at">weights =</span> sw)</span>
+<span id="cb48-33"><a href="chapter-4.html#cb48-33" tabindex="-1"></a></span>
+<span id="cb48-34"><a href="chapter-4.html#cb48-34" tabindex="-1"></a>    EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb48-35"><a href="chapter-4.html#cb48-35" tabindex="-1"></a>                   <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">1</span>))</span>
+<span id="cb48-36"><a href="chapter-4.html#cb48-36" tabindex="-1"></a>  </span>
+<span id="cb48-37"><a href="chapter-4.html#cb48-37" tabindex="-1"></a>    EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, </span>
+<span id="cb48-38"><a href="chapter-4.html#cb48-38" tabindex="-1"></a>                   <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">0</span>))</span>
+<span id="cb48-39"><a href="chapter-4.html#cb48-39" tabindex="-1"></a></span>
+<span id="cb48-40"><a href="chapter-4.html#cb48-40" tabindex="-1"></a>    <span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0)</span>
+<span id="cb48-41"><a href="chapter-4.html#cb48-41" tabindex="-1"></a>  </span>
+<span id="cb48-42"><a href="chapter-4.html#cb48-42" tabindex="-1"></a>  <span class="co"># Return the coefficient of X</span></span>
+<span id="cb48-43"><a href="chapter-4.html#cb48-43" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0))</span>
+<span id="cb48-44"><a href="chapter-4.html#cb48-44" tabindex="-1"></a>}</span>
+<span id="cb48-45"><a href="chapter-4.html#cb48-45" tabindex="-1"></a></span>
+<span id="cb48-46"><a href="chapter-4.html#cb48-46" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
+<span id="cb48-47"><a href="chapter-4.html#cb48-47" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
+<span id="cb48-48"><a href="chapter-4.html#cb48-48" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
+<span id="cb48-49"><a href="chapter-4.html#cb48-49" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
+<span id="cb48-50"><a href="chapter-4.html#cb48-50" tabindex="-1"></a></span>
+<span id="cb48-51"><a href="chapter-4.html#cb48-51" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
+<span id="cb48-52"><a href="chapter-4.html#cb48-52" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>)</span>
+<span id="cb48-53"><a href="chapter-4.html#cb48-53" tabindex="-1"></a></span>
+<span id="cb48-54"><a href="chapter-4.html#cb48-54" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb48-55"><a href="chapter-4.html#cb48-55" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 100 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootstrap_results, type = &quot;norm&quot;)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 2.620,  4.393 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<p>The overall inference is the same, although the more comprehensive adjustment set yields a slightly higher point estimate (around 3.5 kg), indicating that quitters gain even more weight than previously estimated.</p>
+</div>
+</div>
+<div id="bootstrapped-sub-group-analysis" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Bootstrapped sub-group analysis<a href="chapter-4.html#bootstrapped-sub-group-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter-4.html#cb50-1" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb50-2"><a href="chapter-4.html#cb50-2" tabindex="-1"></a>    </span>
+<span id="cb50-3"><a href="chapter-4.html#cb50-3" tabindex="-1"></a>    <span class="co"># Resample the data</span></span>
+<span id="cb50-4"><a href="chapter-4.html#cb50-4" tabindex="-1"></a>    d <span class="ot">&lt;-</span> data[indices, ]</span>
+<span id="cb50-5"><a href="chapter-4.html#cb50-5" tabindex="-1"></a>  </span>
+<span id="cb50-6"><a href="chapter-4.html#cb50-6" tabindex="-1"></a>    <span class="co"># IPW</span></span>
+<span id="cb50-7"><a href="chapter-4.html#cb50-7" tabindex="-1"></a>    pn_sub <span class="ot">&lt;-</span> <span class="fu">glm</span>(qsmk <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex, <span class="at">data =</span> d, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb50-8"><a href="chapter-4.html#cb50-8" tabindex="-1"></a>    </span>
+<span id="cb50-9"><a href="chapter-4.html#cb50-9" tabindex="-1"></a>    d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn_sub, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb50-10"><a href="chapter-4.html#cb50-10" tabindex="-1"></a>  </span>
+<span id="cb50-11"><a href="chapter-4.html#cb50-11" tabindex="-1"></a>    d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(qsmk <span class="sc">==</span> <span class="dv">1</span>, pnX <span class="sc">/</span> pX, (<span class="dv">1</span> <span class="sc">-</span> pnX) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pX)))</span>
+<span id="cb50-12"><a href="chapter-4.html#cb50-12" tabindex="-1"></a>    </span>
+<span id="cb50-13"><a href="chapter-4.html#cb50-13" tabindex="-1"></a>    <span class="co"># G-computation with IP weighted outcome model</span></span>
+<span id="cb50-14"><a href="chapter-4.html#cb50-14" tabindex="-1"></a>    out_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(wt82_71 <span class="sc">~</span> qsmk <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> qsmk <span class="sc">*</span> sex, <span class="at">data =</span> d, <span class="at">weights =</span> sw)</span>
+<span id="cb50-15"><a href="chapter-4.html#cb50-15" tabindex="-1"></a>    </span>
+<span id="cb50-16"><a href="chapter-4.html#cb50-16" tabindex="-1"></a>    EX1S1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">1</span>, <span class="at">sex =</span> <span class="fu">as.factor</span>(<span class="dv">1</span>)))</span>
+<span id="cb50-17"><a href="chapter-4.html#cb50-17" tabindex="-1"></a>    EX1S0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">1</span>, <span class="at">sex =</span> <span class="fu">as.factor</span>(<span class="dv">0</span>)))</span>
+<span id="cb50-18"><a href="chapter-4.html#cb50-18" tabindex="-1"></a>    EX0S1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">0</span>, <span class="at">sex =</span> <span class="fu">as.factor</span>(<span class="dv">1</span>)))</span>
+<span id="cb50-19"><a href="chapter-4.html#cb50-19" tabindex="-1"></a>    EX0S0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(out_mod, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">qsmk =</span> <span class="dv">0</span>, <span class="at">sex =</span> <span class="fu">as.factor</span>(<span class="dv">0</span>)))</span>
+<span id="cb50-20"><a href="chapter-4.html#cb50-20" tabindex="-1"></a>    </span>
+<span id="cb50-21"><a href="chapter-4.html#cb50-21" tabindex="-1"></a>    mean_diff_S1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(EX1S1) <span class="sc">-</span> <span class="fu">mean</span>(EX0S1)</span>
+<span id="cb50-22"><a href="chapter-4.html#cb50-22" tabindex="-1"></a>    mean_diff_S0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(EX1S0) <span class="sc">-</span> <span class="fu">mean</span>(EX0S0)</span>
+<span id="cb50-23"><a href="chapter-4.html#cb50-23" tabindex="-1"></a>    </span>
+<span id="cb50-24"><a href="chapter-4.html#cb50-24" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(mean_diff_S1, mean_diff_S0))</span>
+<span id="cb50-25"><a href="chapter-4.html#cb50-25" tabindex="-1"></a>}</span>
+<span id="cb50-26"><a href="chapter-4.html#cb50-26" tabindex="-1"></a></span>
+<span id="cb50-27"><a href="chapter-4.html#cb50-27" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
+<span id="cb50-28"><a href="chapter-4.html#cb50-28" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, <span class="at">statistic =</span> bootstrap_analysis, <span class="at">R =</span> n_bootstrap)</span>
+<span id="cb50-29"><a href="chapter-4.html#cb50-29" tabindex="-1"></a></span>
+<span id="cb50-30"><a href="chapter-4.html#cb50-30" tabindex="-1"></a><span class="co"># Extract and display results</span></span>
+<span id="cb50-31"><a href="chapter-4.html#cb50-31" tabindex="-1"></a><span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>, <span class="at">index =</span> <span class="dv">1</span>) <span class="co"># For females</span></span></code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 100 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootstrap_results, type = &quot;norm&quot;, index = 1)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 1.619,  4.043 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter-4.html#cb52-1" tabindex="-1"></a><span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>, <span class="at">index =</span> <span class="dv">2</span>) <span class="co"># For males</span></span></code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 100 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootstrap_results, type = &quot;norm&quot;, index = 2)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 2.291,  4.585 )  
+## Calculations and Intervals on Original Scale</code></pre>
+</div>
+<div id="complex-longitudinal-designs" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Complex longitudinal designs<a href="chapter-4.html#complex-longitudinal-designs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the book, we walk through a g-computation approach to a complex longitudinal data context with a time-varying treatment. Here, we show a stabilized IPW approach. The trick is to compute two sets of weights, one for each time point and adjustment set. These weights can then be combined with multiplication in a single marginal structural model that recovers the simulated true effects of 0.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter-4.html#cb54-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1747</span>)</span>
+<span id="cb54-2"><a href="chapter-4.html#cb54-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb54-3"><a href="chapter-4.html#cb54-3" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb54-4"><a href="chapter-4.html#cb54-4" tabindex="-1"></a>Z_0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span>))</span>
+<span id="cb54-5"><a href="chapter-4.html#cb54-5" tabindex="-1"></a>X_0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z_0 <span class="sc">*</span> <span class="fl">0.5</span>))</span>
+<span id="cb54-6"><a href="chapter-4.html#cb54-6" tabindex="-1"></a>Z_1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> X_0 <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">+</span> U <span class="sc">*</span> <span class="fl">0.5</span>))</span>
+<span id="cb54-7"><a href="chapter-4.html#cb54-7" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z_1 <span class="sc">*</span> <span class="fl">0.5</span>))</span>
+<span id="cb54-8"><a href="chapter-4.html#cb54-8" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">10</span> <span class="sc">+</span> U <span class="sc">*</span> <span class="dv">2</span>)</span>
+<span id="cb54-9"><a href="chapter-4.html#cb54-9" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="chapter-4.html#cb54-10" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X_0 =</span> X_0, <span class="at">X_1 =</span> X_1,</span>
+<span id="cb54-11"><a href="chapter-4.html#cb54-11" tabindex="-1"></a>                  <span class="at">Z_0 =</span> Z_0, <span class="at">Z_1 =</span> Z_1, <span class="at">U =</span> U)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="chapter-4.html#cb55-1" tabindex="-1"></a><span class="co"># IPW estimation for X_0</span></span>
+<span id="cb55-2"><a href="chapter-4.html#cb55-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
+<span id="cb55-3"><a href="chapter-4.html#cb55-3" tabindex="-1"></a>ps_model_X0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_0 <span class="sc">~</span> Z_0 <span class="sc">+</span> X_1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
+<span id="cb55-4"><a href="chapter-4.html#cb55-4" tabindex="-1"></a>dat<span class="sc">$</span>ps_X0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X0, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb55-5"><a href="chapter-4.html#cb55-5" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="chapter-4.html#cb55-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
+<span id="cb55-7"><a href="chapter-4.html#cb55-7" tabindex="-1"></a>num_model_X0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_0 <span class="sc">~</span> Z_0, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
+<span id="cb55-8"><a href="chapter-4.html#cb55-8" tabindex="-1"></a>dat<span class="sc">$</span>num_ps_X0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X0, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb55-9"><a href="chapter-4.html#cb55-9" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="chapter-4.html#cb55-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
+<span id="cb55-11"><a href="chapter-4.html#cb55-11" tabindex="-1"></a>dat<span class="sc">$</span>sw_X0 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, </span>
+<span id="cb55-12"><a href="chapter-4.html#cb55-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X_0 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb55-13"><a href="chapter-4.html#cb55-13" tabindex="-1"></a>                num_ps_X0<span class="sc">/</span>ps_X0, </span>
+<span id="cb55-14"><a href="chapter-4.html#cb55-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X0)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X0)))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter-4.html#cb56-1" tabindex="-1"></a><span class="co"># IPW estimation for X_1</span></span>
+<span id="cb56-2"><a href="chapter-4.html#cb56-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
+<span id="cb56-3"><a href="chapter-4.html#cb56-3" tabindex="-1"></a>ps_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_1 <span class="sc">~</span> X_0 <span class="sc">+</span> Z_1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
+<span id="cb56-4"><a href="chapter-4.html#cb56-4" tabindex="-1"></a>dat<span class="sc">$</span>ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb56-5"><a href="chapter-4.html#cb56-5" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="chapter-4.html#cb56-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
+<span id="cb56-7"><a href="chapter-4.html#cb56-7" tabindex="-1"></a>num_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_1 <span class="sc">~</span> X_0, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
+<span id="cb56-8"><a href="chapter-4.html#cb56-8" tabindex="-1"></a>dat<span class="sc">$</span>num_ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb56-9"><a href="chapter-4.html#cb56-9" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="chapter-4.html#cb56-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
+<span id="cb56-11"><a href="chapter-4.html#cb56-11" tabindex="-1"></a>dat<span class="sc">$</span>sw_X1 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, </span>
+<span id="cb56-12"><a href="chapter-4.html#cb56-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X_1 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb56-13"><a href="chapter-4.html#cb56-13" tabindex="-1"></a>                num_ps_X1<span class="sc">/</span>ps_X1, </span>
+<span id="cb56-14"><a href="chapter-4.html#cb56-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X1)))</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chapter-4.html#cb57-1" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
+<span id="cb57-2"><a href="chapter-4.html#cb57-2" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X_0 <span class="sc">+</span> X_1, <span class="at">data =</span> dat, <span class="at">weights =</span> sw_X0<span class="sc">*</span>sw_X1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X_0 + X_1, data = dat, weights = sw_X0 * sw_X1)
+## 
+## Coefficients:
+## (Intercept)          X_0          X_1  
+##   10.009573    -0.039207     0.007237</code></pre>
+</div>
+<div id="more-complexity" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> More complexity<a href="chapter-4.html#more-complexity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the book, we show a complicated DAG adapted from <span class="citation">VanderWeele, Jackson, and Li (<a href="#ref-vanderweele2016causal">2016</a>)</span> of a complex longitudinal exposure-outcome feedback setting. Here, we verify that the adjustment strategy suggested in the book holds true in a simulated setting. While in this particular simulated example the model coefficients for <em>X1</em>, <em>X2</em> and <em>X3</em> in their respective focal models coincide with the marginal estimates we’re after, we want to practice a more general workflow for when it really matters. So, we both show a g-computation approach and a stabilized IPW approach.</p>
+<p>First, we simulate some data consistent with the complex DAG.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chapter-4.html#cb59-1" tabindex="-1"></a><span class="co"># Seed for reproducibility</span></span>
+<span id="cb59-2"><a href="chapter-4.html#cb59-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb59-3"><a href="chapter-4.html#cb59-3" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="chapter-4.html#cb59-4" tabindex="-1"></a><span class="co"># Define sample size</span></span>
+<span id="cb59-5"><a href="chapter-4.html#cb59-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb59-6"><a href="chapter-4.html#cb59-6" tabindex="-1"></a></span>
+<span id="cb59-7"><a href="chapter-4.html#cb59-7" tabindex="-1"></a><span class="co"># Simulate time-varying relationships</span></span>
+<span id="cb59-8"><a href="chapter-4.html#cb59-8" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb59-9"><a href="chapter-4.html#cb59-9" tabindex="-1"></a>Z1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb59-10"><a href="chapter-4.html#cb59-10" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
+<span id="cb59-11"><a href="chapter-4.html#cb59-11" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> X1 <span class="sc">+</span> Z1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
+<span id="cb59-12"><a href="chapter-4.html#cb59-12" tabindex="-1"></a>Z2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C <span class="sc">+</span> Z1 <span class="sc">+</span> X1) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb59-13"><a href="chapter-4.html#cb59-13" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> X2 <span class="sc">+</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
+<span id="cb59-14"><a href="chapter-4.html#cb59-14" tabindex="-1"></a>Z3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C <span class="sc">+</span> Z2 <span class="sc">+</span> X2) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb59-15"><a href="chapter-4.html#cb59-15" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="chapter-4.html#cb59-16" tabindex="-1"></a><span class="co"># Simulate outcome</span></span>
+<span id="cb59-17"><a href="chapter-4.html#cb59-17" tabindex="-1"></a>Y <span class="ot">&lt;-</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb59-18"><a href="chapter-4.html#cb59-18" tabindex="-1"></a></span>
+<span id="cb59-19"><a href="chapter-4.html#cb59-19" tabindex="-1"></a><span class="co"># Create dataset</span></span>
+<span id="cb59-20"><a href="chapter-4.html#cb59-20" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(C, Z1, Z2, Z3, X1, X2, X3, Y)</span></code></pre></div>
+<p>Next, we fit a model for each measurement time point, and we see that all three models pick up the true effects within simulation error. The true effects are 2, 2 and 1, respectively, for the three time points. It’s 2 for the first two time points, because these effects include paths running through <em>Z2</em>/<em>Z3</em>.</p>
+<div id="g-computation-1" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> G-computation<a href="chapter-4.html#g-computation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are no new tricks here compared to what we showcase in the book, except we’re breaking down our joint effect estimand into separate models.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter-4.html#cb60-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X1 on Y</span></span>
+<span id="cb60-2"><a href="chapter-4.html#cb60-2" tabindex="-1"></a>model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> Z1 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
+<span id="cb60-3"><a href="chapter-4.html#cb60-3" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="chapter-4.html#cb60-4" tabindex="-1"></a>EX11 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X1, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X1 =</span> <span class="dv">1</span>))</span>
+<span id="cb60-5"><a href="chapter-4.html#cb60-5" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="chapter-4.html#cb60-6" tabindex="-1"></a>EX10 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X1, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X1 =</span> <span class="dv">0</span>))</span>
+<span id="cb60-7"><a href="chapter-4.html#cb60-7" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="chapter-4.html#cb60-8" tabindex="-1"></a><span class="fu">mean</span>(EX11 <span class="sc">-</span> EX10)</span></code></pre></div>
+<pre><code>## [1] 2.083152</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter-4.html#cb62-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X2 on Y</span></span>
+<span id="cb62-2"><a href="chapter-4.html#cb62-2" tabindex="-1"></a>model_X2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z1 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
+<span id="cb62-3"><a href="chapter-4.html#cb62-3" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="chapter-4.html#cb62-4" tabindex="-1"></a>EX21 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X2, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X2 =</span> <span class="dv">1</span>))</span>
+<span id="cb62-5"><a href="chapter-4.html#cb62-5" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="chapter-4.html#cb62-6" tabindex="-1"></a>EX20 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X2, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X2 =</span> <span class="dv">0</span>))</span>
+<span id="cb62-7"><a href="chapter-4.html#cb62-7" tabindex="-1"></a></span>
+<span id="cb62-8"><a href="chapter-4.html#cb62-8" tabindex="-1"></a><span class="fu">mean</span>(EX21 <span class="sc">-</span> EX20)</span></code></pre></div>
+<pre><code>## [1] 1.988808</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter-4.html#cb64-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X3 on Y</span></span>
+<span id="cb64-2"><a href="chapter-4.html#cb64-2" tabindex="-1"></a>model_X3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
+<span id="cb64-3"><a href="chapter-4.html#cb64-3" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="chapter-4.html#cb64-4" tabindex="-1"></a>EX31 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X3, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X3 =</span> <span class="dv">1</span>))</span>
+<span id="cb64-5"><a href="chapter-4.html#cb64-5" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="chapter-4.html#cb64-6" tabindex="-1"></a>EX30 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X3, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X3 =</span> <span class="dv">0</span>))</span>
+<span id="cb64-7"><a href="chapter-4.html#cb64-7" tabindex="-1"></a></span>
+<span id="cb64-8"><a href="chapter-4.html#cb64-8" tabindex="-1"></a><span class="fu">mean</span>(EX31 <span class="sc">-</span> EX30)</span></code></pre></div>
+<pre><code>## [1] 0.9987202</code></pre>
+</div>
+<div id="ipw" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> IPW<a href="chapter-4.html#ipw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We follow the same recipe for stabilized IPW as given in the book.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapter-4.html#cb66-1" tabindex="-1"></a><span class="co"># IPW estimation for X1</span></span>
+<span id="cb66-2"><a href="chapter-4.html#cb66-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
+<span id="cb66-3"><a href="chapter-4.html#cb66-3" tabindex="-1"></a>ps_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X1 <span class="sc">~</span> C <span class="sc">+</span> X2 <span class="sc">+</span> Z1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb66-4"><a href="chapter-4.html#cb66-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb66-5"><a href="chapter-4.html#cb66-5" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="chapter-4.html#cb66-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
+<span id="cb66-7"><a href="chapter-4.html#cb66-7" tabindex="-1"></a>num_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X1 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb66-8"><a href="chapter-4.html#cb66-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb66-9"><a href="chapter-4.html#cb66-9" tabindex="-1"></a></span>
+<span id="cb66-10"><a href="chapter-4.html#cb66-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
+<span id="cb66-11"><a href="chapter-4.html#cb66-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X1 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
+<span id="cb66-12"><a href="chapter-4.html#cb66-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X1 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb66-13"><a href="chapter-4.html#cb66-13" tabindex="-1"></a>                num_ps_X1<span class="sc">/</span>ps_X1, </span>
+<span id="cb66-14"><a href="chapter-4.html#cb66-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X1)))</span>
+<span id="cb66-15"><a href="chapter-4.html#cb66-15" tabindex="-1"></a></span>
+<span id="cb66-16"><a href="chapter-4.html#cb66-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
+<span id="cb66-17"><a href="chapter-4.html#cb66-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X1 + C, data = d, weights = sw_X1)
+## 
+## Coefficients:
+## (Intercept)           X1            C  
+##       1.663        2.091        4.831</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter-4.html#cb68-1" tabindex="-1"></a><span class="co"># IPW estimation for X2</span></span>
+<span id="cb68-2"><a href="chapter-4.html#cb68-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
+<span id="cb68-3"><a href="chapter-4.html#cb68-3" tabindex="-1"></a>ps_model_X2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X2 <span class="sc">~</span> X1 <span class="sc">+</span> X3 <span class="sc">+</span> Z1 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb68-4"><a href="chapter-4.html#cb68-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X2, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb68-5"><a href="chapter-4.html#cb68-5" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="chapter-4.html#cb68-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
+<span id="cb68-7"><a href="chapter-4.html#cb68-7" tabindex="-1"></a>num_model_X2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X2 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb68-8"><a href="chapter-4.html#cb68-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X2, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb68-9"><a href="chapter-4.html#cb68-9" tabindex="-1"></a></span>
+<span id="cb68-10"><a href="chapter-4.html#cb68-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
+<span id="cb68-11"><a href="chapter-4.html#cb68-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X2 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
+<span id="cb68-12"><a href="chapter-4.html#cb68-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X2 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb68-13"><a href="chapter-4.html#cb68-13" tabindex="-1"></a>                num_ps_X2<span class="sc">/</span>ps_X2, </span>
+<span id="cb68-14"><a href="chapter-4.html#cb68-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X2)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X2)))</span>
+<span id="cb68-15"><a href="chapter-4.html#cb68-15" tabindex="-1"></a></span>
+<span id="cb68-16"><a href="chapter-4.html#cb68-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
+<span id="cb68-17"><a href="chapter-4.html#cb68-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X2 + C, data = d, weights = sw_X2)
+## 
+## Coefficients:
+## (Intercept)           X2            C  
+##       1.549        2.108        4.645</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter-4.html#cb70-1" tabindex="-1"></a><span class="co"># IPW estimation for X3</span></span>
+<span id="cb70-2"><a href="chapter-4.html#cb70-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
+<span id="cb70-3"><a href="chapter-4.html#cb70-3" tabindex="-1"></a>ps_model_X3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X3 <span class="sc">~</span> X2 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb70-4"><a href="chapter-4.html#cb70-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X3, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb70-5"><a href="chapter-4.html#cb70-5" tabindex="-1"></a></span>
+<span id="cb70-6"><a href="chapter-4.html#cb70-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
+<span id="cb70-7"><a href="chapter-4.html#cb70-7" tabindex="-1"></a>num_model_X3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X3 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
+<span id="cb70-8"><a href="chapter-4.html#cb70-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X3, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb70-9"><a href="chapter-4.html#cb70-9" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="chapter-4.html#cb70-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
+<span id="cb70-11"><a href="chapter-4.html#cb70-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X3 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
+<span id="cb70-12"><a href="chapter-4.html#cb70-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X3 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb70-13"><a href="chapter-4.html#cb70-13" tabindex="-1"></a>                num_ps_X3<span class="sc">/</span>ps_X3, </span>
+<span id="cb70-14"><a href="chapter-4.html#cb70-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X3)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X3)))</span>
+<span id="cb70-15"><a href="chapter-4.html#cb70-15" tabindex="-1"></a></span>
+<span id="cb70-16"><a href="chapter-4.html#cb70-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
+<span id="cb70-17"><a href="chapter-4.html#cb70-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X3)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X3 + Z3 + C, data = d, weights = sw_X3)
+## 
+## Coefficients:
+## (Intercept)           X3           Z3            C  
+##      0.8849       1.0250       1.1221       0.9908</code></pre>
+<p>Instead of fitting a marginal structural model (MSM) for each time point, we can fit a single MSM for all three time points in one go. The trick here is to multiply the weights. However, this targets a slightly different estimand, since we want to adjust for <em>Z3</em> to get a more precise estimate for <em>X3</em> but including <em>Z3</em> in the MSM blocks the the effect of <em>X1</em> and <em>X2</em> that runs through <em>Z3</em>. That is, this alternative specification targets only the direct effect of the exposures.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapter-4.html#cb72-1" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X1<span class="sc">*</span>sw_X2<span class="sc">*</span>sw_X3)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X1 + X2 + X3 + Z3 + C, data = d, weights = sw_X1 * 
+##     sw_X2 * sw_X3)
+## 
+## Coefficients:
+## (Intercept)           X1           X2           X3           Z3            C  
+##    -0.01181      0.99327      0.98364      1.00694      1.00863      0.96940</code></pre>
+<p>For further details on estimating time-varying relationships with IPW, see <span class="citation">VanderWeele, Jackson, and Li (<a href="#ref-vanderweele2016causal">2016</a>)</span>.</p>
+</div>
+</div>
+<div id="session-info-2" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Session info<a href="chapter-4.html#session-info-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chapter-4.html#cb74-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.4.0 (2024-04-24 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 10 x64 (build 19045)
+## 
+## Matrix products: default
+## 
+## 
+## locale:
+## [1] LC_COLLATE=Danish_Denmark.utf8  LC_CTYPE=Danish_Denmark.utf8   
+## [3] LC_MONETARY=Danish_Denmark.utf8 LC_NUMERIC=C                   
+## [5] LC_TIME=Danish_Denmark.utf8    
+## 
+## time zone: Europe/Copenhagen
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] cobalt_4.5.5     causaldata_0.1.3 sandwich_3.1-0   patchwork_1.2.0 
+## [5] ggplot2_3.5.1   
+## 
+## loaded via a namespace (and not attached):
+##  [1] gtable_0.3.5         tensorA_0.36.2.1     xfun_0.44           
+##  [4] bslib_0.7.0          QuickJSR_1.1.3       inline_0.3.19       
+##  [7] lattice_0.22-6       vctrs_0.6.5          tools_4.4.0         
+## [10] generics_0.1.3       stats4_4.4.0         parallel_4.4.0      
+## [13] tibble_3.2.1         fansi_1.0.6          highr_0.11          
+## [16] pkgconfig_2.0.3      brms_2.21.0          Matrix_1.7-0        
+## [19] checkmate_2.3.1      distributional_0.4.0 RcppParallel_5.1.7  
+## [22] lifecycle_1.0.4      compiler_4.4.0       farver_2.1.2        
+## [25] stringr_1.5.1        Brobdingnag_1.2-9    munsell_0.5.1       
+## [28] codetools_0.2-20     htmltools_0.5.8.1    sass_0.4.9          
+## [31] bayesplot_1.11.1     yaml_2.3.8           crayon_1.5.2        
+## [34] pillar_1.9.0         jquerylib_0.1.4      cachem_1.1.0        
+## [37] StanHeaders_2.32.9   bridgesampling_1.1-2 abind_1.4-5         
+## [40] nlme_3.1-164         posterior_1.5.0      rstan_2.32.6        
+## [43] tidyselect_1.2.1     digest_0.6.35        mvtnorm_1.2-5       
+## [46] stringi_1.8.4        dplyr_1.1.4          bookdown_0.39       
+## [49] labeling_0.4.3       splines_4.4.0        fastmap_1.2.0       
+## [52] grid_4.4.0           colorspace_2.1-0     cli_3.6.2           
+## [55] magrittr_2.0.3       loo_2.7.0            pkgbuild_1.4.4      
+## [58] utf8_1.2.4           withr_3.0.0          scales_1.3.0        
+## [61] backports_1.5.0      estimability_1.5.1   rmarkdown_2.27      
+## [64] matrixStats_1.3.0    emmeans_1.10.4       gridExtra_2.3       
+## [67] chk_0.9.1            zoo_1.8-12           coda_0.19-4.1       
+## [70] evaluate_0.23        knitr_1.47           mgcv_1.9-1          
+## [73] rstantools_2.4.0     rlang_1.1.3          Rcpp_1.0.12         
+## [76] xtable_1.8-4         glue_1.7.0           rstudioapi_0.16.0   
+## [79] jsonlite_1.8.8       R6_2.5.1</code></pre>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-cobalt" class="csl-entry">
+Greifer, Noah. 2024. <em><span class="nocase">cobalt</span>: Covariate Balance Tables and Plots</em>. <a href="https://CRAN.R-project.org/package=cobalt">https://CRAN.R-project.org/package=cobalt</a>.
+</div>
+<div id="ref-causaldata" class="csl-entry">
+Huntington-Klein, Nick, and Malcolm Barrett. 2021. <em><span class="nocase">causaldata</span>: Example Data Sets for Causal Inference Textbooks</em>. <a href="https://CRAN.R-project.org/package=causaldata">https://CRAN.R-project.org/package=causaldata</a>.
+</div>
+<div id="ref-vanderweele2016causal" class="csl-entry">
+VanderWeele, Tyler J, John W Jackson, and Shanshan Li. 2016. <span>“Causal Inference and Longitudinal Data: <span>A</span> Case Study of Religion and Mental Health.”</span> <em>Social Psychiatry and Psychiatric Epidemiology</em> 51: 1457–66.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toc_depth": 2
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
