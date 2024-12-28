@@ -180,11 +180,12 @@ print(bootstrap_summary)
 
 ```{r, results='markup'}
 library(sandwich)
+library(lmtest)
 
 # robust standard errors for coefficients
 fit <- lm(Y ~ X, data = d, weights = w)
 
-vcovHC(fit, type = 'HC0')
+coeftest(fit, vcov = vcovHC(fit, type = "HC0"))
 
 ```
 
