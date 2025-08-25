@@ -12,8 +12,6 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.path = "bookdown-dag_files/figure-html/ch3-fig-",
                       cache.path = "bookdown-dag_cache/html/ch3-")
 
-memory.limit(1e6)
-
 ```
 
 ## Inverse probability weighting
@@ -102,9 +100,7 @@ The above approach showcases IPW with so-called 'unstabilized' weights. But stab
 
 ```{r, fig.height=3, fig.width=5}
 # IPW with stabilized weights
-pn <- glm(X ~ 1, 
-          data = d, 
-          family = "binomial")
+pn <- glm(X ~ 1, data = d)
 
 d$pnX <- predict(pn, type = "response")
   
@@ -180,12 +176,11 @@ print(bootstrap_summary)
 
 ```{r, results='markup'}
 library(sandwich)
-library(lmtest)
 
 # robust standard errors for coefficients
 fit <- lm(Y ~ X, data = d, weights = w)
 
-coeftest(fit, vcov = vcovHC(fit, type = "HC0"))
+vcovHC(fit, type = 'HC0')
 
 ```
 
@@ -303,7 +298,7 @@ We can summarize the posterior ATE by its mean and highest posterior density int
 mean_hdi(ate$ate)
 ```
 
-An alternative approach -- when we have a fitted model, Bayesian or otherwise -- is via the versatile and very well documented `marginaleffects` package [@marginaleffects].
+An alternative approach -- when we have a fitted model, Bayesian or otherwise -- is via the versatile and very well documented `marginaleffects` package [@R-marginaleffects].
 
 ```{r, cache=TRUE, results='markup'}
 library(marginaleffects)

@@ -62,7 +62,7 @@ Since different `R` packages implement post-processing of multiply imputed model
 
 ### `marginaleffects`
 
-The `marginaleffects` package [@marginaleffects] implements "predict then combine"; that is, it obtains model predictions for each of the *m* data sets and then apply Rubin's rules to the predictions to pool them. G-computation is very straightforward to implement.
+The `marginaleffects` package [@R-marginaleffects] implements "predict then combine"; that is, it obtains model predictions for each of the *m* data sets and then apply Rubin's rules to the predictions to pool them. G-computation with multiply imputed datasets is very straightforward to implement.
 
 ```{r, results='markup'}
 library(marginaleffects)
@@ -72,7 +72,7 @@ avg_comparisons(fit, variables = list(subsidy = 0:1))
 
 ### `emmeans`
 
-On the other hand, the `emmeans` package [@emmeans] implements "combine then predict"; that is, it applies Rubin's rules to the model coefficients to pool them and only then obtain model predictions. A basic g-computation implementation could like this using `emmeans`.
+On the other hand, the `emmeans` package [@emmeans] implements "combine then predict"; that is, it applies Rubin's rules to the model coefficients to pool them and only then obtain model predictions. A basic g-computation implementation with multiply imputed datasets could like this using `emmeans`.
 
 ```{r, results='markup'}
 library(emmeans)
@@ -87,7 +87,7 @@ We see that results are identical to those obtained with `marginaleffects`.
 
 ### Comparison
 
-But let's try to see when the two different approaches give different results. Instead of a linear model on the imputed datasets, we instead use a non-linear model in the form of a logistic regression. We do this by calling `glm()` instead of `lm()` and setting `family = "binomial"`.
+But let's try to see when the two different approaches give different results, such as for non-linear models. Instead of a linear model on the imputed datasets, we instead use a non-linear model in the form of a logistic regression. We do this by calling `glm()` instead of `lm()` and setting `family = "binomial"`.
 
 ```{r}
 fit_binom <- with(imp, glm(act ~ subsidy + age, family = "binomial"))
@@ -113,7 +113,7 @@ emmeans(specs = "subsidy",
 
 In the book, we also mentioned an alternative imputation approach, namely Bayesian imputation. Using the `brms` package [@brms2017; @brms2018; @brms2021], we'll show a very basic implementation. The syntax should seem somewhat familiar, as `brms` uses common `R` regression syntax.
 
-First, we define the model formula. At its core, it's similar to the `lm()` formula above, except for a few complications. The formula object holds two main components, each wrapped by `bf()`. In the first part, we indicate the covariate we want to impute -- in the case, `age` -- with the `mi()` wrapper. The second part specifies a model for the variable we want to impute. Finally, we feed that formula to `brm()` along with the data. We then set the cores to 4 for speedier sampling and a seed for numeric reproducibility. We strongly recommend McElreath (and Kurz' translations) [REF] for more details and a general introduction ot Bayesian inference more generally. 
+First, we define the model formula. At its core, it's similar to the `lm()` formula above, except for a few complications. The formula object holds two main components, each wrapped by `bf()`. In the first part, we indicate the covariate we want to impute -- in the case, `age` -- with the `mi()` wrapper. The second part specifies a model for the variable we want to impute. Finally, we feed that formula to `brm()` along with the data. We then set the cores to 4 for speedier sampling and a seed for numeric reproducibility. We strongly recommend McElreath (and Kurz' translation) [@kurzStatisticalRethinkingSecondEd2023; @mcelreath_statistical_2020] for more details and a general introduction to Bayesian inference more generally. 
 
 ```{r}
 library(brms)
@@ -158,7 +158,7 @@ pp_check(bfit, resp = "age", ndraws = 20)
 densityplot(imp, ~ age)
 ```
 
-Now, we can post-process the Bayesian model fit exactly as shown in Chapters 3 and 5 [REF] using the `tidybayes`-based workflow [@tidybayes]. Or, we can use `marginaleffects` just as shown for the `mice` object above, except we need to specify that it's the model predicting ACT uptake that we want to apply g-computation to; this is what `resp = "act"` does.
+Now, we can post-process the Bayesian model fit exactly as shown in Chapters 3 and 5 using the `tidybayes`-based workflow [@tidybayes]. Or, we can use `marginaleffects` just as shown for the `mice` object above, except we need to specify that it's the model predicting ACT uptake that we want to apply g-computation to; this is what `resp = "act"` does.
 
 ```{r, results='markup'}
 avg_comparisons(bfit, variables = list(subsidy = 0:1), resp = "act")

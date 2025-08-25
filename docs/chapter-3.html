@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 G-methods and Marginal Effects | The Data Analyst’s Guide to Cause and Effect</title>
   <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 G-methods and Marginal Effects | The Data Analyst’s Guide to Cause and Effect" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
 
 
-<meta name="date" content="2024-12-28" />
+<meta name="date" content="2025-08-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -128,7 +128,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -199,13 +198,8 @@ div.csl-indent {
 <li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
-<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-designs"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal designs</a></li>
-<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#more-complexity"><i class="fa fa-check"></i><b>4.4</b> More complexity</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter-4.html"><a href="chapter-4.html#g-computation-1"><i class="fa fa-check"></i><b>4.4.1</b> G-computation</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter-4.html"><a href="chapter-4.html#ipw"><i class="fa fa-check"></i><b>4.4.2</b> IPW</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.5</b> Session info</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
 <ul>
@@ -297,134 +291,132 @@ div.csl-indent {
 <div id="inverse-probability-weighting" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Inverse probability weighting<a href="chapter-3.html#inverse-probability-weighting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For our illustration of IPW and g-computation, we simulate some simple confounded data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="chapter-3.html#cb1-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1747</span>)</span>
-<span id="cb1-2"><a href="chapter-3.html#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="chapter-3.html#cb1-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb1-4"><a href="chapter-3.html#cb1-4" tabindex="-1"></a>bZ <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb1-5"><a href="chapter-3.html#cb1-5" tabindex="-1"></a>bX <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb1-6"><a href="chapter-3.html#cb1-6" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.5</span>)</span>
-<span id="cb1-7"><a href="chapter-3.html#cb1-7" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z<span class="sc">*</span>bZ))</span>
-<span id="cb1-8"><a href="chapter-3.html#cb1-8" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">10</span> <span class="sc">+</span> X<span class="sc">*</span>bX <span class="sc">+</span> Z<span class="sc">*</span>bZ)</span>
-<span id="cb1-9"><a href="chapter-3.html#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="chapter-3.html#cb1-10" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Y=</span>Y, <span class="at">X=</span>X, <span class="at">Z=</span>Z)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter-3.html#cb14-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1747</span>)</span>
+<span id="cb14-2"><a href="chapter-3.html#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="chapter-3.html#cb14-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb14-4"><a href="chapter-3.html#cb14-4" tabindex="-1"></a>bZ <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb14-5"><a href="chapter-3.html#cb14-5" tabindex="-1"></a>bX <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb14-6"><a href="chapter-3.html#cb14-6" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb14-7"><a href="chapter-3.html#cb14-7" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z<span class="sc">*</span>bZ))</span>
+<span id="cb14-8"><a href="chapter-3.html#cb14-8" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">10</span> <span class="sc">+</span> X<span class="sc">*</span>bX <span class="sc">+</span> Z<span class="sc">*</span>bZ)</span>
+<span id="cb14-9"><a href="chapter-3.html#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="chapter-3.html#cb14-10" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Y=</span>Y, <span class="at">X=</span>X, <span class="at">Z=</span>Z)</span></code></pre></div>
 <p>For IPW, we first fit a logistic regression model of the probability of receiving treatment.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="chapter-3.html#cb2-1" tabindex="-1"></a>treatment_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> Z, </span>
-<span id="cb2-2"><a href="chapter-3.html#cb2-2" tabindex="-1"></a>                       <span class="at">data =</span> d, </span>
-<span id="cb2-3"><a href="chapter-3.html#cb2-3" tabindex="-1"></a>                       <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="chapter-3.html#cb15-1" tabindex="-1"></a>treatment_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> Z, </span>
+<span id="cb15-2"><a href="chapter-3.html#cb15-2" tabindex="-1"></a>                       <span class="at">data =</span> d, </span>
+<span id="cb15-3"><a href="chapter-3.html#cb15-3" tabindex="-1"></a>                       <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span></code></pre></div>
 <p>We then predict for each individual their probability of receiving treatment.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="chapter-3.html#cb3-1" tabindex="-1"></a>d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treatment_model, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter-3.html#cb16-1" tabindex="-1"></a>d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treatment_model, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span></code></pre></div>
 <p>Lastly, we inverse those probabilities and use them as weights in a model – a so-called ‘marginal structural model’ – that regresses <em>Y</em> on <em>X</em>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chapter-3.html#cb4-1" tabindex="-1"></a>d<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span>pX, <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
-<span id="cb4-2"><a href="chapter-3.html#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="chapter-3.html#cb4-3" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter-3.html#cb17-1" tabindex="-1"></a>d<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span>pX, <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
+<span id="cb17-2"><a href="chapter-3.html#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="chapter-3.html#cb17-3" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span></code></pre></div>
 <p>We then compare the treatment (solid lines) and control (dashed lines) groups before (i.e., in the observed sample) and after weighting (i.e., the IPW ‘pseudo-population’).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="chapter-3.html#cb5-1" tabindex="-1"></a><span class="co"># IPW with unstabilized weights</span></span>
-<span id="cb5-2"><a href="chapter-3.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-3"><a href="chapter-3.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb5-4"><a href="chapter-3.html#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="chapter-3.html#cb5-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb5-6"><a href="chapter-3.html#cb5-6" tabindex="-1"></a>  <span class="co"># X = 1 (sample)</span></span>
-<span id="cb5-7"><a href="chapter-3.html#cb5-7" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">1</span>), </span>
-<span id="cb5-8"><a href="chapter-3.html#cb5-8" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
-<span id="cb5-9"><a href="chapter-3.html#cb5-9" tabindex="-1"></a>  <span class="co"># X = 0 (sample)</span></span>
-<span id="cb5-10"><a href="chapter-3.html#cb5-10" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">0</span>), </span>
-<span id="cb5-11"><a href="chapter-3.html#cb5-11" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="chapter-3.html#cb5-12" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb5-13"><a href="chapter-3.html#cb5-13" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-14"><a href="chapter-3.html#cb5-14" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-15"><a href="chapter-3.html#cb5-15" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-16"><a href="chapter-3.html#cb5-16" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-17"><a href="chapter-3.html#cb5-17" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb5-18"><a href="chapter-3.html#cb5-18" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-19"><a href="chapter-3.html#cb5-19" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Before IP weighting&quot;</span>)</span>
-<span id="cb5-20"><a href="chapter-3.html#cb5-20" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="chapter-3.html#cb5-21" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb5-22"><a href="chapter-3.html#cb5-22" tabindex="-1"></a>  <span class="co"># X = 1 (pseudo-population)</span></span>
-<span id="cb5-23"><a href="chapter-3.html#cb5-23" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">1</span>), </span>
-<span id="cb5-24"><a href="chapter-3.html#cb5-24" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> w), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb5-25"><a href="chapter-3.html#cb5-25" tabindex="-1"></a>  <span class="co"># X = 0 (pseudo-population)</span></span>
-<span id="cb5-26"><a href="chapter-3.html#cb5-26" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">0</span>), </span>
-<span id="cb5-27"><a href="chapter-3.html#cb5-27" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> w), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-28"><a href="chapter-3.html#cb5-28" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb5-29"><a href="chapter-3.html#cb5-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-30"><a href="chapter-3.html#cb5-30" tabindex="-1"></a>  <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-31"><a href="chapter-3.html#cb5-31" tabindex="-1"></a>  <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-32"><a href="chapter-3.html#cb5-32" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-33"><a href="chapter-3.html#cb5-33" tabindex="-1"></a>  <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb5-34"><a href="chapter-3.html#cb5-34" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-35"><a href="chapter-3.html#cb5-35" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;After IP weighting&quot;</span>) </span>
-<span id="cb5-36"><a href="chapter-3.html#cb5-36" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="chapter-3.html#cb5-37" tabindex="-1"></a>(p1 <span class="sc">+</span> p2)</span></code></pre></div>
-<p><img src="bookdown-dag_files/figure-html/ch3-fig-unnamed-chunk-7-1.png" width="480" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter-3.html#cb18-1" tabindex="-1"></a><span class="co"># IPW with unstabilized weights</span></span>
+<span id="cb18-2"><a href="chapter-3.html#cb18-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-3"><a href="chapter-3.html#cb18-3" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb18-4"><a href="chapter-3.html#cb18-4" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="chapter-3.html#cb18-5" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb18-6"><a href="chapter-3.html#cb18-6" tabindex="-1"></a>  <span class="co"># X = 1 (sample)</span></span>
+<span id="cb18-7"><a href="chapter-3.html#cb18-7" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb18-8"><a href="chapter-3.html#cb18-8" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
+<span id="cb18-9"><a href="chapter-3.html#cb18-9" tabindex="-1"></a>  <span class="co"># X = 0 (sample)</span></span>
+<span id="cb18-10"><a href="chapter-3.html#cb18-10" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">0</span>), </span>
+<span id="cb18-11"><a href="chapter-3.html#cb18-11" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="chapter-3.html#cb18-12" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb18-13"><a href="chapter-3.html#cb18-13" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-14"><a href="chapter-3.html#cb18-14" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-15"><a href="chapter-3.html#cb18-15" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-16"><a href="chapter-3.html#cb18-16" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-17"><a href="chapter-3.html#cb18-17" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb18-18"><a href="chapter-3.html#cb18-18" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-19"><a href="chapter-3.html#cb18-19" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Before IP weighting&quot;</span>)</span>
+<span id="cb18-20"><a href="chapter-3.html#cb18-20" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="chapter-3.html#cb18-21" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb18-22"><a href="chapter-3.html#cb18-22" tabindex="-1"></a>  <span class="co"># X = 1 (pseudo-population)</span></span>
+<span id="cb18-23"><a href="chapter-3.html#cb18-23" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb18-24"><a href="chapter-3.html#cb18-24" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> w), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-25"><a href="chapter-3.html#cb18-25" tabindex="-1"></a>  <span class="co"># X = 0 (pseudo-population)</span></span>
+<span id="cb18-26"><a href="chapter-3.html#cb18-26" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> <span class="fu">subset</span>(d, X <span class="sc">==</span> <span class="dv">0</span>), </span>
+<span id="cb18-27"><a href="chapter-3.html#cb18-27" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> pX, <span class="at">weight =</span> w), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-28"><a href="chapter-3.html#cb18-28" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb18-29"><a href="chapter-3.html#cb18-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-30"><a href="chapter-3.html#cb18-30" tabindex="-1"></a>  <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-31"><a href="chapter-3.html#cb18-31" tabindex="-1"></a>  <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-32"><a href="chapter-3.html#cb18-32" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-33"><a href="chapter-3.html#cb18-33" tabindex="-1"></a>  <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb18-34"><a href="chapter-3.html#cb18-34" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Probability of treatment&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-35"><a href="chapter-3.html#cb18-35" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;After IP weighting&quot;</span>) </span>
+<span id="cb18-36"><a href="chapter-3.html#cb18-36" tabindex="-1"></a></span>
+<span id="cb18-37"><a href="chapter-3.html#cb18-37" tabindex="-1"></a>(p1 <span class="sc">+</span> p2)</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch3-fig-unnamed-chunk-18-1.png" width="480" /></p>
 <p>The above approach showcases IPW with so-called ‘unstabilized’ weights. But stabilizing the IP weights are often recommended. Stabilized weights uses an unconditional model for the treatment probability instead of 1 as the numerator in the IPW formula. Let’s visualize this wit the stabilized weights plotted with a dashed curve. We see that the stabilized weights are much less extreme.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="chapter-3.html#cb6-1" tabindex="-1"></a><span class="co"># IPW with stabilized weights</span></span>
-<span id="cb6-2"><a href="chapter-3.html#cb6-2" tabindex="-1"></a>pn <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> <span class="dv">1</span>, </span>
-<span id="cb6-3"><a href="chapter-3.html#cb6-3" tabindex="-1"></a>          <span class="at">data =</span> d, </span>
-<span id="cb6-4"><a href="chapter-3.html#cb6-4" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb6-5"><a href="chapter-3.html#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="chapter-3.html#cb6-6" tabindex="-1"></a>d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb6-7"><a href="chapter-3.html#cb6-7" tabindex="-1"></a>  </span>
-<span id="cb6-8"><a href="chapter-3.html#cb6-8" tabindex="-1"></a>d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X<span class="sc">==</span><span class="dv">1</span>, pnX<span class="sc">/</span>pX, (<span class="dv">1</span><span class="sc">-</span>pnX)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
-<span id="cb6-9"><a href="chapter-3.html#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="chapter-3.html#cb6-10" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb6-11"><a href="chapter-3.html#cb6-11" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> d, </span>
-<span id="cb6-12"><a href="chapter-3.html#cb6-12" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> w), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb6-13"><a href="chapter-3.html#cb6-13" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> d, </span>
-<span id="cb6-14"><a href="chapter-3.html#cb6-14" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> sw), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="chapter-3.html#cb6-15" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb6-16"><a href="chapter-3.html#cb6-16" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb6-17"><a href="chapter-3.html#cb6-17" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb6-18"><a href="chapter-3.html#cb6-18" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-19"><a href="chapter-3.html#cb6-19" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-20"><a href="chapter-3.html#cb6-20" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-21"><a href="chapter-3.html#cb6-21" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb6-22"><a href="chapter-3.html#cb6-22" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;IP weight&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-23"><a href="chapter-3.html#cb6-23" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb6-24"><a href="chapter-3.html#cb6-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Unstabilized and stabilized weights&quot;</span>)</span>
-<span id="cb6-25"><a href="chapter-3.html#cb6-25" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="chapter-3.html#cb6-26" tabindex="-1"></a>p3</span></code></pre></div>
-<p><img src="bookdown-dag_files/figure-html/ch3-fig-unnamed-chunk-8-1.png" width="480" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter-3.html#cb19-1" tabindex="-1"></a><span class="co"># IPW with stabilized weights</span></span>
+<span id="cb19-2"><a href="chapter-3.html#cb19-2" tabindex="-1"></a>pn <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d)</span>
+<span id="cb19-3"><a href="chapter-3.html#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="chapter-3.html#cb19-4" tabindex="-1"></a>d<span class="sc">$</span>pnX <span class="ot">&lt;-</span> <span class="fu">predict</span>(pn, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb19-5"><a href="chapter-3.html#cb19-5" tabindex="-1"></a>  </span>
+<span id="cb19-6"><a href="chapter-3.html#cb19-6" tabindex="-1"></a>d<span class="sc">$</span>sw <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X<span class="sc">==</span><span class="dv">1</span>, pnX<span class="sc">/</span>pX, (<span class="dv">1</span><span class="sc">-</span>pnX)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>pX)))</span>
+<span id="cb19-7"><a href="chapter-3.html#cb19-7" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="chapter-3.html#cb19-8" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb19-9"><a href="chapter-3.html#cb19-9" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> d, </span>
+<span id="cb19-10"><a href="chapter-3.html#cb19-10" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> w), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb19-11"><a href="chapter-3.html#cb19-11" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data =</span> d, </span>
+<span id="cb19-12"><a href="chapter-3.html#cb19-12" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> sw), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="chapter-3.html#cb19-13" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb19-14"><a href="chapter-3.html#cb19-14" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-15"><a href="chapter-3.html#cb19-15" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb19-16"><a href="chapter-3.html#cb19-16" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-17"><a href="chapter-3.html#cb19-17" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-18"><a href="chapter-3.html#cb19-18" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-19"><a href="chapter-3.html#cb19-19" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb19-20"><a href="chapter-3.html#cb19-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;IP weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-21"><a href="chapter-3.html#cb19-21" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb19-22"><a href="chapter-3.html#cb19-22" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Unstabilized and stabilized weights&quot;</span>)</span>
+<span id="cb19-23"><a href="chapter-3.html#cb19-23" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="chapter-3.html#cb19-24" tabindex="-1"></a>p3</span></code></pre></div>
+<p><img src="bookdown-dag_files/figure-html/ch3-fig-unnamed-chunk-19-1.png" width="480" /></p>
 <div id="bootstrapping" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Bootstrapping<a href="chapter-3.html#bootstrapping" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here’s a basic bootstrapping approach for IPW. We use only 100 bootstrap samples, but in practice we’d often want (many) more.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="chapter-3.html#cb7-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
-<span id="cb7-2"><a href="chapter-3.html#cb7-2" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
-<span id="cb7-3"><a href="chapter-3.html#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="chapter-3.html#cb7-4" tabindex="-1"></a><span class="co"># Number of bootstrap samples</span></span>
-<span id="cb7-5"><a href="chapter-3.html#cb7-5" tabindex="-1"></a>n_bootstrap <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb7-6"><a href="chapter-3.html#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="chapter-3.html#cb7-7" tabindex="-1"></a><span class="co"># Function to perform the analysis on a bootstrapped sample</span></span>
-<span id="cb7-8"><a href="chapter-3.html#cb7-8" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
-<span id="cb7-9"><a href="chapter-3.html#cb7-9" tabindex="-1"></a>  </span>
-<span id="cb7-10"><a href="chapter-3.html#cb7-10" tabindex="-1"></a>  <span class="co"># Resample the data</span></span>
-<span id="cb7-11"><a href="chapter-3.html#cb7-11" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[indices, ]</span>
-<span id="cb7-12"><a href="chapter-3.html#cb7-12" tabindex="-1"></a>  </span>
-<span id="cb7-13"><a href="chapter-3.html#cb7-13" tabindex="-1"></a>  <span class="co"># Fit the treatment model using logistic regression</span></span>
-<span id="cb7-14"><a href="chapter-3.html#cb7-14" tabindex="-1"></a>  treatment_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> Z, <span class="at">data =</span> d, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb7-15"><a href="chapter-3.html#cb7-15" tabindex="-1"></a>  </span>
-<span id="cb7-16"><a href="chapter-3.html#cb7-16" tabindex="-1"></a>  <span class="co"># Calculate predicted probabilities</span></span>
-<span id="cb7-17"><a href="chapter-3.html#cb7-17" tabindex="-1"></a>  d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treatment_model, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb7-18"><a href="chapter-3.html#cb7-18" tabindex="-1"></a>  </span>
-<span id="cb7-19"><a href="chapter-3.html#cb7-19" tabindex="-1"></a>  <span class="co"># Calculate weights</span></span>
-<span id="cb7-20"><a href="chapter-3.html#cb7-20" tabindex="-1"></a>  d<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="sc">/</span> pX, <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pX)))</span>
-<span id="cb7-21"><a href="chapter-3.html#cb7-21" tabindex="-1"></a>  </span>
-<span id="cb7-22"><a href="chapter-3.html#cb7-22" tabindex="-1"></a>  <span class="co"># Fit the weighted linear regression model</span></span>
-<span id="cb7-23"><a href="chapter-3.html#cb7-23" tabindex="-1"></a>  weighted_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span>
-<span id="cb7-24"><a href="chapter-3.html#cb7-24" tabindex="-1"></a>  </span>
-<span id="cb7-25"><a href="chapter-3.html#cb7-25" tabindex="-1"></a>  <span class="co"># Return the coefficient of X</span></span>
-<span id="cb7-26"><a href="chapter-3.html#cb7-26" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">coef</span>(weighted_model)[<span class="st">&quot;X&quot;</span>])</span>
-<span id="cb7-27"><a href="chapter-3.html#cb7-27" tabindex="-1"></a>}</span>
-<span id="cb7-28"><a href="chapter-3.html#cb7-28" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="chapter-3.html#cb7-29" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
-<span id="cb7-30"><a href="chapter-3.html#cb7-30" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
-<span id="cb7-31"><a href="chapter-3.html#cb7-31" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
-<span id="cb7-32"><a href="chapter-3.html#cb7-32" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
-<span id="cb7-33"><a href="chapter-3.html#cb7-33" tabindex="-1"></a></span>
-<span id="cb7-34"><a href="chapter-3.html#cb7-34" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
-<span id="cb7-35"><a href="chapter-3.html#cb7-35" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>)</span>
-<span id="cb7-36"><a href="chapter-3.html#cb7-36" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="chapter-3.html#cb7-37" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb7-38"><a href="chapter-3.html#cb7-38" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter-3.html#cb20-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb20-2"><a href="chapter-3.html#cb20-2" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb20-3"><a href="chapter-3.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="chapter-3.html#cb20-4" tabindex="-1"></a><span class="co"># Number of bootstrap samples</span></span>
+<span id="cb20-5"><a href="chapter-3.html#cb20-5" tabindex="-1"></a>n_bootstrap <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb20-6"><a href="chapter-3.html#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="chapter-3.html#cb20-7" tabindex="-1"></a><span class="co"># Function to perform the analysis on a bootstrapped sample</span></span>
+<span id="cb20-8"><a href="chapter-3.html#cb20-8" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb20-9"><a href="chapter-3.html#cb20-9" tabindex="-1"></a>  </span>
+<span id="cb20-10"><a href="chapter-3.html#cb20-10" tabindex="-1"></a>  <span class="co"># Resample the data</span></span>
+<span id="cb20-11"><a href="chapter-3.html#cb20-11" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[indices, ]</span>
+<span id="cb20-12"><a href="chapter-3.html#cb20-12" tabindex="-1"></a>  </span>
+<span id="cb20-13"><a href="chapter-3.html#cb20-13" tabindex="-1"></a>  <span class="co"># Fit the treatment model using logistic regression</span></span>
+<span id="cb20-14"><a href="chapter-3.html#cb20-14" tabindex="-1"></a>  treatment_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(X <span class="sc">~</span> Z, <span class="at">data =</span> d, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb20-15"><a href="chapter-3.html#cb20-15" tabindex="-1"></a>  </span>
+<span id="cb20-16"><a href="chapter-3.html#cb20-16" tabindex="-1"></a>  <span class="co"># Calculate predicted probabilities</span></span>
+<span id="cb20-17"><a href="chapter-3.html#cb20-17" tabindex="-1"></a>  d<span class="sc">$</span>pX <span class="ot">&lt;-</span> <span class="fu">predict</span>(treatment_model, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb20-18"><a href="chapter-3.html#cb20-18" tabindex="-1"></a>  </span>
+<span id="cb20-19"><a href="chapter-3.html#cb20-19" tabindex="-1"></a>  <span class="co"># Calculate weights</span></span>
+<span id="cb20-20"><a href="chapter-3.html#cb20-20" tabindex="-1"></a>  d<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">ifelse</span>(X <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="sc">/</span> pX, <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pX)))</span>
+<span id="cb20-21"><a href="chapter-3.html#cb20-21" tabindex="-1"></a>  </span>
+<span id="cb20-22"><a href="chapter-3.html#cb20-22" tabindex="-1"></a>  <span class="co"># Fit the weighted linear regression model</span></span>
+<span id="cb20-23"><a href="chapter-3.html#cb20-23" tabindex="-1"></a>  weighted_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span>
+<span id="cb20-24"><a href="chapter-3.html#cb20-24" tabindex="-1"></a>  </span>
+<span id="cb20-25"><a href="chapter-3.html#cb20-25" tabindex="-1"></a>  <span class="co"># Return the coefficient of X</span></span>
+<span id="cb20-26"><a href="chapter-3.html#cb20-26" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">coef</span>(weighted_model)[<span class="st">&quot;X&quot;</span>])</span>
+<span id="cb20-27"><a href="chapter-3.html#cb20-27" tabindex="-1"></a>}</span>
+<span id="cb20-28"><a href="chapter-3.html#cb20-28" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="chapter-3.html#cb20-29" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
+<span id="cb20-30"><a href="chapter-3.html#cb20-30" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
+<span id="cb20-31"><a href="chapter-3.html#cb20-31" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
+<span id="cb20-32"><a href="chapter-3.html#cb20-32" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
+<span id="cb20-33"><a href="chapter-3.html#cb20-33" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="chapter-3.html#cb20-34" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
+<span id="cb20-35"><a href="chapter-3.html#cb20-35" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="st">&quot;norm&quot;</span>)</span>
+<span id="cb20-36"><a href="chapter-3.html#cb20-36" tabindex="-1"></a></span>
+<span id="cb20-37"><a href="chapter-3.html#cb20-37" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb20-38"><a href="chapter-3.html#cb20-38" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 100 bootstrap replicates
 ## 
@@ -438,41 +430,35 @@ div.csl-indent {
 </div>
 <div id="robust-standard-errors-for-ipw" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> ‘Robust’ standard errors for IPW<a href="chapter-3.html#robust-standard-errors-for-ipw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter-3.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
-<span id="cb9-2"><a href="chapter-3.html#cb9-2" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb9-3"><a href="chapter-3.html#cb9-3" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="chapter-3.html#cb9-4" tabindex="-1"></a><span class="co"># robust standard errors for coefficients</span></span>
-<span id="cb9-5"><a href="chapter-3.html#cb9-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span>
-<span id="cb9-6"><a href="chapter-3.html#cb9-6" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="chapter-3.html#cb9-7" tabindex="-1"></a><span class="fu">coeftest</span>(fit, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(fit, <span class="at">type =</span> <span class="st">&quot;HC0&quot;</span>))</span></code></pre></div>
-<pre><code>## 
-## t test of coefficients:
-## 
-##              Estimate Std. Error t value  Pr(&gt;|t|)    
-## (Intercept) 10.018844   0.032202 311.123 &lt; 2.2e-16 ***
-## X            2.001042   0.039553  50.592 &lt; 2.2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter-3.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb22-2"><a href="chapter-3.html#cb22-2" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="chapter-3.html#cb22-3" tabindex="-1"></a><span class="co"># robust standard errors for coefficients</span></span>
+<span id="cb22-4"><a href="chapter-3.html#cb22-4" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> d, <span class="at">weights =</span> w)</span>
+<span id="cb22-5"><a href="chapter-3.html#cb22-5" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="chapter-3.html#cb22-6" tabindex="-1"></a><span class="fu">vcovHC</span>(fit, <span class="at">type =</span> <span class="st">&#39;HC0&#39;</span>)</span></code></pre></div>
+<pre><code>##              (Intercept)            X
+## (Intercept)  0.001036983 -0.001036983
+## X           -0.001036983  0.001564404</code></pre>
 </div>
 </div>
 <div id="g-computation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> G-computation<a href="chapter-3.html#g-computation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Here, we show a basic g-computation workflow…</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter-3.html#cb11-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, <span class="at">data =</span> d)</span>
-<span id="cb11-2"><a href="chapter-3.html#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="chapter-3.html#cb11-3" tabindex="-1"></a>d<span class="sc">$</span>EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
-<span id="cb11-4"><a href="chapter-3.html#cb11-4" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
-<span id="cb11-5"><a href="chapter-3.html#cb11-5" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="chapter-3.html#cb11-6" tabindex="-1"></a>d<span class="sc">$</span>EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
-<span id="cb11-7"><a href="chapter-3.html#cb11-7" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span>
-<span id="cb11-8"><a href="chapter-3.html#cb11-8" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="chapter-3.html#cb11-9" tabindex="-1"></a><span class="fu">with</span>(d, <span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter-3.html#cb24-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, <span class="at">data =</span> d)</span>
+<span id="cb24-2"><a href="chapter-3.html#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="chapter-3.html#cb24-3" tabindex="-1"></a>d<span class="sc">$</span>EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
+<span id="cb24-4"><a href="chapter-3.html#cb24-4" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
+<span id="cb24-5"><a href="chapter-3.html#cb24-5" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="chapter-3.html#cb24-6" tabindex="-1"></a>d<span class="sc">$</span>EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
+<span id="cb24-7"><a href="chapter-3.html#cb24-7" tabindex="-1"></a>               <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span>
+<span id="cb24-8"><a href="chapter-3.html#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="chapter-3.html#cb24-9" tabindex="-1"></a><span class="fu">with</span>(d, <span class="fu">mean</span>(EX1)<span class="sc">-</span><span class="fu">mean</span>(EX0))</span></code></pre></div>
 <p>… And code to produce the table showing both observed and predicted values, some of which are counter-factual.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapter-3.html#cb12-1" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;X&quot;</span>, <span class="st">&quot;Z&quot;</span>, <span class="st">&quot;EX1&quot;</span>, <span class="st">&quot;EX0&quot;</span>)</span>
-<span id="cb12-2"><a href="chapter-3.html#cb12-2" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="chapter-3.html#cb12-3" tabindex="-1"></a>xtable<span class="sc">::</span><span class="fu">xtable</span>(<span class="fu">head</span>(d[vars]), <span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
-<pre><code>## % latex table generated in R 4.4.0 by xtable 1.8-4 package
-## % Sat Dec 28 21:56:16 2024
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter-3.html#cb25-1" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;X&quot;</span>, <span class="st">&quot;Z&quot;</span>, <span class="st">&quot;EX1&quot;</span>, <span class="st">&quot;EX0&quot;</span>)</span>
+<span id="cb25-2"><a href="chapter-3.html#cb25-2" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="chapter-3.html#cb25-3" tabindex="-1"></a>xtable<span class="sc">::</span><span class="fu">xtable</span>(<span class="fu">head</span>(d[vars]), <span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## % latex table generated in R 4.4.1 by xtable 1.8-4 package
+## % Sun Aug 24 22:05:56 2025
 ## \begin{table}[ht]
 ## \centering
 ## \begin{tabular}{rrrrrr}
@@ -491,38 +477,38 @@ div.csl-indent {
 <div id="bootstrapping-1" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Bootstrapping<a href="chapter-3.html#bootstrapping-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Next, we show a basic bootstrapped g-computation implementation, again using only 100 bootstrap samples to ease the computational burden of the example.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter-3.html#cb14-1" tabindex="-1"></a><span class="co"># Number of bootstrap samples</span></span>
-<span id="cb14-2"><a href="chapter-3.html#cb14-2" tabindex="-1"></a>n_bootstrap <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb14-3"><a href="chapter-3.html#cb14-3" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="chapter-3.html#cb14-4" tabindex="-1"></a><span class="co"># Define the function to perform the analysis on a bootstrapped sample</span></span>
-<span id="cb14-5"><a href="chapter-3.html#cb14-5" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
-<span id="cb14-6"><a href="chapter-3.html#cb14-6" tabindex="-1"></a>  </span>
-<span id="cb14-7"><a href="chapter-3.html#cb14-7" tabindex="-1"></a>  <span class="co"># Resample the data</span></span>
-<span id="cb14-8"><a href="chapter-3.html#cb14-8" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[indices, ]</span>
-<span id="cb14-9"><a href="chapter-3.html#cb14-9" tabindex="-1"></a>  </span>
-<span id="cb14-10"><a href="chapter-3.html#cb14-10" tabindex="-1"></a>  <span class="co"># Fit the linear regression model</span></span>
-<span id="cb14-11"><a href="chapter-3.html#cb14-11" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, <span class="at">data =</span> d)</span>
-<span id="cb14-12"><a href="chapter-3.html#cb14-12" tabindex="-1"></a>  </span>
-<span id="cb14-13"><a href="chapter-3.html#cb14-13" tabindex="-1"></a>  <span class="co"># Calculate predicted values for X = 1 and X = 0</span></span>
-<span id="cb14-14"><a href="chapter-3.html#cb14-14" tabindex="-1"></a>  d<span class="sc">$</span>EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
-<span id="cb14-15"><a href="chapter-3.html#cb14-15" tabindex="-1"></a>  d<span class="sc">$</span>EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span>
-<span id="cb14-16"><a href="chapter-3.html#cb14-16" tabindex="-1"></a>  </span>
-<span id="cb14-17"><a href="chapter-3.html#cb14-17" tabindex="-1"></a>  <span class="co"># Compute the difference in means</span></span>
-<span id="cb14-18"><a href="chapter-3.html#cb14-18" tabindex="-1"></a>  ate <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">mean</span>(EX1) <span class="sc">-</span> <span class="fu">mean</span>(EX0))</span>
-<span id="cb14-19"><a href="chapter-3.html#cb14-19" tabindex="-1"></a>  </span>
-<span id="cb14-20"><a href="chapter-3.html#cb14-20" tabindex="-1"></a>  <span class="fu">return</span>(ate)</span>
-<span id="cb14-21"><a href="chapter-3.html#cb14-21" tabindex="-1"></a>}</span>
-<span id="cb14-22"><a href="chapter-3.html#cb14-22" tabindex="-1"></a></span>
-<span id="cb14-23"><a href="chapter-3.html#cb14-23" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
-<span id="cb14-24"><a href="chapter-3.html#cb14-24" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
-<span id="cb14-25"><a href="chapter-3.html#cb14-25" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
-<span id="cb14-26"><a href="chapter-3.html#cb14-26" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
-<span id="cb14-27"><a href="chapter-3.html#cb14-27" tabindex="-1"></a></span>
-<span id="cb14-28"><a href="chapter-3.html#cb14-28" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
-<span id="cb14-29"><a href="chapter-3.html#cb14-29" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;norm&quot;</span>))</span>
-<span id="cb14-30"><a href="chapter-3.html#cb14-30" tabindex="-1"></a></span>
-<span id="cb14-31"><a href="chapter-3.html#cb14-31" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb14-32"><a href="chapter-3.html#cb14-32" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter-3.html#cb27-1" tabindex="-1"></a><span class="co"># Number of bootstrap samples</span></span>
+<span id="cb27-2"><a href="chapter-3.html#cb27-2" tabindex="-1"></a>n_bootstrap <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb27-3"><a href="chapter-3.html#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="chapter-3.html#cb27-4" tabindex="-1"></a><span class="co"># Define the function to perform the analysis on a bootstrapped sample</span></span>
+<span id="cb27-5"><a href="chapter-3.html#cb27-5" tabindex="-1"></a>bootstrap_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, indices) {</span>
+<span id="cb27-6"><a href="chapter-3.html#cb27-6" tabindex="-1"></a>  </span>
+<span id="cb27-7"><a href="chapter-3.html#cb27-7" tabindex="-1"></a>  <span class="co"># Resample the data</span></span>
+<span id="cb27-8"><a href="chapter-3.html#cb27-8" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[indices, ]</span>
+<span id="cb27-9"><a href="chapter-3.html#cb27-9" tabindex="-1"></a>  </span>
+<span id="cb27-10"><a href="chapter-3.html#cb27-10" tabindex="-1"></a>  <span class="co"># Fit the linear regression model</span></span>
+<span id="cb27-11"><a href="chapter-3.html#cb27-11" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z, <span class="at">data =</span> d)</span>
+<span id="cb27-12"><a href="chapter-3.html#cb27-12" tabindex="-1"></a>  </span>
+<span id="cb27-13"><a href="chapter-3.html#cb27-13" tabindex="-1"></a>  <span class="co"># Calculate predicted values for X = 1 and X = 0</span></span>
+<span id="cb27-14"><a href="chapter-3.html#cb27-14" tabindex="-1"></a>  d<span class="sc">$</span>EX1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
+<span id="cb27-15"><a href="chapter-3.html#cb27-15" tabindex="-1"></a>  d<span class="sc">$</span>EX0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span>
+<span id="cb27-16"><a href="chapter-3.html#cb27-16" tabindex="-1"></a>  </span>
+<span id="cb27-17"><a href="chapter-3.html#cb27-17" tabindex="-1"></a>  <span class="co"># Compute the difference in means</span></span>
+<span id="cb27-18"><a href="chapter-3.html#cb27-18" tabindex="-1"></a>  ate <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">mean</span>(EX1) <span class="sc">-</span> <span class="fu">mean</span>(EX0))</span>
+<span id="cb27-19"><a href="chapter-3.html#cb27-19" tabindex="-1"></a>  </span>
+<span id="cb27-20"><a href="chapter-3.html#cb27-20" tabindex="-1"></a>  <span class="fu">return</span>(ate)</span>
+<span id="cb27-21"><a href="chapter-3.html#cb27-21" tabindex="-1"></a>}</span>
+<span id="cb27-22"><a href="chapter-3.html#cb27-22" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="chapter-3.html#cb27-23" tabindex="-1"></a><span class="co"># Perform bootstrapping</span></span>
+<span id="cb27-24"><a href="chapter-3.html#cb27-24" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> d, </span>
+<span id="cb27-25"><a href="chapter-3.html#cb27-25" tabindex="-1"></a>                          <span class="at">statistic =</span> bootstrap_analysis, </span>
+<span id="cb27-26"><a href="chapter-3.html#cb27-26" tabindex="-1"></a>                          <span class="at">R =</span> n_bootstrap)</span>
+<span id="cb27-27"><a href="chapter-3.html#cb27-27" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="chapter-3.html#cb27-28" tabindex="-1"></a><span class="co"># Summarize the bootstrap results</span></span>
+<span id="cb27-29"><a href="chapter-3.html#cb27-29" tabindex="-1"></a>bootstrap_summary <span class="ot">&lt;-</span> <span class="fu">boot.ci</span>(bootstrap_results, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;norm&quot;</span>))</span>
+<span id="cb27-30"><a href="chapter-3.html#cb27-30" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="chapter-3.html#cb27-31" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb27-32"><a href="chapter-3.html#cb27-32" tabindex="-1"></a><span class="fu">print</span>(bootstrap_summary)</span></code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 100 bootstrap replicates
 ## 
@@ -536,45 +522,52 @@ div.csl-indent {
 </div>
 <div id="bayesian-g-computation" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Bayesian g-computation<a href="chapter-3.html#bayesian-g-computation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Lastly, we show a Bayesian g-computation workflow using the R package <code>brms</code> <span class="citation">(<a href="#ref-brms2017">Bürkner 2017</a>, <a href="#ref-brms2018">2018</a>, <a href="#ref-brms2021">2021</a>)</span>, which requires <code>RStan</code> <span class="citation">(<a href="#ref-rstan">Stan Development Team 2024</a>)</span>, for model fitting and <code>tidybayes</code> for post-processing <span class="citation">(<a href="#ref-tidybayes">Kay 2023</a>)</span>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter-3.html#cb16-1" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
-<span id="cb16-2"><a href="chapter-3.html#cb16-2" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb16-3"><a href="chapter-3.html#cb16-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter-3.html#cb17-1" tabindex="-1"></a><span class="co"># Fit Bayesian regression</span></span>
-<span id="cb17-2"><a href="chapter-3.html#cb17-2" tabindex="-1"></a>bmodel <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z,</span>
-<span id="cb17-3"><a href="chapter-3.html#cb17-3" tabindex="-1"></a>              <span class="at">data =</span> d,</span>
-<span id="cb17-4"><a href="chapter-3.html#cb17-4" tabindex="-1"></a>              <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
-<span id="cb17-5"><a href="chapter-3.html#cb17-5" tabindex="-1"></a>              <span class="at">file =</span> <span class="st">&quot;fits/bmodel.rds&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter-3.html#cb18-1" tabindex="-1"></a><span class="co"># Calculate predicted values for X = 1 and X = 0</span></span>
-<span id="cb18-2"><a href="chapter-3.html#cb18-2" tabindex="-1"></a>bEX1 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(<span class="at">object =</span> bmodel,</span>
-<span id="cb18-3"><a href="chapter-3.html#cb18-3" tabindex="-1"></a>                        <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
-<span id="cb18-4"><a href="chapter-3.html#cb18-4" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="chapter-3.html#cb18-5" tabindex="-1"></a>bEX0 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(<span class="at">object =</span> bmodel,</span>
-<span id="cb18-6"><a href="chapter-3.html#cb18-6" tabindex="-1"></a>                        <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>Lastly, we show a Bayesian g-computation workflow using the R package <code>brms</code> <span class="citation">(<a href="#ref-brms2017">Bürkner 2017</a>, <a href="#ref-brms2018">2018</a>, <a href="#ref-brms2021">2021</a>)</span>, which requires <code>RStan</code> <span class="citation">(<a href="#ref-rstan">Stan Development Team, n.d.</a>)</span>, for model fitting and <code>tidybayes</code> for post-processing <span class="citation">(<a href="#ref-tidybayes">Kay 2023</a>)</span>.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter-3.html#cb29-1" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb29-2"><a href="chapter-3.html#cb29-2" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb29-3"><a href="chapter-3.html#cb29-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="chapter-3.html#cb30-1" tabindex="-1"></a><span class="co"># Fit Bayesian regression</span></span>
+<span id="cb30-2"><a href="chapter-3.html#cb30-2" tabindex="-1"></a>bmodel <span class="ot">&lt;-</span> <span class="fu">brm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z,</span>
+<span id="cb30-3"><a href="chapter-3.html#cb30-3" tabindex="-1"></a>              <span class="at">data =</span> d,</span>
+<span id="cb30-4"><a href="chapter-3.html#cb30-4" tabindex="-1"></a>              <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>,</span>
+<span id="cb30-5"><a href="chapter-3.html#cb30-5" tabindex="-1"></a>              <span class="at">file =</span> <span class="st">&quot;fits/bmodel.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter-3.html#cb31-1" tabindex="-1"></a><span class="co"># Calculate predicted values for X = 1 and X = 0</span></span>
+<span id="cb31-2"><a href="chapter-3.html#cb31-2" tabindex="-1"></a>bEX1 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(<span class="at">object =</span> bmodel,</span>
+<span id="cb31-3"><a href="chapter-3.html#cb31-3" tabindex="-1"></a>                        <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">1</span>))</span>
+<span id="cb31-4"><a href="chapter-3.html#cb31-4" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="chapter-3.html#cb31-5" tabindex="-1"></a>bEX0 <span class="ot">&lt;-</span> <span class="fu">add_epred_draws</span>(<span class="at">object =</span> bmodel,</span>
+<span id="cb31-6"><a href="chapter-3.html#cb31-6" tabindex="-1"></a>                        <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X =</span> <span class="dv">0</span>))</span></code></pre></div>
 <p>The key thing to note when working with Bayesian model fits is that we need to calculate our quantity of interest (here, the ATE) within each posterior draw.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter-3.html#cb19-1" tabindex="-1"></a><span class="co"># Compute the difference in means</span></span>
-<span id="cb19-2"><a href="chapter-3.html#cb19-2" tabindex="-1"></a>ate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">EX1 =</span> bEX1<span class="sc">$</span>.epred,</span>
-<span id="cb19-3"><a href="chapter-3.html#cb19-3" tabindex="-1"></a>                  <span class="at">EX0 =</span> bEX0<span class="sc">$</span>.epred,</span>
-<span id="cb19-4"><a href="chapter-3.html#cb19-4" tabindex="-1"></a>                  <span class="at">draw =</span> bEX0<span class="sc">$</span>.draw) <span class="sc">|&gt;</span></span>
-<span id="cb19-5"><a href="chapter-3.html#cb19-5" tabindex="-1"></a>  <span class="co"># For each posterior draw...</span></span>
-<span id="cb19-6"><a href="chapter-3.html#cb19-6" tabindex="-1"></a>  <span class="fu">group_by</span>(draw) <span class="sc">|&gt;</span></span>
-<span id="cb19-7"><a href="chapter-3.html#cb19-7" tabindex="-1"></a>  <span class="co"># ... Calculate ATE</span></span>
-<span id="cb19-8"><a href="chapter-3.html#cb19-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ate =</span> <span class="fu">mean</span>(EX1 <span class="sc">-</span> EX0))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter-3.html#cb32-1" tabindex="-1"></a><span class="co"># Compute the difference in means</span></span>
+<span id="cb32-2"><a href="chapter-3.html#cb32-2" tabindex="-1"></a>ate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">EX1 =</span> bEX1<span class="sc">$</span>.epred,</span>
+<span id="cb32-3"><a href="chapter-3.html#cb32-3" tabindex="-1"></a>                  <span class="at">EX0 =</span> bEX0<span class="sc">$</span>.epred,</span>
+<span id="cb32-4"><a href="chapter-3.html#cb32-4" tabindex="-1"></a>                  <span class="at">draw =</span> bEX0<span class="sc">$</span>.draw) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="chapter-3.html#cb32-5" tabindex="-1"></a>  <span class="co"># For each posterior draw...</span></span>
+<span id="cb32-6"><a href="chapter-3.html#cb32-6" tabindex="-1"></a>  <span class="fu">group_by</span>(draw) <span class="sc">|&gt;</span></span>
+<span id="cb32-7"><a href="chapter-3.html#cb32-7" tabindex="-1"></a>  <span class="co"># ... Calculate ATE</span></span>
+<span id="cb32-8"><a href="chapter-3.html#cb32-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ate =</span> <span class="fu">mean</span>(EX1 <span class="sc">-</span> EX0))</span></code></pre></div>
 <p>We can summarize the posterior ATE by its mean and highest posterior density interval.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter-3.html#cb20-1" tabindex="-1"></a><span class="fu">mean_hdi</span>(ate<span class="sc">$</span>ate)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter-3.html#cb33-1" tabindex="-1"></a><span class="fu">mean_hdi</span>(ate<span class="sc">$</span>ate)</span></code></pre></div>
 <pre><code>##          y     ymin     ymax .width .point .interval
 ## 1 2.009257 1.964355 2.051421   0.95   mean       hdi</code></pre>
-<p>An alternative approach – when we have a fitted model, Bayesian or otherwise – is via the versatile and very well documented <code>marginaleffects</code> package <span class="citation">(<a href="#ref-marginaleffects">Arel-Bundock, Greifer, and Heiss Forthcoming</a>)</span>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter-3.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
-<span id="cb22-2"><a href="chapter-3.html#cb22-2" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="chapter-3.html#cb22-3" tabindex="-1"></a><span class="fu">avg_comparisons</span>(bmodel, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))</span></code></pre></div>
-<pre><code>## Error: cannot allocate vector of size 610.4 Mb</code></pre>
+<p>An alternative approach – when we have a fitted model, Bayesian or otherwise – is via the versatile and very well documented <code>marginaleffects</code> package <span class="citation">(<a href="#ref-R-marginaleffects">Arel-Bundock, Greifer, and Heiss Forthcoming</a>)</span>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter-3.html#cb35-1" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb35-2"><a href="chapter-3.html#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="chapter-3.html#cb35-3" tabindex="-1"></a><span class="fu">avg_comparisons</span>(bmodel, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## 
+##  Estimate 2.5 % 97.5 %
+##      2.01  1.96   2.05
+## 
+## Term: X
+## Type:  response 
+## Comparison: mean(1) - mean(0)
+## Columns: term, contrast, estimate, conf.low, conf.high, predicted_lo, predicted_hi, predicted, tmp_idx</code></pre>
 </div>
 </div>
 <div id="session-info-1" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Session info<a href="chapter-3.html#session-info-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter-3.html#cb24-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.4.0 (2024-04-24 ucrt)
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter-3.html#cb37-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.4.1 (2024-06-14 ucrt)
 ## Platform: x86_64-w64-mingw32/x64
 ## Running under: Windows 10 x64 (build 19045)
 ## 
@@ -593,42 +586,45 @@ div.csl-indent {
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] lmtest_0.9-40   zoo_1.8-12      sandwich_3.1-0  patchwork_1.2.0
-## [5] ggplot2_3.5.1  
+## [1] marginaleffects_0.23.0 dplyr_1.1.4            tidybayes_3.0.6       
+## [4] brms_2.21.0            Rcpp_1.0.12            sandwich_3.1-1        
+## [7] boot_1.3-30            patchwork_1.3.0        ggplot2_3.5.1         
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.5         tensorA_0.36.2.1     xfun_0.44           
-##  [4] bslib_0.7.0          QuickJSR_1.1.3       inline_0.3.19       
-##  [7] lattice_0.22-6       vctrs_0.6.5          tools_4.4.0         
-## [10] generics_0.1.3       stats4_4.4.0         parallel_4.4.0      
-## [13] tibble_3.2.1         fansi_1.0.6          highr_0.11          
-## [16] pkgconfig_2.0.3      brms_2.21.0          Matrix_1.7-0        
-## [19] checkmate_2.3.1      distributional_0.4.0 RcppParallel_5.1.7  
-## [22] lifecycle_1.0.4      compiler_4.4.0       farver_2.1.2        
-## [25] stringr_1.5.1        Brobdingnag_1.2-9    munsell_0.5.1       
-## [28] codetools_0.2-20     htmltools_0.5.8.1    sass_0.4.9          
-## [31] bayesplot_1.11.1     yaml_2.3.8           pillar_1.9.0        
-## [34] jquerylib_0.1.4      cachem_1.1.0         StanHeaders_2.32.9  
-## [37] bridgesampling_1.1-2 abind_1.4-5          nlme_3.1-164        
-## [40] posterior_1.5.0      rstan_2.32.6         tidyselect_1.2.1    
-## [43] digest_0.6.35        mvtnorm_1.2-5        stringi_1.8.4       
-## [46] dplyr_1.1.4          bookdown_0.39        labeling_0.4.3      
-## [49] fastmap_1.2.0        grid_4.4.0           colorspace_2.1-0    
-## [52] cli_3.6.2            magrittr_2.0.3       loo_2.7.0           
-## [55] pkgbuild_1.4.4       utf8_1.2.4           withr_3.0.0         
-## [58] scales_1.3.0         backports_1.5.0      estimability_1.5.1  
-## [61] rmarkdown_2.27       matrixStats_1.3.0    emmeans_1.10.4      
-## [64] gridExtra_2.3        coda_0.19-4.1        evaluate_0.23       
-## [67] knitr_1.47           rstantools_2.4.0     rlang_1.1.3         
-## [70] Rcpp_1.0.12          xtable_1.8-4         glue_1.7.0          
-## [73] rstudioapi_0.16.0    jsonlite_1.8.8       R6_2.5.1</code></pre>
+##  [1] gtable_0.3.5            tensorA_0.36.2.1        xfun_0.48              
+##  [4] bslib_0.7.0             QuickJSR_1.2.2          insight_0.20.5         
+##  [7] collapse_2.0.16         inline_0.3.19           lattice_0.22-6         
+## [10] vctrs_0.6.5             tools_4.4.1             generics_0.1.4         
+## [13] stats4_4.4.1            parallel_4.4.1          tibble_3.2.1           
+## [16] highr_0.11              pkgconfig_2.0.3         Matrix_1.7-0           
+## [19] data.table_1.15.4       checkmate_2.3.1         distributional_0.5.0   
+## [22] RcppParallel_5.1.7      lifecycle_1.0.4         compiler_4.4.1         
+## [25] farver_2.1.2            stringr_1.5.1           Brobdingnag_1.2-9      
+## [28] munsell_0.5.1           codetools_0.2-20        htmltools_0.5.8.1      
+## [31] sass_0.4.9              bayesplot_1.11.1        yaml_2.3.8             
+## [34] tidyr_1.3.1             pillar_1.10.2           jquerylib_0.1.4        
+## [37] arrayhelpers_1.1-0      cachem_1.1.0            StanHeaders_2.35.0.9000
+## [40] bridgesampling_1.1-2    abind_1.4-8             nlme_3.1-164           
+## [43] posterior_1.6.1         rstan_2.35.0.9000       svUnit_1.0.6           
+## [46] tidyselect_1.2.1        digest_0.6.35           mvtnorm_1.2-5          
+## [49] stringi_1.8.4           purrr_1.0.2             bookdown_0.41          
+## [52] labeling_0.4.3          splines_4.4.1           fastmap_1.2.0          
+## [55] grid_4.4.1              colorspace_2.1-0        cli_3.6.2              
+## [58] magrittr_2.0.3          loo_2.8.0               pkgbuild_1.4.4         
+## [61] withr_3.0.2             scales_1.3.0            backports_1.5.0        
+## [64] estimability_1.5.1      rmarkdown_2.27          matrixStats_1.3.0      
+## [67] emmeans_1.10.5          gridExtra_2.3           zoo_1.8-12             
+## [70] coda_0.19-4.1           evaluate_1.0.4          knitr_1.47             
+## [73] ggdist_3.3.2            mgcv_1.9-1              rstantools_2.4.0       
+## [76] rlang_1.1.4             xtable_1.8-4            glue_1.7.0             
+## [79] rstudioapi_0.16.0       jsonlite_1.8.8          R6_2.5.1</code></pre>
 
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-marginaleffects" class="csl-entry">
-Arel-Bundock, Vincent, Noah Greifer, and Andrew Heiss. Forthcoming. <span>“How to Interpret Statistical Models Using <span class="nocase">marginaleffects</span> in <span>R</span> and <span>Python</span>.”</span> <em>Journal of Statistical Software</em>, Forthcoming.
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-marginaleffects" class="csl-entry">
+Arel-Bundock, Vincent, Noah Greifer, and Andrew Heiss. Forthcoming. <span>“How to Interpret Statistical Models Using <code>marginaleffects</code> in <code>R</code> and <code>Python</code>.”</span> <em>Journal of Statistical Software</em>, Forthcoming. <a href="https://marginaleffects.com">https://marginaleffects.com</a>.
 </div>
 <div id="ref-brms2017" class="csl-entry">
 Bürkner, Paul-Christian. 2017. <span>“<span class="nocase">brms</span>: An <span>R</span> Package for <span>Bayesian</span> Multilevel Models Using <span>Stan</span>.”</span> <em>Journal of Statistical Software</em> 80 (1): 1–28. <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a>.
@@ -643,7 +639,7 @@ Bürkner, Paul-Christian. 2017. <span>“<span class="nocase">brms</span>: An <s
 Kay, Matthew. 2023. <em><span class="nocase">tidybayes</span>: Tidy Data and Geoms for <span>Bayesian</span> Models</em>. <a href="https://doi.org/10.5281/zenodo.1308151">https://doi.org/10.5281/zenodo.1308151</a>.
 </div>
 <div id="ref-rstan" class="csl-entry">
-———. 2024. <span>“<span>RStan</span>: The <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
+———. n.d. <span>“<span>RStan</span>: The <span>R</span> Interface to <span>Stan</span>.”</span> <a href="https://mc-stan.org/">https://mc-stan.org/</a>.
 </div>
 </div>
             </section>
@@ -707,6 +703,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

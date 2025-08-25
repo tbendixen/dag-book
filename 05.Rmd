@@ -47,7 +47,7 @@ library(ggplot2)
 
 ggplot(d_miss, aes(x = X, y = Y)) +
   geom_point(aes(color = is.na(Y_miss)), alpha = 0.5) +
-  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "black", data = d_miss[!is.na(X_miss), ]) +
+  geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "black", data = d_miss[!is.na(Y_miss), ]) +
   geom_smooth(method = "lm", formula = y ~ x, linetype = "solid", color = "grey60", data = d_miss) +
   scale_color_manual(values = c("black", "grey"), labels = c("Observed", "Missing")) +
   labs(title = "Simulating missingness",

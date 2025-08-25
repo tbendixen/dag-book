@@ -18,10 +18,7 @@ doubly-robust-estimation
 bootstrapping-2
 more-covariates
 bootstrapped-sub-group-analysis
-complex-longitudinal-designs
-more-complexity
-g-computation-1
-ipw
+complex-longitudinal-exposure-outcome-feedback
 session-info-2
 chapter-5
 simulating-missingness

@@ -283,19 +283,19 @@ Then, we plot the stratum-specific treatment effects.
 
 ```{r, fig.width=5, fig.height=3}
 ggplot() + 
-  geom_rect(aes(xmin = -Inf, xmax = Inf, ymin = 0.07, ymax = 0.3), fill = "lightgrey", alpha = 0.35) +
-  geom_hline(yintercept = 0.19, linetype = "dashed", alpha = 0.2, linewidth = 0.7) +
   geom_line(data = rbind(coeffix, coefran), 
             aes(x = strata, y = coef, group = strata),
             linewidth = 0.25,
             alpha = 0.5) +
   geom_point(data = coeffix, aes(x = strata, y = coef),
              size = 1.5,
-             alpha = 0.9,
+             alpha = 0.8,
              shape = 1) +  
   geom_point(data = coefran, aes(x = strata, y = coef),
              size = 1.5,
              color = "black") +
+  geom_hline(yintercept = 0.19, linetype = "dashed", alpha = 0.2, linewidth = 0.5) +
+  geom_rect(aes(xmin = -Inf, xmax = Inf, ymin = 0.07, ymax = 0.3), fill = "lightgrey", alpha = 0.2) +
   ylab("Treatment Effect") +
   xlab("Randomization Strata\n(smallest to largest)") +
   theme_classic() +

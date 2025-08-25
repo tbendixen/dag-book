@@ -15,14 +15,12 @@ description: "The is the companion website for *The Data Analyst's Guide to Caus
 
 # Welcome! {-}
 
-The is the companion website for *The Data Analyst's Guide to Cause and Effect* (Bendixen & Purzycki, *in prep.*).
-
-Data and code for this e-book is hosted at https://github.com/tbendixen/dag-book. 
+The is the companion website for *The Data Analyst's Guide to Cause and Effect* (Bendixen & Purzycki, 2026).
 
 ## Version  {-}
 
-This is version 0.1
+This is version 1.0
 
 ## Errata  {-}
 
-While we have made every effort to ensure the accuracy and currency of both the book and this website, some errors may have inevitably slipped through. In this section, we will document any errors or updates as they are brought to our attention. If you spot an error, please reach out to tb@theissbendixen.com
+While we have made every effort to ensure the accuracy and currency of both the book and this website, some errors may have inevitably slipped through. In this section, we will document important errors or updates as they are brought to our attention.

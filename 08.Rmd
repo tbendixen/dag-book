@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ```
 
-```{r, results='markup'}
+```{r, cache=TRUE, results='markup'}
 library(grateful)
 pkgs <- cite_packages(output = "table", out.dir = ".", cite.tidyverse = TRUE, dependencies = TRUE)
 knitr::kable(pkgs)

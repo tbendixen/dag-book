@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>The Data Analyst’s Guide to Cause and Effect</title>
   <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="The Data Analyst’s Guide to Cause and Effect" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
 
 
-<meta name="date" content="2024-12-28" />
+<meta name="date" content="2025-08-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -128,7 +128,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -199,13 +198,8 @@ div.csl-indent {
 <li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
-<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-designs"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal designs</a></li>
-<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#more-complexity"><i class="fa fa-check"></i><b>4.4</b> More complexity</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter-4.html"><a href="chapter-4.html#g-computation-1"><i class="fa fa-check"></i><b>4.4.1</b> G-computation</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter-4.html"><a href="chapter-4.html#ipw"><i class="fa fa-check"></i><b>4.4.2</b> IPW</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.5</b> Session info</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
 <ul>
@@ -296,19 +290,18 @@ div.csl-indent {
 <h1 class="title"><em>The Data Analyst’s Guide to Cause and Effect</em></h1>
 <h2 class="subtitle"><em>Companion website</em></h2>
 <p class="author"><em>Theiss Bendixen &amp; Benjamin Grant Purzycki</em></p>
-<p class="date"><em>2024-12-28</em></p>
+<p class="date"><em>2025-08-24</em></p>
 </div>
 <div id="welcome" class="section level1 unnumbered hasAnchor">
 <h1>Welcome!<a href="index.html#welcome" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>The is the companion website for <em>The Data Analyst’s Guide to Cause and Effect</em> (Bendixen &amp; Purzycki, <em>in prep.</em>).</p>
-<p>Data and code for this e-book is hosted at <a href="https://github.com/tbendixen/dag-book" class="uri">https://github.com/tbendixen/dag-book</a>.</p>
+<p>The is the companion website for <em>The Data Analyst’s Guide to Cause and Effect</em> (Bendixen &amp; Purzycki, 2026).</p>
 <div id="version" class="section level2 unnumbered hasAnchor">
 <h2>Version<a href="index.html#version" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This is version 0.1</p>
+<p>This is version 1.0</p>
 </div>
 <div id="errata" class="section level2 unnumbered hasAnchor">
 <h2>Errata<a href="index.html#errata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>While we have made every effort to ensure the accuracy and currency of both the book and this website, some errors may have inevitably slipped through. In this section, we will document any errors or updates as they are brought to our attention. If you spot an error, please reach out to <a href="mailto:tb@theissbendixen.com" class="email">tb@theissbendixen.com</a></p>
+<p>While we have made every effort to ensure the accuracy and currency of both the book and this website, some errors may have inevitably slipped through. In this section, we will document important errors or updates as they are brought to our attention.</p>
 
 </div>
 </div>

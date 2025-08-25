@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Adventures in G-methods | The Data Analyst’s Guide to Cause and Effect</title>
   <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Adventures in G-methods | The Data Analyst’s Guide to Cause and Effect" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
 
 
-<meta name="date" content="2024-12-28" />
+<meta name="date" content="2025-08-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -128,7 +128,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -199,13 +198,8 @@ div.csl-indent {
 <li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
-<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-designs"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal designs</a></li>
-<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#more-complexity"><i class="fa fa-check"></i><b>4.4</b> More complexity</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter-4.html"><a href="chapter-4.html#g-computation-1"><i class="fa fa-check"></i><b>4.4.1</b> G-computation</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter-4.html"><a href="chapter-4.html#ipw"><i class="fa fa-check"></i><b>4.4.2</b> IPW</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.5</b> Session info</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
 <ul>
@@ -296,7 +290,7 @@ div.csl-indent {
 <h1><span class="header-section-number">Chapter 4</span> Adventures in G-methods<a href="chapter-4.html#chapter-4" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="doubly-robust-estimation" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Doubly robust estimation<a href="chapter-4.html#doubly-robust-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>For demonstrating a ‘doubly robust’ estimator that combines IPW and g-computation, we use the <code>nhefs</code> data from the <code>causaldata</code> package <span class="citation">(<a href="#ref-causaldata">Huntington-Klein and Barrett 2021</a>)</span>. This data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study.</p>
+<p>For demonstrating a ‘doubly robust’ estimator that combines IPW and g-computation, we use the <code>nhefs</code> data from the <code>causaldata</code> package <span class="citation">(<a href="#ref-causaldata">Huntington-Klein and Barrett 2024</a>)</span>. This data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter-4.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(causaldata)</span>
 <span id="cb39-2"><a href="chapter-4.html#cb39-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> nhefs</span></code></pre></div>
 <p>We first calculate stabilized IP weights.</p>
@@ -562,206 +556,43 @@ div.csl-indent {
 ## 95%   ( 2.291,  4.585 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 </div>
-<div id="complex-longitudinal-designs" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> Complex longitudinal designs<a href="chapter-4.html#complex-longitudinal-designs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the book, we walk through a g-computation approach to a complex longitudinal data context with a time-varying treatment. Here, we show a stabilized IPW approach. The trick is to compute two sets of weights, one for each time point and adjustment set. These weights can then be combined with multiplication in a single marginal structural model that recovers the simulated true effects of 0.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter-4.html#cb54-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1747</span>)</span>
-<span id="cb54-2"><a href="chapter-4.html#cb54-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb54-3"><a href="chapter-4.html#cb54-3" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb54-4"><a href="chapter-4.html#cb54-4" tabindex="-1"></a>Z_0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span>))</span>
-<span id="cb54-5"><a href="chapter-4.html#cb54-5" tabindex="-1"></a>X_0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z_0 <span class="sc">*</span> <span class="fl">0.5</span>))</span>
-<span id="cb54-6"><a href="chapter-4.html#cb54-6" tabindex="-1"></a>Z_1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> X_0 <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">+</span> U <span class="sc">*</span> <span class="fl">0.5</span>))</span>
-<span id="cb54-7"><a href="chapter-4.html#cb54-7" tabindex="-1"></a>X_1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(<span class="fl">0.5</span> <span class="sc">+</span> Z_1 <span class="sc">*</span> <span class="fl">0.5</span>))</span>
-<span id="cb54-8"><a href="chapter-4.html#cb54-8" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">10</span> <span class="sc">+</span> U <span class="sc">*</span> <span class="dv">2</span>)</span>
-<span id="cb54-9"><a href="chapter-4.html#cb54-9" tabindex="-1"></a></span>
-<span id="cb54-10"><a href="chapter-4.html#cb54-10" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X_0 =</span> X_0, <span class="at">X_1 =</span> X_1,</span>
-<span id="cb54-11"><a href="chapter-4.html#cb54-11" tabindex="-1"></a>                  <span class="at">Z_0 =</span> Z_0, <span class="at">Z_1 =</span> Z_1, <span class="at">U =</span> U)</span></code></pre></div>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="chapter-4.html#cb55-1" tabindex="-1"></a><span class="co"># IPW estimation for X_0</span></span>
-<span id="cb55-2"><a href="chapter-4.html#cb55-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
-<span id="cb55-3"><a href="chapter-4.html#cb55-3" tabindex="-1"></a>ps_model_X0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_0 <span class="sc">~</span> Z_0 <span class="sc">+</span> X_1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
-<span id="cb55-4"><a href="chapter-4.html#cb55-4" tabindex="-1"></a>dat<span class="sc">$</span>ps_X0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X0, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb55-5"><a href="chapter-4.html#cb55-5" tabindex="-1"></a></span>
-<span id="cb55-6"><a href="chapter-4.html#cb55-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
-<span id="cb55-7"><a href="chapter-4.html#cb55-7" tabindex="-1"></a>num_model_X0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_0 <span class="sc">~</span> Z_0, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
-<span id="cb55-8"><a href="chapter-4.html#cb55-8" tabindex="-1"></a>dat<span class="sc">$</span>num_ps_X0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X0, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb55-9"><a href="chapter-4.html#cb55-9" tabindex="-1"></a></span>
-<span id="cb55-10"><a href="chapter-4.html#cb55-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
-<span id="cb55-11"><a href="chapter-4.html#cb55-11" tabindex="-1"></a>dat<span class="sc">$</span>sw_X0 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, </span>
-<span id="cb55-12"><a href="chapter-4.html#cb55-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X_0 <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb55-13"><a href="chapter-4.html#cb55-13" tabindex="-1"></a>                num_ps_X0<span class="sc">/</span>ps_X0, </span>
-<span id="cb55-14"><a href="chapter-4.html#cb55-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X0)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X0)))</span></code></pre></div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter-4.html#cb56-1" tabindex="-1"></a><span class="co"># IPW estimation for X_1</span></span>
-<span id="cb56-2"><a href="chapter-4.html#cb56-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
-<span id="cb56-3"><a href="chapter-4.html#cb56-3" tabindex="-1"></a>ps_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_1 <span class="sc">~</span> X_0 <span class="sc">+</span> Z_1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
-<span id="cb56-4"><a href="chapter-4.html#cb56-4" tabindex="-1"></a>dat<span class="sc">$</span>ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb56-5"><a href="chapter-4.html#cb56-5" tabindex="-1"></a></span>
-<span id="cb56-6"><a href="chapter-4.html#cb56-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
-<span id="cb56-7"><a href="chapter-4.html#cb56-7" tabindex="-1"></a>num_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X_1 <span class="sc">~</span> X_0, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> dat)</span>
-<span id="cb56-8"><a href="chapter-4.html#cb56-8" tabindex="-1"></a>dat<span class="sc">$</span>num_ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb56-9"><a href="chapter-4.html#cb56-9" tabindex="-1"></a></span>
-<span id="cb56-10"><a href="chapter-4.html#cb56-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
-<span id="cb56-11"><a href="chapter-4.html#cb56-11" tabindex="-1"></a>dat<span class="sc">$</span>sw_X1 <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, </span>
-<span id="cb56-12"><a href="chapter-4.html#cb56-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X_1 <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb56-13"><a href="chapter-4.html#cb56-13" tabindex="-1"></a>                num_ps_X1<span class="sc">/</span>ps_X1, </span>
-<span id="cb56-14"><a href="chapter-4.html#cb56-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X1)))</span></code></pre></div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chapter-4.html#cb57-1" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
-<span id="cb57-2"><a href="chapter-4.html#cb57-2" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X_0 <span class="sc">+</span> X_1, <span class="at">data =</span> dat, <span class="at">weights =</span> sw_X0<span class="sc">*</span>sw_X1)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = Y ~ X_0 + X_1, data = dat, weights = sw_X0 * sw_X1)
-## 
-## Coefficients:
-## (Intercept)          X_0          X_1  
-##   10.009573    -0.039207     0.007237</code></pre>
-</div>
-<div id="more-complexity" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> More complexity<a href="chapter-4.html#more-complexity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the book, we show a complicated DAG adapted from <span class="citation">VanderWeele, Jackson, and Li (<a href="#ref-vanderweele2016causal">2016</a>)</span> of a complex longitudinal exposure-outcome feedback setting. Here, we verify that the adjustment strategy suggested in the book holds true in a simulated setting. While in this particular simulated example the model coefficients for <em>X1</em>, <em>X2</em> and <em>X3</em> in their respective focal models coincide with the marginal estimates we’re after, we want to practice a more general workflow for when it really matters. So, we both show a g-computation approach and a stabilized IPW approach.</p>
+<div id="complex-longitudinal-exposure-outcome-feedback" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Complex longitudinal exposure-outcome feedback<a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the book, we show a complicated DAG adapted from <span class="citation">VanderWeele, Jackson, and Li (<a href="#ref-vanderweele2016causal">2016</a>)</span> of a complex longitudinal exposure-outcome feedback setting. Here, we verify that the adjustment strategy suggested in the book holds true in a simulated setting. To keep things simple, we set all effects to be recovered to 1.</p>
 <p>First, we simulate some data consistent with the complex DAG.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chapter-4.html#cb59-1" tabindex="-1"></a><span class="co"># Seed for reproducibility</span></span>
-<span id="cb59-2"><a href="chapter-4.html#cb59-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb59-3"><a href="chapter-4.html#cb59-3" tabindex="-1"></a></span>
-<span id="cb59-4"><a href="chapter-4.html#cb59-4" tabindex="-1"></a><span class="co"># Define sample size</span></span>
-<span id="cb59-5"><a href="chapter-4.html#cb59-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb59-6"><a href="chapter-4.html#cb59-6" tabindex="-1"></a></span>
-<span id="cb59-7"><a href="chapter-4.html#cb59-7" tabindex="-1"></a><span class="co"># Simulate time-varying relationships</span></span>
-<span id="cb59-8"><a href="chapter-4.html#cb59-8" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb59-9"><a href="chapter-4.html#cb59-9" tabindex="-1"></a>Z1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb59-10"><a href="chapter-4.html#cb59-10" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
-<span id="cb59-11"><a href="chapter-4.html#cb59-11" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> X1 <span class="sc">+</span> Z1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
-<span id="cb59-12"><a href="chapter-4.html#cb59-12" tabindex="-1"></a>Z2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C <span class="sc">+</span> Z1 <span class="sc">+</span> X1) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb59-13"><a href="chapter-4.html#cb59-13" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(C <span class="sc">+</span> X2 <span class="sc">+</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
-<span id="cb59-14"><a href="chapter-4.html#cb59-14" tabindex="-1"></a>Z3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C <span class="sc">+</span> Z2 <span class="sc">+</span> X2) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb59-15"><a href="chapter-4.html#cb59-15" tabindex="-1"></a></span>
-<span id="cb59-16"><a href="chapter-4.html#cb59-16" tabindex="-1"></a><span class="co"># Simulate outcome</span></span>
-<span id="cb59-17"><a href="chapter-4.html#cb59-17" tabindex="-1"></a>Y <span class="ot">&lt;-</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb59-18"><a href="chapter-4.html#cb59-18" tabindex="-1"></a></span>
-<span id="cb59-19"><a href="chapter-4.html#cb59-19" tabindex="-1"></a><span class="co"># Create dataset</span></span>
-<span id="cb59-20"><a href="chapter-4.html#cb59-20" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(C, Z1, Z2, Z3, X1, X2, X3, Y)</span></code></pre></div>
-<p>Next, we fit a model for each measurement time point, and we see that all three models pick up the true effects within simulation error. The true effects are 2, 2 and 1, respectively, for the three time points. It’s 2 for the first two time points, because these effects include paths running through <em>Z2</em>/<em>Z3</em>.</p>
-<div id="g-computation-1" class="section level3 hasAnchor" number="4.4.1">
-<h3><span class="header-section-number">4.4.1</span> G-computation<a href="chapter-4.html#g-computation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>There are no new tricks here compared to what we showcase in the book, except we’re breaking down our joint effect estimand into separate models.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter-4.html#cb60-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X1 on Y</span></span>
-<span id="cb60-2"><a href="chapter-4.html#cb60-2" tabindex="-1"></a>model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> Z1 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
-<span id="cb60-3"><a href="chapter-4.html#cb60-3" tabindex="-1"></a></span>
-<span id="cb60-4"><a href="chapter-4.html#cb60-4" tabindex="-1"></a>EX11 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X1, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X1 =</span> <span class="dv">1</span>))</span>
-<span id="cb60-5"><a href="chapter-4.html#cb60-5" tabindex="-1"></a></span>
-<span id="cb60-6"><a href="chapter-4.html#cb60-6" tabindex="-1"></a>EX10 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X1, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X1 =</span> <span class="dv">0</span>))</span>
-<span id="cb60-7"><a href="chapter-4.html#cb60-7" tabindex="-1"></a></span>
-<span id="cb60-8"><a href="chapter-4.html#cb60-8" tabindex="-1"></a><span class="fu">mean</span>(EX11 <span class="sc">-</span> EX10)</span></code></pre></div>
-<pre><code>## [1] 2.083152</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter-4.html#cb62-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X2 on Y</span></span>
-<span id="cb62-2"><a href="chapter-4.html#cb62-2" tabindex="-1"></a>model_X2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z1 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
-<span id="cb62-3"><a href="chapter-4.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="chapter-4.html#cb62-4" tabindex="-1"></a>EX21 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X2, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X2 =</span> <span class="dv">1</span>))</span>
-<span id="cb62-5"><a href="chapter-4.html#cb62-5" tabindex="-1"></a></span>
-<span id="cb62-6"><a href="chapter-4.html#cb62-6" tabindex="-1"></a>EX20 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X2, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X2 =</span> <span class="dv">0</span>))</span>
-<span id="cb62-7"><a href="chapter-4.html#cb62-7" tabindex="-1"></a></span>
-<span id="cb62-8"><a href="chapter-4.html#cb62-8" tabindex="-1"></a><span class="fu">mean</span>(EX21 <span class="sc">-</span> EX20)</span></code></pre></div>
-<pre><code>## [1] 1.988808</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter-4.html#cb64-1" tabindex="-1"></a><span class="co"># Model to estimate effect of X3 on Y</span></span>
-<span id="cb64-2"><a href="chapter-4.html#cb64-2" tabindex="-1"></a>model_X3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">data =</span> d)</span>
-<span id="cb64-3"><a href="chapter-4.html#cb64-3" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="chapter-4.html#cb64-4" tabindex="-1"></a>EX31 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X3, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X3 =</span> <span class="dv">1</span>))</span>
-<span id="cb64-5"><a href="chapter-4.html#cb64-5" tabindex="-1"></a></span>
-<span id="cb64-6"><a href="chapter-4.html#cb64-6" tabindex="-1"></a>EX30 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_X3, <span class="at">newdata =</span> <span class="fu">transform</span>(d, <span class="at">X3 =</span> <span class="dv">0</span>))</span>
-<span id="cb64-7"><a href="chapter-4.html#cb64-7" tabindex="-1"></a></span>
-<span id="cb64-8"><a href="chapter-4.html#cb64-8" tabindex="-1"></a><span class="fu">mean</span>(EX31 <span class="sc">-</span> EX30)</span></code></pre></div>
-<pre><code>## [1] 0.9987202</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter-4.html#cb54-1" tabindex="-1"></a><span class="co"># Seed for reproducibility</span></span>
+<span id="cb54-2"><a href="chapter-4.html#cb54-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb54-3"><a href="chapter-4.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="chapter-4.html#cb54-4" tabindex="-1"></a><span class="co"># Define sample size</span></span>
+<span id="cb54-5"><a href="chapter-4.html#cb54-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb54-6"><a href="chapter-4.html#cb54-6" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="chapter-4.html#cb54-7" tabindex="-1"></a><span class="co"># Define variables</span></span>
+<span id="cb54-8"><a href="chapter-4.html#cb54-8" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-9"><a href="chapter-4.html#cb54-9" tabindex="-1"></a>Z1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-10"><a href="chapter-4.html#cb54-10" tabindex="-1"></a>Z2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, Z1) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-11"><a href="chapter-4.html#cb54-11" tabindex="-1"></a>Z3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, Z2) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-12"><a href="chapter-4.html#cb54-12" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, C) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-13"><a href="chapter-4.html#cb54-13" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, X1 <span class="sc">+</span> Z1) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-14"><a href="chapter-4.html#cb54-14" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, X2 <span class="sc">+</span> Z2) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb54-15"><a href="chapter-4.html#cb54-15" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z3) <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span></code></pre></div>
+<p>Next, we fit a model for each measurement time point, and we see that all three models pick up the simulated effect of (roughly) 1.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="chapter-4.html#cb55-1" tabindex="-1"></a><span class="co"># Model for E[Y | X1, X2, Z1] to estimate effect of X1 on Y</span></span>
+<span id="cb55-2"><a href="chapter-4.html#cb55-2" tabindex="-1"></a>model_X1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> Z1)</span>
+<span id="cb55-3"><a href="chapter-4.html#cb55-3" tabindex="-1"></a><span class="fu">coef</span>(model_X1)[[<span class="st">&quot;X1&quot;</span>]]</span></code></pre></div>
+<p>[1] 0.9999557</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter-4.html#cb56-1" tabindex="-1"></a><span class="co"># Model for E[Y | X1, X2, X3, Z1] to estimate effect of X2 on Y</span></span>
+<span id="cb56-2"><a href="chapter-4.html#cb56-2" tabindex="-1"></a>model_X2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z1 <span class="sc">+</span> Z2)</span>
+<span id="cb56-3"><a href="chapter-4.html#cb56-3" tabindex="-1"></a><span class="fu">coef</span>(model_X2)[[<span class="st">&quot;X2&quot;</span>]]</span></code></pre></div>
+<p>[1] 0.9896064</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chapter-4.html#cb57-1" tabindex="-1"></a><span class="co"># Model for E[Y | X2, X3, Z2] to estimate effect of X3 on Y</span></span>
+<span id="cb57-2"><a href="chapter-4.html#cb57-2" tabindex="-1"></a>model_X3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z2)</span>
+<span id="cb57-3"><a href="chapter-4.html#cb57-3" tabindex="-1"></a><span class="fu">coef</span>(model_X3)[[<span class="st">&quot;X3&quot;</span>]]</span></code></pre></div>
+<p>[1] 1.02467</p>
 </div>
-<div id="ipw" class="section level3 hasAnchor" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> IPW<a href="chapter-4.html#ipw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We follow the same recipe for stabilized IPW as given in the book.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapter-4.html#cb66-1" tabindex="-1"></a><span class="co"># IPW estimation for X1</span></span>
-<span id="cb66-2"><a href="chapter-4.html#cb66-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
-<span id="cb66-3"><a href="chapter-4.html#cb66-3" tabindex="-1"></a>ps_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X1 <span class="sc">~</span> C <span class="sc">+</span> X2 <span class="sc">+</span> Z1, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb66-4"><a href="chapter-4.html#cb66-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb66-5"><a href="chapter-4.html#cb66-5" tabindex="-1"></a></span>
-<span id="cb66-6"><a href="chapter-4.html#cb66-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
-<span id="cb66-7"><a href="chapter-4.html#cb66-7" tabindex="-1"></a>num_model_X1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X1 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb66-8"><a href="chapter-4.html#cb66-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb66-9"><a href="chapter-4.html#cb66-9" tabindex="-1"></a></span>
-<span id="cb66-10"><a href="chapter-4.html#cb66-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
-<span id="cb66-11"><a href="chapter-4.html#cb66-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X1 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
-<span id="cb66-12"><a href="chapter-4.html#cb66-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X1 <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb66-13"><a href="chapter-4.html#cb66-13" tabindex="-1"></a>                num_ps_X1<span class="sc">/</span>ps_X1, </span>
-<span id="cb66-14"><a href="chapter-4.html#cb66-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X1)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X1)))</span>
-<span id="cb66-15"><a href="chapter-4.html#cb66-15" tabindex="-1"></a></span>
-<span id="cb66-16"><a href="chapter-4.html#cb66-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
-<span id="cb66-17"><a href="chapter-4.html#cb66-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X1)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = Y ~ X1 + C, data = d, weights = sw_X1)
-## 
-## Coefficients:
-## (Intercept)           X1            C  
-##       1.663        2.091        4.831</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter-4.html#cb68-1" tabindex="-1"></a><span class="co"># IPW estimation for X2</span></span>
-<span id="cb68-2"><a href="chapter-4.html#cb68-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
-<span id="cb68-3"><a href="chapter-4.html#cb68-3" tabindex="-1"></a>ps_model_X2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X2 <span class="sc">~</span> X1 <span class="sc">+</span> X3 <span class="sc">+</span> Z1 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb68-4"><a href="chapter-4.html#cb68-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X2, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb68-5"><a href="chapter-4.html#cb68-5" tabindex="-1"></a></span>
-<span id="cb68-6"><a href="chapter-4.html#cb68-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
-<span id="cb68-7"><a href="chapter-4.html#cb68-7" tabindex="-1"></a>num_model_X2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X2 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb68-8"><a href="chapter-4.html#cb68-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X2, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb68-9"><a href="chapter-4.html#cb68-9" tabindex="-1"></a></span>
-<span id="cb68-10"><a href="chapter-4.html#cb68-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
-<span id="cb68-11"><a href="chapter-4.html#cb68-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X2 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
-<span id="cb68-12"><a href="chapter-4.html#cb68-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X2 <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb68-13"><a href="chapter-4.html#cb68-13" tabindex="-1"></a>                num_ps_X2<span class="sc">/</span>ps_X2, </span>
-<span id="cb68-14"><a href="chapter-4.html#cb68-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X2)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X2)))</span>
-<span id="cb68-15"><a href="chapter-4.html#cb68-15" tabindex="-1"></a></span>
-<span id="cb68-16"><a href="chapter-4.html#cb68-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
-<span id="cb68-17"><a href="chapter-4.html#cb68-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X2)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = Y ~ X2 + C, data = d, weights = sw_X2)
-## 
-## Coefficients:
-## (Intercept)           X2            C  
-##       1.549        2.108        4.645</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter-4.html#cb70-1" tabindex="-1"></a><span class="co"># IPW estimation for X3</span></span>
-<span id="cb70-2"><a href="chapter-4.html#cb70-2" tabindex="-1"></a><span class="co"># Fit propensity score model (denominator)</span></span>
-<span id="cb70-3"><a href="chapter-4.html#cb70-3" tabindex="-1"></a>ps_model_X3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X3 <span class="sc">~</span> X2 <span class="sc">+</span> Z2 <span class="sc">+</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb70-4"><a href="chapter-4.html#cb70-4" tabindex="-1"></a>d<span class="sc">$</span>ps_X3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps_model_X3, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb70-5"><a href="chapter-4.html#cb70-5" tabindex="-1"></a></span>
-<span id="cb70-6"><a href="chapter-4.html#cb70-6" tabindex="-1"></a><span class="co"># Fit numerator model</span></span>
-<span id="cb70-7"><a href="chapter-4.html#cb70-7" tabindex="-1"></a>num_model_X3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(X3 <span class="sc">~</span> C, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> d)</span>
-<span id="cb70-8"><a href="chapter-4.html#cb70-8" tabindex="-1"></a>d<span class="sc">$</span>num_ps_X3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(num_model_X3, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb70-9"><a href="chapter-4.html#cb70-9" tabindex="-1"></a></span>
-<span id="cb70-10"><a href="chapter-4.html#cb70-10" tabindex="-1"></a><span class="co"># Calculate stabilized weights</span></span>
-<span id="cb70-11"><a href="chapter-4.html#cb70-11" tabindex="-1"></a>d<span class="sc">$</span>sw_X3 <span class="ot">&lt;-</span> <span class="fu">with</span>(d, </span>
-<span id="cb70-12"><a href="chapter-4.html#cb70-12" tabindex="-1"></a>                <span class="fu">ifelse</span>(X3 <span class="sc">==</span> <span class="dv">1</span>, </span>
-<span id="cb70-13"><a href="chapter-4.html#cb70-13" tabindex="-1"></a>                num_ps_X3<span class="sc">/</span>ps_X3, </span>
-<span id="cb70-14"><a href="chapter-4.html#cb70-14" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">-</span>num_ps_X3)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>ps_X3)))</span>
-<span id="cb70-15"><a href="chapter-4.html#cb70-15" tabindex="-1"></a></span>
-<span id="cb70-16"><a href="chapter-4.html#cb70-16" tabindex="-1"></a><span class="co"># Marginal structural model</span></span>
-<span id="cb70-17"><a href="chapter-4.html#cb70-17" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X3)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = Y ~ X3 + Z3 + C, data = d, weights = sw_X3)
-## 
-## Coefficients:
-## (Intercept)           X3           Z3            C  
-##      0.8849       1.0250       1.1221       0.9908</code></pre>
-<p>Instead of fitting a marginal structural model (MSM) for each time point, we can fit a single MSM for all three time points in one go. The trick here is to multiply the weights. However, this targets a slightly different estimand, since we want to adjust for <em>Z3</em> to get a more precise estimate for <em>X3</em> but including <em>Z3</em> in the MSM blocks the the effect of <em>X1</em> and <em>X2</em> that runs through <em>Z3</em>. That is, this alternative specification targets only the direct effect of the exposures.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapter-4.html#cb72-1" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3 <span class="sc">+</span> Z3 <span class="sc">+</span> C, <span class="at">data =</span> d, <span class="at">weights =</span> sw_X1<span class="sc">*</span>sw_X2<span class="sc">*</span>sw_X3)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = Y ~ X1 + X2 + X3 + Z3 + C, data = d, weights = sw_X1 * 
-##     sw_X2 * sw_X3)
-## 
-## Coefficients:
-## (Intercept)           X1           X2           X3           Z3            C  
-##    -0.01181      0.99327      0.98364      1.00694      1.00863      0.96940</code></pre>
-<p>For further details on estimating time-varying relationships with IPW, see <span class="citation">VanderWeele, Jackson, and Li (<a href="#ref-vanderweele2016causal">2016</a>)</span>.</p>
-</div>
-</div>
-<div id="session-info-2" class="section level2 hasAnchor" number="4.5">
-<h2><span class="header-section-number">4.5</span> Session info<a href="chapter-4.html#session-info-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chapter-4.html#cb74-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.4.0 (2024-04-24 ucrt)
+<div id="session-info-2" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Session info<a href="chapter-4.html#session-info-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter-4.html#cb58-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.4.1 (2024-06-14 ucrt)
 ## Platform: x86_64-w64-mingw32/x64
 ## Running under: Windows 10 x64 (build 19045)
 ## 
@@ -780,47 +611,50 @@ div.csl-indent {
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] cobalt_4.5.5     causaldata_0.1.3 sandwich_3.1-0   patchwork_1.2.0 
-## [5] ggplot2_3.5.1   
+##  [1] cobalt_4.5.5           causaldata_0.1.4       marginaleffects_0.23.0
+##  [4] dplyr_1.1.4            tidybayes_3.0.6        brms_2.21.0           
+##  [7] Rcpp_1.0.12            sandwich_3.1-1         boot_1.3-30           
+## [10] patchwork_1.3.0        ggplot2_3.5.1         
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.5         tensorA_0.36.2.1     xfun_0.44           
-##  [4] bslib_0.7.0          QuickJSR_1.1.3       inline_0.3.19       
-##  [7] lattice_0.22-6       vctrs_0.6.5          tools_4.4.0         
-## [10] generics_0.1.3       stats4_4.4.0         parallel_4.4.0      
-## [13] tibble_3.2.1         fansi_1.0.6          highr_0.11          
-## [16] pkgconfig_2.0.3      brms_2.21.0          Matrix_1.7-0        
-## [19] checkmate_2.3.1      distributional_0.4.0 RcppParallel_5.1.7  
-## [22] lifecycle_1.0.4      compiler_4.4.0       farver_2.1.2        
-## [25] stringr_1.5.1        Brobdingnag_1.2-9    munsell_0.5.1       
-## [28] codetools_0.2-20     htmltools_0.5.8.1    sass_0.4.9          
-## [31] bayesplot_1.11.1     yaml_2.3.8           crayon_1.5.2        
-## [34] pillar_1.9.0         jquerylib_0.1.4      cachem_1.1.0        
-## [37] StanHeaders_2.32.9   bridgesampling_1.1-2 abind_1.4-5         
-## [40] nlme_3.1-164         posterior_1.5.0      rstan_2.32.6        
-## [43] tidyselect_1.2.1     digest_0.6.35        mvtnorm_1.2-5       
-## [46] stringi_1.8.4        dplyr_1.1.4          bookdown_0.39       
-## [49] labeling_0.4.3       splines_4.4.0        fastmap_1.2.0       
-## [52] grid_4.4.0           colorspace_2.1-0     cli_3.6.2           
-## [55] magrittr_2.0.3       loo_2.7.0            pkgbuild_1.4.4      
-## [58] utf8_1.2.4           withr_3.0.0          scales_1.3.0        
-## [61] backports_1.5.0      estimability_1.5.1   rmarkdown_2.27      
-## [64] matrixStats_1.3.0    emmeans_1.10.4       gridExtra_2.3       
-## [67] chk_0.9.1            zoo_1.8-12           coda_0.19-4.1       
-## [70] evaluate_0.23        knitr_1.47           mgcv_1.9-1          
-## [73] rstantools_2.4.0     rlang_1.1.3          Rcpp_1.0.12         
-## [76] xtable_1.8-4         glue_1.7.0           rstudioapi_0.16.0   
-## [79] jsonlite_1.8.8       R6_2.5.1</code></pre>
+##  [1] gtable_0.3.5            tensorA_0.36.2.1        xfun_0.48              
+##  [4] bslib_0.7.0             QuickJSR_1.2.2          insight_0.20.5         
+##  [7] collapse_2.0.16         inline_0.3.19           lattice_0.22-6         
+## [10] vctrs_0.6.5             tools_4.4.1             generics_0.1.4         
+## [13] stats4_4.4.1            parallel_4.4.1          tibble_3.2.1           
+## [16] highr_0.11              pkgconfig_2.0.3         Matrix_1.7-0           
+## [19] data.table_1.15.4       checkmate_2.3.1         distributional_0.5.0   
+## [22] RcppParallel_5.1.7      lifecycle_1.0.4         compiler_4.4.1         
+## [25] farver_2.1.2            stringr_1.5.1           Brobdingnag_1.2-9      
+## [28] munsell_0.5.1           codetools_0.2-20        htmltools_0.5.8.1      
+## [31] sass_0.4.9              bayesplot_1.11.1        yaml_2.3.8             
+## [34] crayon_1.5.3            tidyr_1.3.1             pillar_1.10.2          
+## [37] jquerylib_0.1.4         arrayhelpers_1.1-0      cachem_1.1.0           
+## [40] StanHeaders_2.35.0.9000 bridgesampling_1.1-2    abind_1.4-8            
+## [43] nlme_3.1-164            posterior_1.6.1         rstan_2.35.0.9000      
+## [46] svUnit_1.0.6            tidyselect_1.2.1        digest_0.6.35          
+## [49] mvtnorm_1.2-5           stringi_1.8.4           purrr_1.0.2            
+## [52] bookdown_0.41           labeling_0.4.3          splines_4.4.1          
+## [55] fastmap_1.2.0           grid_4.4.1              colorspace_2.1-0       
+## [58] cli_3.6.2               magrittr_2.0.3          loo_2.8.0              
+## [61] pkgbuild_1.4.4          withr_3.0.2             scales_1.3.0           
+## [64] backports_1.5.0         estimability_1.5.1      rmarkdown_2.27         
+## [67] matrixStats_1.3.0       emmeans_1.10.5          gridExtra_2.3          
+## [70] chk_0.9.2               zoo_1.8-12              coda_0.19-4.1          
+## [73] evaluate_1.0.4          knitr_1.47              ggdist_3.3.2           
+## [76] mgcv_1.9-1              rstantools_2.4.0        rlang_1.1.4            
+## [79] xtable_1.8-4            glue_1.7.0              rstudioapi_0.16.0      
+## [82] jsonlite_1.8.8          R6_2.5.1</code></pre>
 
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-cobalt" class="csl-entry">
 Greifer, Noah. 2024. <em><span class="nocase">cobalt</span>: Covariate Balance Tables and Plots</em>. <a href="https://CRAN.R-project.org/package=cobalt">https://CRAN.R-project.org/package=cobalt</a>.
 </div>
 <div id="ref-causaldata" class="csl-entry">
-Huntington-Klein, Nick, and Malcolm Barrett. 2021. <em><span class="nocase">causaldata</span>: Example Data Sets for Causal Inference Textbooks</em>. <a href="https://CRAN.R-project.org/package=causaldata">https://CRAN.R-project.org/package=causaldata</a>.
+Huntington-Klein, Nick, and Malcolm Barrett. 2024. <em><span class="nocase">causaldata</span>: Example Data Sets for Causal Inference Textbooks</em>. <a href="https://CRAN.R-project.org/package=causaldata">https://CRAN.R-project.org/package=causaldata</a>.
 </div>
 <div id="ref-vanderweele2016causal" class="csl-entry">
 VanderWeele, Tyler J, John W Jackson, and Shanshan Li. 2016. <span>“Causal Inference and Longitudinal Data: <span>A</span> Case Study of Religion and Mental Health.”</span> <em>Social Psychiatry and Psychiatric Epidemiology</em> 51: 1457–66.

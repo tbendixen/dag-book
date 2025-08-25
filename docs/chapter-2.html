@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Causal Graphs | The Data Analyst’s Guide to Cause and Effect</title>
   <meta name="description" content="The is the companion website for The Data Analyst’s Guide to Cause and Effect" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Causal Graphs | The Data Analyst’s Guide to Cause and Effect" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Theiss Bendixen &amp; Benjamin Grant Purzycki" />
 
 
-<meta name="date" content="2024-12-28" />
+<meta name="date" content="2025-08-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -128,7 +128,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -199,13 +198,8 @@ div.csl-indent {
 <li class="chapter" data-level="4.1.2" data-path="chapter-4.html"><a href="chapter-4.html#more-covariates"><i class="fa fa-check"></i><b>4.1.2</b> More covariates</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="chapter-4.html"><a href="chapter-4.html#bootstrapped-sub-group-analysis"><i class="fa fa-check"></i><b>4.2</b> Bootstrapped sub-group analysis</a></li>
-<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-designs"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal designs</a></li>
-<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#more-complexity"><i class="fa fa-check"></i><b>4.4</b> More complexity</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter-4.html"><a href="chapter-4.html#g-computation-1"><i class="fa fa-check"></i><b>4.4.1</b> G-computation</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter-4.html"><a href="chapter-4.html#ipw"><i class="fa fa-check"></i><b>4.4.2</b> IPW</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.5</b> Session info</a></li>
+<li class="chapter" data-level="4.3" data-path="chapter-4.html"><a href="chapter-4.html#complex-longitudinal-exposure-outcome-feedback"><i class="fa fa-check"></i><b>4.3</b> Complex longitudinal exposure-outcome feedback</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter-4.html"><a href="chapter-4.html#session-info-2"><i class="fa fa-check"></i><b>4.4</b> Session info</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter-5.html"><a href="chapter-5.html"><i class="fa fa-check"></i><b>5</b> Most of Your Data is Almost Always Missing</a>
 <ul>
@@ -303,7 +297,7 @@ div.csl-indent {
 <span id="cb1-4"><a href="chapter-2.html#cb1-4" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb1-5"><a href="chapter-2.html#cb1-5" tabindex="-1"></a>X <span class="ot">&lt;-</span> Z<span class="sc">*</span>bZ <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb1-6"><a href="chapter-2.html#cb1-6" tabindex="-1"></a>Y <span class="ot">&lt;-</span> Z<span class="sc">*</span>bZ <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<p>We then write a function for fitting and plotting our models that we can re-use for the ‘Pipe’ and ‘Collider’ scenarios. This function depends on the <code>ggplot2</code> and <code>patchwork</code> <span class="citation">(<a href="#ref-patchwork">Pedersen 2024</a>)</span> packages.</p>
+<p>We then write a function for fitting and plotting our models that we can re-use for the ‘Pipe’ and ‘Collider’ scenarios. This function depends on the <code>ggplot2</code> <span class="citation">(<a href="#ref-tidyverse">Wickham et al. 2019</a>)</span> and <code>patchwork</code> <span class="citation">(<a href="#ref-patchwork">Pedersen 2024</a>)</span> packages.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="chapter-2.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="chapter-2.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb2-3"><a href="chapter-2.html#cb2-3" tabindex="-1"></a></span>
@@ -405,7 +399,7 @@ div.csl-indent {
 <div id="session-info" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Session info<a href="chapter-2.html#session-info" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapter-2.html#cb12-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.4.0 (2024-04-24 ucrt)
+<pre><code>## R version 4.4.1 (2024-06-14 ucrt)
 ## Platform: x86_64-w64-mingw32/x64
 ## Running under: Windows 10 x64 (build 19045)
 ## 
@@ -424,28 +418,30 @@ div.csl-indent {
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] patchwork_1.2.0 ggplot2_3.5.1  
+## [1] patchwork_1.3.0 ggplot2_3.5.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Matrix_1.7-0      gtable_0.3.5      jsonlite_1.8.8    highr_0.11       
-##  [5] dplyr_1.1.4       compiler_4.4.0    tidyselect_1.2.1  jquerylib_0.1.4  
-##  [9] splines_4.4.0     scales_1.3.0      yaml_2.3.8        fastmap_1.2.0    
-## [13] lattice_0.22-6    R6_2.5.1          labeling_0.4.3    generics_0.1.3   
-## [17] knitr_1.47        tibble_3.2.1      bookdown_0.39     munsell_0.5.1    
-## [21] bslib_0.7.0       pillar_1.9.0      rlang_1.1.3       utf8_1.2.4       
-## [25] cachem_1.1.0      xfun_0.44         sass_0.4.9        cli_3.6.2        
-## [29] withr_3.0.0       magrittr_2.0.3    mgcv_1.9-1        digest_0.6.35    
-## [33] grid_4.4.0        rstudioapi_0.16.0 lifecycle_1.0.4   nlme_3.1-164     
-## [37] vctrs_0.6.5       evaluate_0.23     glue_1.7.0        farver_2.1.2     
-## [41] fansi_1.0.6       colorspace_2.1-0  rmarkdown_2.27    tools_4.4.0      
-## [45] pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+##  [1] Matrix_1.7-0      gtable_0.3.5      jsonlite_1.8.8    dplyr_1.1.4      
+##  [5] compiler_4.4.1    highr_0.11        tidyselect_1.2.1  jquerylib_0.1.4  
+##  [9] splines_4.4.1     scales_1.3.0      yaml_2.3.8        fastmap_1.2.0    
+## [13] lattice_0.22-6    R6_2.5.1          labeling_0.4.3    generics_0.1.4   
+## [17] knitr_1.47        tibble_3.2.1      bookdown_0.41     munsell_0.5.1    
+## [21] bslib_0.7.0       pillar_1.10.2     rlang_1.1.4       cachem_1.1.0     
+## [25] xfun_0.48         sass_0.4.9        cli_3.6.2         withr_3.0.2      
+## [29] magrittr_2.0.3    mgcv_1.9-1        digest_0.6.35     grid_4.4.1       
+## [33] rstudioapi_0.16.0 lifecycle_1.0.4   nlme_3.1-164      vctrs_0.6.5      
+## [37] evaluate_1.0.4    glue_1.7.0        farver_2.1.2      colorspace_2.1-0 
+## [41] rmarkdown_2.27    tools_4.4.1       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
 
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-patchwork" class="csl-entry">
 Pedersen, Thomas Lin. 2024. <em><span class="nocase">patchwork</span>: The Composer of Plots</em>. <a href="https://CRAN.R-project.org/package=patchwork">https://CRAN.R-project.org/package=patchwork</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
 </div>
 </div>
             </section>
