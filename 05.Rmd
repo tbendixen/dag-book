@@ -82,7 +82,7 @@ census$age_group[census$AGE_GROUP == "45 to 64 years"] <- 5
 census$age_group[census$AGE_GROUP == "65 years and over"] <- 6
 
 census$sex <- ifelse(census$SEX == "FEMALE", 1, 0) |> as.factor()
-census$proportion <- census$PERCENTAGE/100
+census$proportion <- census$FREQUENCY / sum(census$FREQUENCY)
 
 write.csv(census, "data/census_ageGroups.csv", row.names = FALSE)
 
@@ -457,7 +457,7 @@ poststratified_ate <- data.frame(EX1 = ateEX1$.epred,
   summarise(ate = mean(EX1 - EX0))
 ```
 
-The poststratified marginal causal effect is around 4.7 kg but with a fairly wide 95% interval ranging from around 0 to 9 kg.
+The poststratified marginal causal effect is around 2.3 kg but with a fairly wide 95% interval ranging from around 0.1 to 4.5 kg.
 
 ```{r, cache=TRUE, results='markup'}
 mean_hdi(poststratified_ate$ate)
@@ -597,7 +597,7 @@ bayes_iv_mod <- brm(xv_formula + yx_formula + set_rescor(TRUE),
 bayes_iv_mod <- readRDS("fits/bayes_iv.rds")
 ```
 
-By inspecting the summary, we see that we get essentially the same results as above -- `act_voucher` corresponds to the Wald esimate -- except we now have a posterior distribution to work with.
+By inspecting the summary, we see that we get essentially the same results as above -- `act_voucher` corresponds to the Wald estimate -- except we now have a posterior distribution to work with.
 
 ```{r, results='markup'}
 summary(bayes_iv_mod)
