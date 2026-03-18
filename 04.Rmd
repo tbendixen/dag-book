@@ -318,6 +318,63 @@ model_X3 <- lm(Y ~ X2 + X3 + Z2)
 coef(model_X3)[["X3"]]
 ```
 
+## Marginal mediation
+
+Let's show a more general but still basic implementation of mediation analysis using g-computation to handle nonlinearities. Given that we're interested in decomposing the effect of $X$ on $Y$ with a single mediator $M$, in nonlinear settings we need to average over $M$ (and any covariate) to obtain a population-averaged effect.
+
+```{r, results='markup'}
+set.seed(42)
+n <- 1e5
+
+X <- rbinom(n, 1, 0.5)
+M <- rnorm(n, 1.5 * X)                              # continuous M
+Y <- rbinom(n, 1, plogis(-2 + 1.0 * X + 0.5 * M))   # binary Y
+d <- data.frame(X = X, M = M, Y = Y)
+
+m_mod <- lm(M ~ X, data = d)
+y_mod <- glm(Y ~ X + M, data = d, family = binomial)
+
+gcomp <- function(m_fit, y_fit, n_mc = 1e5) {
+  a   <- coef(m_fit)
+  sig <- sigma(m_fit)
+
+  M0 <- rnorm(n_mc, a[1], sig)         # M under X = 0
+  M1 <- rnorm(n_mc, a[1] + a[2], sig)  # M under X = 1
+
+  yX1MX1 <- mean(predict(y_fit, data.frame(X = 1, M = M1), type = "response"))
+  yX1MX0 <- mean(predict(y_fit, data.frame(X = 1, M = M0), type = "response"))
+  yX0MX0 <- mean(predict(y_fit, data.frame(X = 0, M = M0), type = "response"))
+
+  c(TIE = yX1MX1 - yX1MX0, PDE = yX1MX0 - yX0MX0, TE = yX1MX1 - yX0MX0)
+}
+
+set.seed(1)
+(est <- gcomp(m_mod, y_mod))
+```
+
+The key step is simulating from the counterfactual mediator distributions -- what $M$ would look like under $X = 0$ and $X = 1$ -- using the fitted mediator model. We then predict $Y$ for each combination of fixed $X$ and counterfactual $M$, and average over those predictions.
+
+The three quantities map to the standard decomposition TE = TIE + PDE: the TIE (total indirect effect) fixes $X = 1$ and asks how much of the effect is explained by the shift in $M$; the PDE (pure direct effect) holds $M$ at its $X = 0$ distribution and shifts $X$; and the TE (total effect) is their sum. For valid confidence intervals, the whole `gcomp` call should be bootstrapped.
+
+To verify, we can compute the "truth" directly from the simulation parameters.
+
+```{r, results='markup'}
+set.seed(2)
+N  <- 1e5
+M0_true <- rnorm(N, 0, 1)    # true M under X = 0
+M1_true <- rnorm(N, 1.5, 1)  # true M under X = 1
+
+truth <- c(
+  TIE = mean(plogis(-2 + 1 + 0.5 * M1_true)) - mean(plogis(-2 + 1 + 0.5 * M0_true)),
+  PDE = mean(plogis(-2 + 1 + 0.5 * M0_true)) - mean(plogis(-2 + 0.5 * M0_true)),
+  TE  = mean(plogis(-2 + 1 + 0.5 * M1_true)) - mean(plogis(-2 + 0.5 * M0_true))
+)
+
+round(rbind(truth = truth, estimate = est), 4)
+```
+
+The estimates match within simulation variance.
+
 ## Session info
 
 ```{r, results='markup'}
