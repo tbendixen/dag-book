@@ -186,7 +186,7 @@ mod <- lm(wt82_71 ~ qsmk*sex + qsmk*age_group,
           data = d2)
 ```
 
-We then apply g-computation with a twist. The twist is that we use the model fitted on `nhefs` data to get potential outcomes predictions ($Y^{X=1}$ and $Y^{X=0}$) for the `census` data frame and then weight our predictions with the demographic proportions of each combination of sex and age group in the greater US population according to the census. We finally calculate the difference in means between the weighted predictions to get a marginal effect estimate, which we find to be around 7 kg. Before we can do any of it, however, we need to make sure that `age_group` is treated as numeric and `sex` as a factor, since this was the variable types used for model fitting.
+We then apply g-computation with a twist. The twist is that we use the model fitted on `nhefs` data to get potential outcomes predictions ($Y^{X=1}$ and $Y^{X=0}$) for the `census` data frame and then weight our predictions with the demographic proportions of each combination of sex and age group in the greater US population according to the census. We finally calculate the difference in means between the weighted predictions to get a marginal effect estimate, which we find to be around 3.5 kg. Before we can do any of it, however, we need to make sure that `age_group` is treated as numeric and `sex` as a factor, since this was the variable types used for model fitting.
 
 ```{r, results = "markup"}
 census$age_group <- as.numeric(census$age_group)
@@ -457,7 +457,7 @@ poststratified_ate <- data.frame(EX1 = ateEX1$.epred,
   summarise(ate = mean(EX1 - EX0))
 ```
 
-The poststratified marginal causal effect is around 2.3 kg but with a fairly wide 95% interval ranging from around 0.1 to 4.5 kg.
+The poststratified marginal causal effect is around 2.3 kg but with a fairly wide 95% interval ranging from around 0 to 4.5 kg.
 
 ```{r, cache=TRUE, results='markup'}
 mean_hdi(poststratified_ate$ate)
